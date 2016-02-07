@@ -126,10 +126,13 @@ int main(int argc, char **argv)
     tmh.added_thickness = 1;
     tmh.roundx = 12;
     tmh.roundy = 12;
-
+    ALLEGRO_FONT *fnt = al_load_ttf_font("Calibri.ttf",30,0);
 
     rGUI::Button *bt = new rGUI::Button(10,10,100,45,"TText", "Calibri.ttf",&tmh);
     rGUI::CheckBox *chb = new rGUI::CheckBox(10,70, 25, 25, &tmh, true);
+    rGUI::ClickableText *clckbt = new rGUI::ClickableText(10,100, "Clicke me Sempai!", fnt, 0, &tmh, false);
+    clckbt->wd_c_text = al_map_rgb(88,88,88);
+
 
     float scale = 1;
     while(1)
@@ -158,6 +161,7 @@ int main(int argc, char **argv)
         float aaa = 1;
         bt->Input(ev, aaa, aaa);
         chb->Input(ev, aaa, aaa);
+        clckbt->Input(ev, aaa, aaa);
 
         if(redraw && al_is_event_queue_empty(event_queue))
         {
@@ -168,12 +172,15 @@ int main(int argc, char **argv)
             al_draw_bitmap(bouncer, bouncer_x, bouncer_y, 0);
             bt->Print();
             chb->Print();
+            clckbt->Print();
 
             al_flip_display();
         }
     }
 
     delete bt;
+    delete chb;
+    delete clckbt;
     al_destroy_bitmap(bouncer);
     al_destroy_timer(timer);
     al_destroy_display(display);

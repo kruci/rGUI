@@ -24,11 +24,12 @@ namespace rGUI
 
 
     struct Theme;
-
     class MouseDetector;
     class Widget;
+
     class Button;
     class CheckBox;
+    class ClickableText;
 
 
 struct Theme{
@@ -77,6 +78,7 @@ protected:
     void wd_PrintEnd();
 
 public:
+
     float comentary_text_y;
     float wd_x1, wd_y1, wd_x2, wd_y2, wd_width, wd_height;
     bool wd_bitmap_only = false;
@@ -100,7 +102,7 @@ public:
     virtual void Print();
 };
 
-class Button : protected Widget
+class Button : public Widget
 {
 protected:
     float text_x, text_y, font_height;
@@ -121,13 +123,31 @@ public:
     void Print();
 };
 
-class CheckBox : protected Widget{
+class CheckBox : public Widget{
 public:
     bool selected = false;
 
     CheckBox(float x, float y, float width, float height, Theme *thm, bool is_selected);
     CheckBox(float width, float height, Theme *thm, bool is_selected);
     ~CheckBox();
+
+    int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
+    void Print();
+};
+
+class ClickableText : public Widget{
+public:
+    int print_flag;
+    float fsize;
+    std::string text;
+    ALLEGRO_FONT *font = nullptr;
+    bool delete_font = true;
+
+    ClickableText(float x, float y, std::string texts, std::string fontfile,int allegro_text_flag,
+                  float font_height, Theme *thm, bool bitmap_only);
+    ClickableText(float x, float y, std::string texts, ALLEGRO_FONT *fnt,int allegro_text_flag,
+                  Theme *thm, bool bitmap_only);
+    ~ClickableText();
 
     int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
     void Print();

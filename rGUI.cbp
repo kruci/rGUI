@@ -39,6 +39,7 @@
 		<Unit filename="rGUI.h" />
 		<Unit filename="src/Button.cpp" />
 		<Unit filename="src/CheckBox.cpp" />
+		<Unit filename="src/ClickableText.cpp" />
 		<Unit filename="src/widgetbase.cpp" />
 		<Extensions>
 			<envvars />

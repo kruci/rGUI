@@ -135,6 +135,8 @@ namespace rGUI //Widget
         wd_added_thickness = thm->added_thickness;
 
         wd_md = new MouseDetector(x1,y1, wd_width, wd_height);
+
+        comentary_text_y = wd_y1 + wd_height/2.0f;
     }
 
     Widget::Widget(float x, float y, float width, float height, Theme *thm, bool bitmap_only = false)
@@ -154,6 +156,8 @@ namespace rGUI //Widget
         wd_added_thickness = thm->added_thickness;
 
         wd_md = new MouseDetector(x,y, wd_width, wd_height);
+
+        comentary_text_y = wd_y1 + wd_height/2.0f;
     }
 
     Widget::~Widget()
