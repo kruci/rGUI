@@ -17,6 +17,14 @@ namespace rGUI //ClickableText
         wd_md->Change_coords_r(wd_x1, wd_y1, wd_width, font_height);
         wd_c_background = al_map_rgba(0,0,0,0);
         wd_c_outline = al_map_rgba(0,0,0,0);
+
+        if(bitmap_only == true)
+        {
+            wd_x1 = 0;
+            wd_y1 = 0;
+            wd_x2 = wd_width;
+            wd_y2 = wd_height;
+        }
     }
 
     ClickableText::ClickableText(float x, float y, std::string texts, ALLEGRO_FONT *fnt,
@@ -28,6 +36,14 @@ namespace rGUI //ClickableText
         wd_md->Change_coords_r(wd_x1, wd_y1, wd_width, wd_height);
         wd_c_background = al_map_rgba(0,0,0,0);
         wd_c_outline = al_map_rgba(0,0,0,0);
+
+        if(bitmap_only == true)
+        {
+            wd_x1 = 0;
+            wd_y1 = 0;
+            wd_x2 = wd_width;
+            wd_y2 = wd_height;
+        }
     }
 
     ClickableText::~ClickableText()

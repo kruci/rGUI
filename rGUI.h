@@ -98,6 +98,8 @@ public:
     void wd_Change_coords_r(float &x1, float &y1, float &x2, float &y2, float);
     void wd_Change_coords_r(float &x1, float &y1, float &width, float &height);
 
+    void Update_theme(Theme *thm);
+
     virtual int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
     virtual void Print();
 };

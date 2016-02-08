@@ -290,6 +290,17 @@ namespace rGUI //Widget
         }
     }
 
+    void Widget::Update_theme(Theme *thm)
+    {
+        wd_roundx = thm->roundx;
+        wd_roundy = thm->roundy;
+        wd_thickness = thm->thickness;
+        wd_c_outline = thm->c_outline;
+        wd_c_background = thm->c_background;
+        wd_c_text = thm->c_text;
+        wd_added_thickness = thm->added_thickness;
+    }
+
     int Widget::Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley){};
     void Widget::Print(){};
 }
