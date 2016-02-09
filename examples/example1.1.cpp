@@ -129,23 +129,20 @@ int main(int argc, char **argv)
     tmh.roundy = 0;
     ALLEGRO_FONT *fnt = al_load_ttf_font("Calibri.ttf",30,0);
 
-    rGUI::Button *bt = new rGUI::Button(10,10,100,45,"TText", "Calibri.ttf",&tmh);
-    rGUI::CheckBox *chb = new rGUI::CheckBox(10,70, 25, 25, &tmh, true);
+    std::vector<rGUI::Widget*>widgets;
+
+    widgets.push_back(new rGUI::Button(10,10,100,45,"TText", "Calibri.ttf",&tmh));
+    widgets.push_back(new rGUI::CheckBox(10,70, 25, 25, &tmh, true));
     tmh.roundx = 12;
     tmh.roundy = 12;
-    chb->Update_theme(&tmh);
-     tmh.roundx = 0;
+    widgets[1]->Update_theme(&tmh);
+    tmh.roundx = 0;
     tmh.roundy = 0;
-    rGUI::ClickableText *clckbt = new rGUI::ClickableText(120,100, "Clicke me Sempai!", fnt, 0, &tmh, false);
-    clckbt->wd_c_text = al_map_rgb(88,88,88);
-    rGUI::ClickableText *clcc = new rGUI::ClickableText(chb->wd_x2 + 5, chb->comentary_text_y - (chb->wd_height -5)/2, "Comentary text",
-                                                        "Calibri.ttf", 0, chb->wd_height -5, &tmh, false);
-    tmh.c_text = al_map_rgb(0,0,180);
-    clcc->Update_theme(&tmh);
-
-    rGUI::SlideBar *sba = new rGUI::SlideBar(10,100, 100, 30, 1, 50, &tmh, false, false);
-    sba->Update_theme(&tmh);
-    int aaaaaaa = 0;
+    tmh.c_text = al_map_rgb(255,0,255);
+    widgets.push_back(new rGUI::ClickableText(120,100, "Clicke me Sempai!", fnt, 0, &tmh, false));
+    widgets.push_back(new rGUI::ClickableText(widgets[1]->wd_x2 + 5, widgets[1]->comentary_text_y - (widgets[1]->wd_height -5)/2,
+                                              "Comentary text", "Calibri.ttf", 0, widgets[1]->wd_height -5, &tmh, false));
+    widgets.push_back(new rGUI::SlideBar(10,100, 100, 30, 1, 50, &tmh, false, false));
 
     float scale = 1;
     while(1)
@@ -172,11 +169,11 @@ int main(int argc, char **argv)
         }
 
         float aaa = 1;
-        bt->Input(ev, aaa, aaa);
-        chb->Input(ev, aaa, aaa);
-        clckbt->Input(ev, aaa, aaa);
-        clcc->Input(ev, aaa, aaa);
-        sba->Input(ev, aaa, aaa);
+
+        for(int a = 0;a < (int)widgets.size();a++)
+        {
+            widgets[a]->Input(ev, aaa, aaa);
+        }
 
         if(redraw && al_is_event_queue_empty(event_queue))
         {
@@ -185,21 +182,16 @@ int main(int argc, char **argv)
             al_clear_to_color(al_map_rgb(255,255,255));
 
             al_draw_bitmap(bouncer, bouncer_x, bouncer_y, 0);
-            bt->Print();
-            chb->Print();
-            clckbt->text = std::to_string(sba->value);
-            clckbt->Print();
-            clcc->Print();
-            sba->Print();
+
+            ((rGUI::ClickableText*)widgets[2])->text = std::to_string(((rGUI::SlideBar*)widgets[4])->value);
+            for(int a = 0;a < (int)widgets.size();a++)
+            {
+                widgets[a]->Print();
+            }
+
             al_flip_display();
         }
     }
-
-    delete bt;
-    delete chb;
-    delete clckbt;
-    delete clcc;
-    delete sba;
 
     al_destroy_bitmap(bouncer);
     al_destroy_timer(timer);
