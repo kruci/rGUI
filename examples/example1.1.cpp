@@ -131,18 +131,19 @@ int main(int argc, char **argv)
 
     std::vector<rGUI::Widget*>widgets;
 
-    widgets.push_back(new rGUI::Button(10,10,100,45,"TText", "Calibri.ttf",&tmh));
-    widgets.push_back(new rGUI::CheckBox(10,70, 25, 25, &tmh, true));
+    widgets.push_back(new rGUI::Button(50,10,100,45,"TText", "Calibri.ttf",&tmh));
+    widgets.push_back(new rGUI::CheckBox(50,70, 25, 25, &tmh, true));
     tmh.roundx = 12;
     tmh.roundy = 12;
     widgets[1]->Update_theme(&tmh);
     tmh.roundx = 0;
     tmh.roundy = 0;
     tmh.c_text = al_map_rgb(255,0,255);
-    widgets.push_back(new rGUI::ClickableText(120,100, "Clicke me Sempai!", fnt, 0, &tmh, false));
+    widgets.push_back(new rGUI::ClickableText(170,100, "Clicke me Sempai!", fnt, 0, &tmh, false));
     widgets.push_back(new rGUI::ClickableText(widgets[1]->wd_x2 + 5, widgets[1]->comentary_text_y - (widgets[1]->wd_height -5)/2,
                                               "Comentary text", "Calibri.ttf", 0, widgets[1]->wd_height -5, &tmh, false));
-    widgets.push_back(new rGUI::SlideBar(10,100, 100, 30, 1, 50, &tmh, false, false));
+    widgets.push_back(new rGUI::SlideBar(50,100, 100, 30, 1, 50, &tmh, false, false));
+    widgets.push_back(new rGUI::SlideBar(10,10, 30, 120, 0, 100, &tmh, true, false));
 
     float scale = 1;
     while(1)

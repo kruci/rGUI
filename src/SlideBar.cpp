@@ -7,6 +7,7 @@ namespace rGUI //SlideBars
     : Widget(x,y, width, height, thm, bitmaponly), vertical(vertical), val_min(minval),
     val_max(maxval), value(minval), values(maxval - minval + 1)
     {
+        sb_mouse_z = mouse_state->z;
         if(vertical == false)
         {
             line_thickness = height/3.0f;
@@ -90,6 +91,30 @@ namespace rGUI //SlideBars
             {
                 value = val_max;
             }
+            sb_recalculate_slide_poz = true;
+        }
+        else if(wd_md->md_mouse_on_it == true)
+        {
+            wd_md->md_clicked = false;
+
+            if(sb_mouse_z - mouse_state->z > 0)
+            {
+                value++;
+            }
+            else if(sb_mouse_z - mouse_state->z < 0)
+            {
+                value--;
+            }
+
+            if(value < val_min)
+            {
+                value = val_min;
+            }
+            if(value > val_max)
+            {
+                value = val_max;
+            }
+            sb_mouse_z = mouse_state->z;
             sb_recalculate_slide_poz = true;
         }
         else
