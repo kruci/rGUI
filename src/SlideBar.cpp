@@ -12,9 +12,9 @@ namespace rGUI //SlideBars
             line_thickness = height/3.0f;
             slide_height = height;
             slide_width = slide_height/9.0f *5.0f;
-            line_x1 = x;// + slide_width/2.0f;
+            line_x1 = x;
             line_y1 = y + height/2.0f - line_thickness/2.0f;
-            line_x2 = x + width;// - slide_width/2.0f;
+            line_x2 = x + width;
             line_y2 = y + height/2.0f + line_thickness/2.0f;
         }
         else
@@ -23,9 +23,9 @@ namespace rGUI //SlideBars
             slide_height = width/9.0f *5.0f;
             slide_width = width;
             line_x1 = x + width/2.0f - line_thickness/2.0f;
-            line_y1 = y;// + slide_height/2.0f;
+            line_y1 = y;
             line_x2 = x + width/2.0f + line_thickness/2.0f;
-            line_y2 = y + height;// - slide_height/2.0f;
+            line_y2 = y + height;
         }
 
         sb_calculate_slide_poz();
@@ -58,7 +58,7 @@ namespace rGUI //SlideBars
         else
         {
             poz = line_y1 + (wd_height/(float)values) * (float)(value - val_min);
-            slide_x1 = wd_x1;//line_x1 + line_thickness/2.0f - slide_height/2.0f;
+            slide_x1 = wd_x1;
             slide_x2 = wd_x2;
             slide_y1 = poz - slide_height/2.0f;
             slide_y2 = poz + slide_height/2.0f;
@@ -70,8 +70,9 @@ namespace rGUI //SlideBars
     {
         wd_md->Input(ev, scalex, scaley);
 
-        if(wd_md->md_clicking == true)
+        if(wd_md->md_clicking == true || (wd_md->md_clicked == true && (rGUI::mouse_state->buttons & wd_mouse_button)))
         {
+            wd_md->md_clicked = true;
             if(vertical == false)
             {
                 value = (rGUI::mouse_state->x - wd_x1)/(wd_width/values);
@@ -90,7 +91,10 @@ namespace rGUI //SlideBars
                 value = val_max;
             }
             sb_recalculate_slide_poz = true;
-            //wd_child->wd_md->Change_coords_r(slide_x1, slide_y1, slide_x2, slide_y2, 0);
+        }
+        else
+        {
+            wd_md->md_clicked = false;
         }
     }
 
@@ -113,6 +117,12 @@ namespace rGUI //SlideBars
                                 wd_roundx, wd_roundy, wd_c_background);
         al_draw_rounded_rectangle(slide_x1, slide_y1, slide_x2, slide_y2,
                                 wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
+
+        if(wd_md->md_clicking == true || wd_md->md_clicked == true)
+        {
+            al_draw_filled_rounded_rectangle(slide_x1, slide_y1, slide_x2, slide_y2,
+                                wd_roundx, wd_roundy, al_map_rgba(0,0,0,150));
+        }
 
         if(wd_bitmap_only == true)
         {

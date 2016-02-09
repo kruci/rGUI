@@ -41,7 +41,7 @@ namespace rGUI //Mouse detector
         if(mouse_state->x >= md_x1*scalex && mouse_state->x <= md_x2*scalex &&
            mouse_state->y >= md_y1*scaley && mouse_state->y <= md_y2*scaley)
         {
-            if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP && md_clicking == true)
+            if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP && ev.mouse.button == md_mouse_button && md_clicking == true)
             {
                 if(md_clicked == true)
                 {
@@ -52,7 +52,7 @@ namespace rGUI //Mouse detector
                 md_just_clicked = true;
                 return 2;
             }
-            else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN || md_clicking == true)
+            else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN && ev.mouse.button == md_mouse_button || md_clicking == true)
             {
                 md_clicking = true;
                 return 1;

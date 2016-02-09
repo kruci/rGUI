@@ -57,6 +57,8 @@ public:
     bool md_mouse_on_it = false;
     bool md_active = true;
 
+    int md_mouse_button = 1;
+
     MouseDetector(float x1, float y1, float x2, float y2, float);
     MouseDetector(float x, float y, float width, float height);
     ~MouseDetector();
@@ -79,6 +81,7 @@ protected:
     void wd_PrintEnd();
 
 public:
+    int wd_mouse_button = 1;
     Widget *wd_child = nullptr;
 
     float comentary_text_y;

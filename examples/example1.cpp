@@ -130,21 +130,21 @@ int main(int argc, char **argv)
 
     rGUI::Button *bt = new rGUI::Button(10,10,100,45,"TText", "Calibri.ttf",&tmh);
     rGUI::CheckBox *chb = new rGUI::CheckBox(10,70, 25, 25, &tmh, true);
-    tmh.roundx = 5;
-    tmh.roundy = 5;
+    tmh.roundx = 12;
+    tmh.roundy = 12;
     chb->Update_theme(&tmh);
      tmh.roundx = 0;
     tmh.roundy = 0;
-    rGUI::ClickableText *clckbt = new rGUI::ClickableText(10,100, "Clicke me Sempai!", fnt, 0, &tmh, false);
+    rGUI::ClickableText *clckbt = new rGUI::ClickableText(120,100, "Clicke me Sempai!", fnt, 0, &tmh, false);
     clckbt->wd_c_text = al_map_rgb(88,88,88);
     rGUI::ClickableText *clcc = new rGUI::ClickableText(chb->wd_x2 + 5, chb->comentary_text_y - (chb->wd_height -5)/2, "Comentary text",
                                                         "Calibri.ttf", 0, chb->wd_height -5, &tmh, false);
     tmh.c_text = al_map_rgb(0,0,180);
     clcc->Update_theme(&tmh);
 
-    rGUI::SlideBar *sba = new rGUI::SlideBar(10,200, 30, 100, 1, 50, &tmh, true, false);
+    rGUI::SlideBar *sba = new rGUI::SlideBar(10,100, 100, 30, 1, 50, &tmh, false, false);
     sba->Update_theme(&tmh);
-    int aaa = 0;
+    int aaaaaaa = 0;
 
     float scale = 1;
     while(1)
