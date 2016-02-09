@@ -114,13 +114,13 @@ namespace rGUI //SlideBars
             {
                 value = val_max;
             }
-            sb_mouse_z = mouse_state->z;
             sb_recalculate_slide_poz = true;
         }
         else
         {
             wd_md->md_clicked = false;
         }
+        sb_mouse_z = mouse_state->z;
     }
 
     void SlideBar::Print()

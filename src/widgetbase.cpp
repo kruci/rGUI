@@ -123,9 +123,6 @@ namespace rGUI //Widget
                                 wd_width(abs(x1 - x2)), wd_height(abs(y1 - y2)), comentary_text_y(y1 + wd_height/2),
                                 wd_bitmap_only(bitmap_only)
     {
-        if(wd_bitmap_only == true)
-            wd_bmp = al_create_bitmap(wd_width, wd_height);
-
         wd_roundx = thm->roundx;
         wd_roundy = thm->roundy;
         wd_thickness = thm->thickness;
@@ -134,6 +131,12 @@ namespace rGUI //Widget
         wd_c_text = thm->c_text;
         wd_c_clicking = thm->c_clicking;
         wd_added_thickness = thm->added_thickness;
+
+        if(wd_bitmap_only == true)
+        {
+            wd_bmp = al_create_bitmap(wd_width, wd_height);
+            wd_Change_coords(0, 0, wd_width, wd_height);
+        }
 
         wd_md = new MouseDetector(x1,y1, wd_width, wd_height);
 
@@ -145,9 +148,6 @@ namespace rGUI //Widget
                                 wd_width(width), wd_height(height), comentary_text_y(y + width/2),
                                 wd_bitmap_only(bitmap_only)
     {
-        if(wd_bitmap_only == true)
-            wd_bmp = al_create_bitmap(width, height);
-
         wd_roundx = thm->roundx;
         wd_roundy = thm->roundy;
         wd_thickness = thm->thickness;
@@ -156,6 +156,12 @@ namespace rGUI //Widget
         wd_c_text = thm->c_text;
         wd_c_clicking = thm->c_clicking;
         wd_added_thickness = thm->added_thickness;
+
+        if(wd_bitmap_only == true)
+        {
+            wd_bmp = al_create_bitmap(wd_width, wd_height);
+            wd_Change_coords(0, 0, wd_width, wd_height);
+        }
 
         wd_md = new MouseDetector(x,y, wd_width, wd_height);
 

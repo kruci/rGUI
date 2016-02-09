@@ -144,6 +144,8 @@ int main(int argc, char **argv)
                                               "Comentary text", "Calibri.ttf", 0, widgets[1]->wd_height -5, &tmh, false));
     widgets.push_back(new rGUI::SlideBar(50,100, 100, 30, 1, 50, &tmh, false, false));
     widgets.push_back(new rGUI::SlideBar(10,10, 30, 120, 0, 100, &tmh, true, false));
+    widgets.push_back(new rGUI::BitmapButton(10, 140, "button.png", &tmh, false));
+    widgets.push_back(new rGUI::BitmapButton(10, 190,100, 45, "button.png", &tmh, false));
 
     float scale = 1;
     while(1)

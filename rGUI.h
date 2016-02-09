@@ -184,5 +184,22 @@ public:
     void Print();
 };
 
+class BitmapButton : public Widget{
+public:
+    float bb_orig_width, bb_orig_height;
+
+    ALLEGRO_BITMAP *bmp = nullptr;
+    bool delete_bitmap = false;
+
+    BitmapButton(float x, float y, float width, float height, std::string image, Theme *thm, bool bitmaponly);
+    BitmapButton(float x, float y, float width, float height, ALLEGRO_BITMAP *image, Theme *thm, bool bitmaponly);
+    BitmapButton(float x, float y, std::string image, Theme *thm, bool bitmaponly);
+    BitmapButton(float x, float y, ALLEGRO_BITMAP *image, Theme *thm, bool bitmaponly);
+    ~BitmapButton();
+
+    int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
+    void Print();
+};
+
 }
 #endif // _RGUI_H__
