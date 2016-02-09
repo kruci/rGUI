@@ -165,6 +165,9 @@ namespace rGUI //Widget
         if(wd_bmp == nullptr)
             al_destroy_bitmap(wd_bmp);
 
+        if(wd_child == nullptr)
+            delete wd_child;
+
         delete wd_md;
     }
 

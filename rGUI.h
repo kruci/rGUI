@@ -30,6 +30,7 @@ namespace rGUI
     class Button;
     class CheckBox;
     class ClickableText;
+    class SlideBar;
 
 
 struct Theme{
@@ -78,6 +79,7 @@ protected:
     void wd_PrintEnd();
 
 public:
+    Widget *wd_child = nullptr;
 
     float comentary_text_y;
     float wd_x1, wd_y1, wd_x2, wd_y2, wd_width, wd_height;
@@ -150,6 +152,27 @@ public:
     ClickableText(float x, float y, std::string texts, ALLEGRO_FONT *fnt,int allegro_text_flag,
                   Theme *thm, bool bitmap_only);
     ~ClickableText();
+
+    int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
+    void Print();
+};
+
+class SlideBar : public Widget{
+    float line_y1, line_y2, line_x1, line_x2;
+    float slide_x1, slide_y1, slide_x2, slide_y2;
+    float line_thickness = 11, slide_height = line_thickness*3, slide_width = slide_height/3.0f;
+    float poz;
+
+    void sb_calculate_slide_poz();
+    int values;
+    bool sb_recalculate_slide_poz = false;
+public:
+    bool vertical = false;
+    int value, val_max, val_min;
+
+    SlideBar(float x, float y, float width, float height, int minval, int maxval,
+             Theme *thm, bool vertical = false, bool bitmaponly = false);
+    ~SlideBar();
 
     int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
     void Print();

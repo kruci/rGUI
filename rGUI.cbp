@@ -40,6 +40,7 @@
 		<Unit filename="src/Button.cpp" />
 		<Unit filename="src/CheckBox.cpp" />
 		<Unit filename="src/ClickableText.cpp" />
+		<Unit filename="src/SlideBar.cpp" />
 		<Unit filename="src/widgetbase.cpp" />
 		<Extensions>
 			<envvars />

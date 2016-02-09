@@ -124,19 +124,27 @@ int main(int argc, char **argv)
     tmh.c_outline = al_map_rgb(255,0,0);
     tmh.c_background = al_map_rgb(0,0,150);
     tmh.added_thickness = 1;
-    tmh.roundx = 12;
-    tmh.roundy = 12;
+    tmh.roundx = 0;
+    tmh.roundy = 0;
     ALLEGRO_FONT *fnt = al_load_ttf_font("Calibri.ttf",30,0);
 
     rGUI::Button *bt = new rGUI::Button(10,10,100,45,"TText", "Calibri.ttf",&tmh);
     rGUI::CheckBox *chb = new rGUI::CheckBox(10,70, 25, 25, &tmh, true);
+    tmh.roundx = 5;
+    tmh.roundy = 5;
+    chb->Update_theme(&tmh);
+     tmh.roundx = 0;
+    tmh.roundy = 0;
     rGUI::ClickableText *clckbt = new rGUI::ClickableText(10,100, "Clicke me Sempai!", fnt, 0, &tmh, false);
     clckbt->wd_c_text = al_map_rgb(88,88,88);
     rGUI::ClickableText *clcc = new rGUI::ClickableText(chb->wd_x2 + 5, chb->comentary_text_y - (chb->wd_height -5)/2, "Comentary text",
                                                         "Calibri.ttf", 0, chb->wd_height -5, &tmh, false);
     tmh.c_text = al_map_rgb(0,0,180);
-
     clcc->Update_theme(&tmh);
+
+    rGUI::SlideBar *sba = new rGUI::SlideBar(10,200, 30, 100, 1, 50, &tmh, true, false);
+    sba->Update_theme(&tmh);
+    int aaa = 0;
 
     float scale = 1;
     while(1)
@@ -167,6 +175,7 @@ int main(int argc, char **argv)
         chb->Input(ev, aaa, aaa);
         clckbt->Input(ev, aaa, aaa);
         clcc->Input(ev, aaa, aaa);
+        sba->Input(ev, aaa, aaa);
 
         if(redraw && al_is_event_queue_empty(event_queue))
         {
@@ -177,9 +186,10 @@ int main(int argc, char **argv)
             al_draw_bitmap(bouncer, bouncer_x, bouncer_y, 0);
             bt->Print();
             chb->Print();
+            clckbt->text = std::to_string(sba->value);
             clckbt->Print();
             clcc->Print();
-
+            sba->Print();
             al_flip_display();
         }
     }
@@ -188,6 +198,8 @@ int main(int argc, char **argv)
     delete chb;
     delete clckbt;
     delete clcc;
+    delete sba;
+
     al_destroy_bitmap(bouncer);
     al_destroy_timer(timer);
     al_destroy_display(display);
