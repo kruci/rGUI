@@ -71,7 +71,7 @@ namespace rGUI //ClickableText
         {
             if(wd_md->md_clicking == true)
             {
-                al_draw_text(font,al_map_rgba(0,0,0,150), wd_x1, wd_y1, print_flag, text.c_str());
+                al_draw_text(font,wd_c_clicking, wd_x1, wd_y1, print_flag, text.c_str());
             }
         }
 

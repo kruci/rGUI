@@ -132,6 +132,7 @@ namespace rGUI //Widget
         wd_c_outline = thm->c_outline;
         wd_c_background = thm->c_background;
         wd_c_text = thm->c_text;
+        wd_c_clicking = thm->c_clicking;
         wd_added_thickness = thm->added_thickness;
 
         wd_md = new MouseDetector(x1,y1, wd_width, wd_height);
@@ -153,6 +154,7 @@ namespace rGUI //Widget
         wd_c_outline = thm->c_outline;
         wd_c_background = thm->c_background;
         wd_c_text = thm->c_text;
+        wd_c_clicking = thm->c_clicking;
         wd_added_thickness = thm->added_thickness;
 
         wd_md = new MouseDetector(x,y, wd_width, wd_height);
@@ -268,10 +270,6 @@ namespace rGUI //Widget
         al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
                                 wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
 
-        /*if(wd_bitmap_only == true)
-        {
-            al_set_target_backbuffer(al_get_current_display());
-        }*/
     }
 
     void Widget::wd_PrintEnd()
@@ -283,7 +281,7 @@ namespace rGUI //Widget
             if(wd_md->md_clicking == true)
             {
                 al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_roundx, wd_roundy, al_map_rgba(0,0,0,150));
+                                wd_roundx, wd_roundy, wd_c_clicking);
             }
         }
 
@@ -301,6 +299,7 @@ namespace rGUI //Widget
         wd_c_outline = thm->c_outline;
         wd_c_background = thm->c_background;
         wd_c_text = thm->c_text;
+        wd_c_clicking = thm->c_clicking;
         wd_added_thickness = thm->added_thickness;
     }
 

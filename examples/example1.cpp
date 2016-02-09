@@ -123,6 +123,7 @@ int main(int argc, char **argv)
     tmh.c_text = al_map_rgb(255,255,255);
     tmh.c_outline = al_map_rgb(255,0,0);
     tmh.c_background = al_map_rgb(0,0,150);
+    tmh.c_clicking = al_map_rgba(0,0,0,125);
     tmh.added_thickness = 1;
     tmh.roundx = 0;
     tmh.roundy = 0;

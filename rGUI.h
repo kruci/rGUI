@@ -42,7 +42,8 @@ struct Theme{
     ALLEGRO_COLOR
         c_outline = al_map_rgb(255,255,255),
         c_background = al_map_rgb(0,0,66),
-        c_text = al_map_rgb(255,255,255);
+        c_text = al_map_rgb(255,255,255),
+        c_clicking = al_map_rgba(0,0,0,150);
 };
 
 class MouseDetector
@@ -90,7 +91,8 @@ public:
     float wd_roundx = 0, wd_roundy = 0, wd_thickness = 1, wd_added_thickness = 1;
     ALLEGRO_COLOR wd_c_outline = al_map_rgb(255,255,255),
                   wd_c_background = al_map_rgb(0,0,66),
-                  wd_c_text = al_map_rgb(255,255,255);
+                  wd_c_text = al_map_rgb(255,255,255),
+                  wd_c_clicking = al_map_rgba(0,0,0,150);
     ALLEGRO_BITMAP *wd_bmp = nullptr;
     MouseDetector *wd_md = nullptr;
 

@@ -121,7 +121,7 @@ namespace rGUI //SlideBars
         if(wd_md->md_clicking == true || wd_md->md_clicked == true)
         {
             al_draw_filled_rounded_rectangle(slide_x1, slide_y1, slide_x2, slide_y2,
-                                wd_roundx, wd_roundy, al_map_rgba(0,0,0,150));
+                                wd_roundx, wd_roundy, wd_c_clicking);
         }
 
         if(wd_bitmap_only == true)
