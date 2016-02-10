@@ -114,10 +114,13 @@ namespace rGUI //ScrollBar
             scb_dorecalculate_scroller_poz = false;
         }
 
+        /*al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
+                                wd_roundx, wd_roundy, wd_c_background);*/
+
         al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_roundx, wd_roundy, /*al_map_rgb(wd_c_background.r*c_background_mult,
-                                                                 wd_c_background.g*c_background_mult,
-                                                                 wd_c_background.b*c_background_mult*/wd_c_background);
+                                wd_roundx, wd_roundy, al_map_rgb_f(wd_c_background.r*c_background_mult,
+                                                                   wd_c_background.g*c_background_mult,
+                                                                   wd_c_background.b*c_background_mult ));
         al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
                                 wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
 

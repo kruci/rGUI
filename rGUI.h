@@ -252,7 +252,7 @@ private:
     void scb_recalculate_scroller_poz();
     void scb_recalculate_rb_ratio();
 public:
-    float c_background_mult = 0.9f;
+    float c_background_mult = 0.8f;
     bool vertical = false;
     float r_size;
     float change = 0;

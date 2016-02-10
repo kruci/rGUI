@@ -148,6 +148,7 @@ int main(int argc, char **argv)
     widgets.push_back(new rGUI::BitmapButton(10, 190,100, 45, "button.png", &tmh, false));
     widgets.push_back(new rGUI::ScrollBar(10, 250, 300, 20, 1000,&tmh, false, false));
     widgets.push_back(new rGUI::ScrollBar(290, 10, 20, 230, 1000,&tmh, true, false));
+    ((rGUI::ScrollBar*)widgets[widgets.size()-1])->c_background_mult = 1.4f;
 
     float scale = 1.0f;
     while(1)
