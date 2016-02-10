@@ -26,6 +26,7 @@ namespace rGUI
     struct Theme;
     class MouseDetector;
     class Widget;
+    class BigBitmap;
 
     class Button;
     class CheckBox;
@@ -208,6 +209,33 @@ public:
 
     int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
     void Print();
+};
+
+class BigBitmap
+{
+private:
+    std::string bitmap_name;
+    ALLEGRO_BITMAP *big_bitmap = nullptr;
+    ALLEGRO_BITMAP *tmpbmp = nullptr;
+    float region_size_w = 512;
+    float region_size_h = 512;
+    float orig_width, orig_height;
+    int w_regions, h_regions;
+    float print_width = region_size_w, print_height = region_size_h;
+    int orig_flags;
+
+    std::vector<ALLEGRO_BITMAP*> bitmaps;
+public:
+    ALLEGRO_COLOR c_clear = al_map_rgb(0,0,0);
+    float width, height;
+    bool resizable = true;
+
+    BigBitmap(std::string bitmap_to_load, float sector_width, float sector_height);
+    BigBitmap(std::string bitmap_to_load, float sector_width, float sector_height, float print_width, float print_height);
+    ~BigBitmap();
+
+    bool Draw_bitmap_region(float sx, float sy, float sw, float sh, float dx, float dy, int flags);//slower
+    bool Draw_bitmap_region(float sx, float sy, float dx, float dy, int flags);
 };
 
 }

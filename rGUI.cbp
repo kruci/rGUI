@@ -37,6 +37,7 @@
 			</Target>
 		</Build>
 		<Unit filename="rGUI.h" />
+		<Unit filename="src/BigBitmap.cpp" />
 		<Unit filename="src/BitmapButton.cpp" />
 		<Unit filename="src/Button.cpp" />
 		<Unit filename="src/CheckBox.cpp" />

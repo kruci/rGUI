@@ -149,7 +149,6 @@ int main(int argc, char **argv)
 
 
     int tx = 1, ty = 0, x = 1, y = 1;
-    bool edx = true, edy = false;
     float scale = 1;
     while(1)
     {
