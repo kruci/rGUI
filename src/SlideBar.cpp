@@ -155,7 +155,10 @@ namespace rGUI //SlideBars
             al_clear_to_color(al_map_rgba(0,0,0,0));
         }
         if(sb_recalculate_slide_poz == true)
+        {
             sb_calculate_slide_poz();
+            sb_recalculate_slide_poz = false;
+        }
 
         al_draw_filled_rounded_rectangle(line_x1, line_y1, line_x2, line_y2,
                                 wd_roundx, wd_roundy, wd_c_background);

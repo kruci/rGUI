@@ -244,11 +244,19 @@ class ScrollBar : public Widget
 {
 private:
     float sroller_x1, sroller_y1, sroller_x2, sroller_y2, sroller_width, sroller_height;
+    int scb_mouse_z;
+    bool scb_dorecalculate_scroller_poz = false;
+    float rb_ratio;
+    float click_x, click_y;
 
     void scb_recalculate_scroller_poz();
+    void scb_recalculate_rb_ratio();
 public:
+    float c_background_mult = 0.9f;
     bool vertical = false;
-    float change;
+    float r_size;
+    float change = 0;
+    float scroll_step = 30;
 
     ScrollBar(float x, float y, float width, float height, float real_size, Theme *thm, bool vertical, bool bitmap_only);
     ~ScrollBar();
