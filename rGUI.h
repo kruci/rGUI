@@ -109,6 +109,8 @@ public:
 
     virtual int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
     virtual void Print();
+    virtual void Change_coords(float x1, float y1, float width, float height);
+    virtual void Change_coords_r(float &x1, float &y1, float &width, float &height);
 };
 
 class Button : public Widget
@@ -120,7 +122,7 @@ protected:
     bool delete_font = true;
 
     void recalculate_text(std::string fontt);
-    //void recalculate_text(ALLEGRO_FONT *fontt);
+    std::string bt_font_file;
 public:
     std::string text;
 
@@ -130,6 +132,8 @@ public:
 
     int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
     void Print();
+    void Change_coords(float x1, float y1, float width, float height);
+    void Change_coords_r(float &x1, float &y1, float &width, float &height);
 };
 
 class CheckBox : public Widget{
@@ -170,6 +174,8 @@ class SlideBar : public Widget{
     int sb_mouse_z;
 
     void sb_calculate_slide_poz();
+    void sb_calculate_line_poz();
+
     int values;
     bool sb_recalculate_slide_poz = false;
 public:
@@ -182,6 +188,9 @@ public:
 
     int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
     void Print();
+
+    void Change_coords(float x1, float y1, float width, float height);
+    void Change_coords_r(float &x1, float &y1, float &width, float &height);
 };
 
 class BitmapButton : public Widget{

@@ -67,6 +67,30 @@ namespace rGUI //SlideBars
         sb_recalculate_slide_poz = false;
     }
 
+    void SlideBar::sb_calculate_line_poz()
+    {
+        if(vertical == false)
+        {
+            line_thickness = wd_height/3.0f;
+            slide_height = wd_height;
+            slide_width = slide_height/9.0f *5.0f;
+            line_x1 = wd_x1;
+            line_y1 = wd_y1 + wd_height/2.0f - line_thickness/2.0f;
+            line_x2 = wd_x1 + wd_width;
+            line_y2 = wd_y1 + wd_height/2.0f + line_thickness/2.0f;
+        }
+        else
+        {
+            line_thickness = wd_width/3.0f;
+            slide_height = wd_width/9.0f *5.0f;
+            slide_width = wd_width;
+            line_x1 = wd_x1 + wd_width/2.0f - line_thickness/2.0f;
+            line_y1 = wd_y1;
+            line_x2 = wd_x1 + wd_width/2.0f + line_thickness/2.0f;
+            line_y2 = wd_y1 + wd_height;
+        }
+    }
+
     int SlideBar::Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley)
     {
         wd_md->Input(ev, scalex, scaley);
@@ -152,6 +176,38 @@ namespace rGUI //SlideBars
         if(wd_bitmap_only == true)
         {
             al_set_target_backbuffer(al_get_current_display());
+        }
+    }
+
+    void SlideBar::Change_coords(float x1, float y1, float width, float height)
+    {
+        wd_Change_coords(x1, y1, width, height);
+        sb_calculate_line_poz();
+        sb_calculate_slide_poz();
+
+        if(vertical == false)
+        {
+            wd_md->Change_coords(wd_x1 - slide_width/2.0f , wd_y1, wd_width + slide_width, wd_height);
+        }
+        else
+        {
+            wd_md->Change_coords(wd_x1, wd_y1 - slide_height/2.0f, wd_width, wd_height + slide_height);
+        }
+    }
+
+    void SlideBar::Change_coords_r(float &x1, float &y1, float &width, float &height)
+    {
+        wd_Change_coords(x1, y1, width, height);
+        sb_calculate_line_poz();
+        sb_calculate_slide_poz();
+
+        if(vertical == false)
+        {
+            wd_md->Change_coords(wd_x1 - slide_width/2.0f , wd_y1, wd_width + slide_width, wd_height);
+        }
+        else
+        {
+            wd_md->Change_coords(wd_x1, wd_y1 - slide_height/2.0f, wd_width, wd_height + slide_height);
         }
     }
 

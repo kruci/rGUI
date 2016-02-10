@@ -3,7 +3,7 @@
 namespace rGUI //Button
 {
     Button::Button(float x, float y, float width, float height, std::string texts, std::string fontfile, Theme *thm)
-    : Widget( x, y, width, height, thm, false), text(texts)
+    : Widget( x, y, width, height, thm, false), text(texts), bt_font_file(fontfile)
     {
 
         recalculate_text(fontfile);
@@ -11,7 +11,7 @@ namespace rGUI //Button
     }
 
     Button::Button(float width, float height, std::string texts, std::string fontfile, Theme *thm)
-    : Widget( 0, 0, width, height, thm, true), text(texts)
+    : Widget( 0, 0, width, height, thm, true), text(texts), bt_font_file(fontfile)
     {
         recalculate_text(fontfile);
 
@@ -66,4 +66,17 @@ namespace rGUI //Button
 
     }
 
+    void Button::Change_coords(float x1, float y1, float width, float height)
+    {
+        wd_Change_coords(x1, y1, width, height);
+        wd_md->Change_coords(x1, y1, width, height);
+        recalculate_text(bt_font_file);
+    }
+
+    void Button::Change_coords_r(float &x1, float &y1, float &width, float &height)
+    {
+        wd_Change_coords(x1, y1, width, height);
+        wd_md->Change_coords(x1, y1, width, height);
+        recalculate_text(bt_font_file);
+    }
 }

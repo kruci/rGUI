@@ -309,6 +309,18 @@ namespace rGUI //Widget
         wd_added_thickness = thm->added_thickness;
     }
 
+    void Widget::Change_coords(float x1, float y1, float width, float height)
+    {
+        wd_Change_coords(x1, y1, width, height);
+        wd_md->Change_coords(x1, y1, width, height);
+    }
+
+    void Widget::Change_coords_r(float &x1, float &y1, float &width, float &height)
+    {
+        wd_Change_coords(x1, y1, width, height);
+        wd_md->Change_coords(x1, y1, width, height);
+    }
+
     int Widget::Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley){};
     void Widget::Print(){};
 }

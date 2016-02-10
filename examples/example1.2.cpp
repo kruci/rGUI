@@ -147,6 +147,9 @@ int main(int argc, char **argv)
     widgets.push_back(new rGUI::BitmapButton(10, 140, "button.png", &tmh, false));
     widgets.push_back(new rGUI::BitmapButton(10, 190,100, 45, "button.png", &tmh, false));
 
+
+    int tx = 1, ty = 0, x = 1, y = 1;
+    bool edx = true, edy = false;
     float scale = 1;
     while(1)
     {
@@ -189,8 +192,36 @@ int main(int argc, char **argv)
             ((rGUI::ClickableText*)widgets[2])->text = std::to_string(((rGUI::SlideBar*)widgets[4])->value);
             for(int a = 0;a < (int)widgets.size();a++)
             {
-                //widgets[a]->Change_coords(widgets[a]->wd_x1 + 1, widgets[a]->wd_y1, widgets[a]->wd_width, widgets[a]->wd_height);
+                widgets[a]->Change_coords(widgets[a]->wd_x1 +tx, widgets[a]->wd_y1 + ty, widgets[a]->wd_width, widgets[a]->wd_height);
                 widgets[a]->Print();
+            }
+            x += tx;
+            y += ty;
+
+            if(x > 100)
+            {
+               tx = 0;
+               ty = 1;
+            }
+            else if(x <= 0)
+            {
+                tx = 0;
+                ty = -1;
+                y += ty;
+                x = 1;
+            }
+
+            if(y > 100)
+            {
+               ty = 0;
+               tx = -1;
+
+            }
+            else if(y <= 0)
+            {
+                ty = 0;
+                tx = 1;
+                y = 1;
             }
 
             al_flip_display();
