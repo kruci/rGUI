@@ -32,6 +32,7 @@ namespace rGUI
     class CheckBox;
     class ClickableText;
     class SlideBar;
+    class ScrollBar;
 
 
 struct Theme{
@@ -237,6 +238,28 @@ public:
 
     bool Draw_bitmap_region(float sx, float sy, float sw, float sh, float dx, float dy, int flags);//slower
     bool Draw_bitmap_region(float sx, float sy, float dx, float dy, int flags);
+};
+
+class ScrollBar : public Widget
+{
+private:
+    float sroller_x1, sroller_y1, sroller_x2, sroller_y2, sroller_width, sroller_height;
+
+    void scb_recalculate_scroller_poz();
+public:
+    bool vertical = false;
+    float change;
+
+    ScrollBar(float x, float y, float width, float height, float real_size, Theme *thm, bool vertical, bool bitmap_only);
+    ~ScrollBar();
+
+    int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
+    void Print();
+
+    void Change_coords(float x1, float y1, float width, float height);
+    void Change_coords_r(float &x1, float &y1, float &width, float &height);
+    void Change_real_size(float s);
+    void Change_real_size_r(float &s);
 };
 
 }
