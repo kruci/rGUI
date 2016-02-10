@@ -156,6 +156,7 @@ public:
     std::string text;
     ALLEGRO_FONT *font = nullptr;
     bool delete_font = true;
+    bool disable_clicking_shadow = false;
 
     ClickableText(float x, float y, std::string texts, std::string fontfile,int allegro_text_flag,
                   float font_height, Theme *thm, bool bitmap_only);

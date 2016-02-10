@@ -67,7 +67,7 @@ namespace rGUI //ClickableText
 
         al_draw_text(font,wd_c_text, wd_x1, wd_y1, print_flag, text.c_str());
 
-        if(wd_md->md_mouse_on_it == true)
+        if(wd_md->md_mouse_on_it == true && disable_clicking_shadow == false)
         {
             if(wd_md->md_clicking == true)
             {
