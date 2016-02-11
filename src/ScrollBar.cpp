@@ -144,11 +144,7 @@ namespace rGUI //ScrollBar
 
     void ScrollBar::Print()
     {
-        if(wd_bitmap_only == true)
-        {
-            al_set_target_bitmap(wd_bmp);
-            al_clear_to_color(al_map_rgba(0,0,0,0));
-        }
+        wd_PrintBegin();
         if(scb_dorecalculate_scroller_poz == true)
         {
             scb_recalculate_scroller_poz();
@@ -175,11 +171,13 @@ namespace rGUI //ScrollBar
             al_draw_filled_rounded_rectangle(sroller_x1, sroller_y1, sroller_x2, sroller_y2,
                                 wd_roundx, wd_roundy, wd_c_clicking);
         }
-
-        if(wd_bitmap_only == true)
+        else if(wd_md->md_mouse_on_it == true)
         {
-            al_set_target_backbuffer(al_get_current_display());
+            al_draw_rounded_rectangle(sroller_x1, sroller_y1, sroller_x2, sroller_y2,
+                                wd_roundx, wd_roundy, wd_c_outline, wd_thickness + wd_added_thickness);
         }
+
+        wd_PrintEnd();
     }
 
     void ScrollBar::Change_coords(float x1, float y1, float width, float height)

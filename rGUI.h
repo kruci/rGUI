@@ -79,6 +79,7 @@ public:
 class Widget
 {
 protected:
+    ALLEGRO_BITMAP *ref_bmp;
     bool Is_changed(float a, float b);
     bool Is_changed_r(float &a, float &b);
     void wd_PrintBegin();

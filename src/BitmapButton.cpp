@@ -63,11 +63,7 @@ namespace rGUI //BitmpaButton
 
     void BitmapButton::Print()
     {
-        if(wd_bitmap_only == true)
-        {
-            al_set_target_bitmap(wd_bmp);
-            al_clear_to_color(al_map_rgba(0,0,0,0));
-        }
+        wd_PrintBegin();
 
         al_draw_scaled_bitmap(bmp, 0, 0, bb_orig_width, bb_orig_height,
                               wd_x1, wd_y1, wd_width, wd_height, 0);
@@ -77,11 +73,7 @@ namespace rGUI //BitmpaButton
             al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
                         wd_roundx, wd_roundy, wd_c_clicking);
         }
-
-        if(wd_bitmap_only == true)
-        {
-            al_set_target_backbuffer(al_get_current_display());
-        }
-    }
+        wd_PrintEnd();
+     }
 
 }

@@ -59,12 +59,7 @@ namespace rGUI //ClickableText
 
     void ClickableText::Print()
     {
-        if(wd_bitmap_only == true)
-        {
-            al_set_target_bitmap(wd_bmp);
-            al_clear_to_color(al_map_rgba(0,0,0,0));
-        }
-
+        wd_PrintBegin();
         al_draw_text(font,wd_c_text, wd_x1, wd_y1, print_flag, text.c_str());
 
         if(wd_md->md_mouse_on_it == true && disable_clicking_shadow == false)
@@ -75,10 +70,7 @@ namespace rGUI //ClickableText
             }
         }
 
-        if(wd_bitmap_only == true)
-        {
-            al_set_target_backbuffer(al_get_current_display());
-        }
+        wd_PrintEnd();
     }
 
 }

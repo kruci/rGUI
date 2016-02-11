@@ -149,11 +149,7 @@ namespace rGUI //SlideBars
 
     void SlideBar::Print()
     {
-        if(wd_bitmap_only == true)
-        {
-            al_set_target_bitmap(wd_bmp);
-            al_clear_to_color(al_map_rgba(0,0,0,0));
-        }
+        wd_PrintBegin();
         if(sb_recalculate_slide_poz == true)
         {
             sb_calculate_slide_poz();
@@ -170,16 +166,19 @@ namespace rGUI //SlideBars
         al_draw_rounded_rectangle(slide_x1, slide_y1, slide_x2, slide_y2,
                                 wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
 
+        if(wd_md->md_mouse_on_it == true)
+        {
+            al_draw_rounded_rectangle(slide_x1, slide_y1, slide_x2, slide_y2,
+                                wd_roundx, wd_roundy, wd_c_outline, wd_thickness + wd_added_thickness);
+        }
+
         if(wd_md->md_clicking == true || wd_md->md_clicked == true)
         {
             al_draw_filled_rounded_rectangle(slide_x1, slide_y1, slide_x2, slide_y2,
                                 wd_roundx, wd_roundy, wd_c_clicking);
         }
 
-        if(wd_bitmap_only == true)
-        {
-            al_set_target_backbuffer(al_get_current_display());
-        }
+        wd_PrintEnd();
     }
 
     void SlideBar::Change_coords(float x1, float y1, float width, float height)
