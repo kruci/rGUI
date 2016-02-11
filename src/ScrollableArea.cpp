@@ -73,7 +73,14 @@ namespace rGUI //ScrollableArea
             }
             /*scb_horizontal->changed = false;
             scb_vertical->changed = false;*/
-            scb_vertical->Scrolling_input(ev, scalex, scaley);
+            if(al_key_down(keyboard_state, ALLEGRO_KEY_LSHIFT))
+            {
+                scb_horizontal->Scrolling_input(ev, scalex, scaley);
+            }
+            else
+            {
+                scb_vertical->Scrolling_input(ev, scalex, scaley);
+            }
         }
         scb_vertical->Input(ev, scalex, scaley);
         scb_horizontal->Input(ev, scalex, scaley);

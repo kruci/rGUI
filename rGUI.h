@@ -21,7 +21,7 @@
 namespace rGUI
 {
     extern ALLEGRO_MOUSE_STATE *mouse_state;
-
+    extern ALLEGRO_KEYBOARD_STATE *keyboard_state;
 
     struct Theme;
     class MouseDetector;

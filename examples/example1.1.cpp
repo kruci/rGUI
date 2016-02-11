@@ -117,8 +117,9 @@ int main(int argc, char **argv)
 
     al_start_timer(timer);
 
-    ALLEGRO_MOUSE_STATE ms;
-    rGUI::mouse_state = &ms;
+    rGUI::mouse_state = new ALLEGRO_MOUSE_STATE;
+    rGUI::keyboard_state = new ALLEGRO_KEYBOARD_STATE;
+
     rGUI::Theme tmh;
     tmh.c_text = al_map_rgb(255,255,255);
     tmh.c_outline = al_map_rgb(255,0,0);
@@ -170,7 +171,8 @@ int main(int argc, char **argv)
         ALLEGRO_EVENT ev;
         al_wait_for_event(event_queue, &ev);
 
-        al_get_mouse_state(&ms);
+        al_get_mouse_state(rGUI::mouse_state);
+        al_get_keyboard_state(rGUI::keyboard_state);
 
         if(ev.type == ALLEGRO_EVENT_TIMER)
         {
@@ -218,6 +220,9 @@ int main(int argc, char **argv)
         delete widgets[a];
     }
     widgets.clear();
+
+    delete rGUI::keyboard_state;
+    delete rGUI::mouse_state;
 
     al_destroy_bitmap(bouncer);
     al_destroy_timer(timer);
