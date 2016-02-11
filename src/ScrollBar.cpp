@@ -42,6 +42,23 @@ namespace rGUI //ScrollBar
             sroller_x2 = wd_x2-1 - ceil(wd_thickness/2.0f);
             sroller_y2 = change/rb_ratio + wd_y1 + (wd_height/r_size)*wd_height -1 - ceil(wd_thickness/2.0f);
         }
+        if(sroller_x1 < wd_x1)
+        {
+            sroller_x1 = +1 + ceil(wd_thickness/2.0f);
+        }
+        if(sroller_x2 > wd_x2)
+        {
+            sroller_x2 = wd_x2-1 - ceil(wd_thickness/2.0f);
+        }
+        if(sroller_y1 < wd_y1)
+        {
+            sroller_y1 = wd_y1+1 + ceil(wd_thickness/2.0f);
+        }
+        if(sroller_y2 > wd_y2)
+        {
+            sroller_y2 = wd_y2-1 - ceil(wd_thickness/2.0f);
+        }
+
     }
 
     int ScrollBar::Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley)
@@ -54,11 +71,11 @@ namespace rGUI //ScrollBar
 
             if(vertical == false)
             {
-                change = (rGUI::mouse_state->x - abs(sroller_x2 - sroller_x1))*rb_ratio;
+                change = (rGUI::mouse_state->x - abs(wd_md->md_x1 + sroller_x2 - sroller_x1))*rb_ratio;
             }
             else
             {
-                change = (rGUI::mouse_state->y - abs(sroller_y2 - sroller_y1))*rb_ratio;
+                change = (rGUI::mouse_state->y - abs(wd_md->md_y1 + sroller_y2 - sroller_y1))*rb_ratio;
             }
 
             if(change < 0)
@@ -99,6 +116,30 @@ namespace rGUI //ScrollBar
             wd_md->md_clicked = false;
         }
         scb_mouse_z = mouse_state->z;
+    }
+
+    void ScrollBar::Scrolling_input(ALLEGRO_EVENT &ev, float &scalex, float &scaley)
+    {
+        //wd_md->md_clicked = false;
+
+        if(scb_mouse_z - mouse_state->z > 0)
+        {
+            change += scroll_step;
+        }
+        else if(scb_mouse_z - mouse_state->z < 0)
+        {
+            change -= scroll_step;
+        }
+
+        if(change < 0)
+        {
+            change = 0;
+        }
+        if(change > r_size-(vertical == false ? wd_width : wd_height))
+        {
+            change = r_size-(vertical == false ? wd_width : wd_height);
+        }
+        scb_dorecalculate_scroller_poz = true;
     }
 
     void ScrollBar::Print()

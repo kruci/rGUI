@@ -43,6 +43,7 @@
 		<Unit filename="src/CheckBox.cpp" />
 		<Unit filename="src/ClickableText.cpp" />
 		<Unit filename="src/ScrollBar.cpp" />
+		<Unit filename="src/ScrollableArea.cpp" />
 		<Unit filename="src/SlideBar.cpp" />
 		<Unit filename="src/widgetbase.cpp" />
 		<Extensions>

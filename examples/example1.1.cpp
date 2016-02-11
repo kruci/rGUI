@@ -146,9 +146,13 @@ int main(int argc, char **argv)
     widgets.push_back(new rGUI::SlideBar(10,10, 30, 120, 0, 100, &tmh, true, false));
     widgets.push_back(new rGUI::BitmapButton(10, 140, "button.png", &tmh, false));
     widgets.push_back(new rGUI::BitmapButton(10, 190,100, 45, "button.png", &tmh, false));
-    widgets.push_back(new rGUI::ScrollBar(10, 250, 300, 20, 1000,&tmh, false, false));
+    /*widgets.push_back(new rGUI::ScrollBar(10, 250, 300, 20, 1000,&tmh, false, false));
     widgets.push_back(new rGUI::ScrollBar(290, 10, 20, 230, 1000,&tmh, true, false));
-    ((rGUI::ScrollBar*)widgets[widgets.size()-1])->c_background_mult = 1.4f;
+    ((rGUI::ScrollBar*)widgets[widgets.size()-1])->c_background_mult = 1.4f;*/
+    tmh.c_background = al_map_rgba(40,40,40,150);
+    tmh.roundx = 2;
+    tmh.roundy = 2;
+    widgets.push_back(new rGUI::ScrollableArea(250, 250,300,200,1000,1000,&tmh));
 
     float scale = 1.0f;
     while(1)
@@ -199,6 +203,12 @@ int main(int argc, char **argv)
             al_flip_display();
         }
     }
+
+    for(int a = 0;a < (int)widgets.size();a++)
+    {
+        delete widgets[a];
+    }
+    widgets.clear();
 
     al_destroy_bitmap(bouncer);
     al_destroy_timer(timer);

@@ -123,6 +123,11 @@ namespace rGUI //Widget
                                 wd_width(abs(x1 - x2)), wd_height(abs(y1 - y2)), comentary_text_y(y1 + wd_height/2),
                                 wd_bitmap_only(bitmap_only)
     {
+        orig_x1 = x1;
+        orig_x2 = x2;
+        orig_y1 = y1;
+        orig_y2 = y2;
+
         wd_roundx = thm->roundx;
         wd_roundy = thm->roundy;
         wd_thickness = thm->thickness;
@@ -148,6 +153,11 @@ namespace rGUI //Widget
                                 wd_width(width), wd_height(height), comentary_text_y(y + width/2),
                                 wd_bitmap_only(bitmap_only)
     {
+        orig_x1 = wd_x1;
+        orig_x2 = wd_x2;
+        orig_y1 = wd_y1;
+        orig_y2 = wd_y2;
+
         wd_roundx = thm->roundx;
         wd_roundy = thm->roundy;
         wd_thickness = thm->thickness;

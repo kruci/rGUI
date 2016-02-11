@@ -33,6 +33,7 @@ namespace rGUI
     class ClickableText;
     class SlideBar;
     class ScrollBar;
+    class ScrollableArea;
 
 
 struct Theme{
@@ -83,12 +84,17 @@ protected:
     void wd_PrintBegin();
     void wd_PrintEnd();
 
+    void wd_Change_coords(float x1, float y1, float x2, float y2, float);
+    void wd_Change_coords(float x1, float y1, float width, float height);
+    void wd_Change_coords_r(float &x1, float &y1, float &x2, float &y2, float);
+    void wd_Change_coords_r(float &x1, float &y1, float &width, float &height);
 public:
     int wd_mouse_button = 1;
     Widget *wd_child = nullptr;
 
     float comentary_text_y;
     float wd_x1, wd_y1, wd_x2, wd_y2, wd_width, wd_height;
+    float orig_x1, orig_x2, orig_y1, orig_y2;
     bool wd_bitmap_only = false;
     float wd_roundx = 0, wd_roundy = 0, wd_thickness = 1, wd_added_thickness = 1;
     ALLEGRO_COLOR wd_c_outline = al_map_rgb(255,255,255),
@@ -101,11 +107,6 @@ public:
     Widget(float x1, float y1, float x2, float y2, float, Theme *thm, bool bitmap_only);
     Widget(float x, float y, float width, float height, Theme *thm, bool bitmap_only);
     ~Widget();
-
-    void wd_Change_coords(float x1, float y1, float x2, float y2, float);
-    void wd_Change_coords(float x1, float y1, float width, float height);
-    void wd_Change_coords_r(float &x1, float &y1, float &x2, float &y2, float);
-    void wd_Change_coords_r(float &x1, float &y1, float &width, float &height);
 
     void Update_theme(Theme *thm);
 
@@ -254,6 +255,7 @@ private:
 public:
     float c_background_mult = 0.8f;
     bool vertical = false;
+    bool disable = false;
     float r_size;
     float change = 0;
     float scroll_step = 30;
@@ -268,6 +270,27 @@ public:
     void Change_coords_r(float &x1, float &y1, float &width, float &height);
     void Change_real_size(float s);
     void Change_real_size_r(float &s);
+    void Scrolling_input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
+};
+
+class ScrollableArea : public Widget
+{
+private:
+    void sca_recalculate_sc_bars();
+public:
+    float r_size_w, r_size_h;
+    float scb_thickness = 14;
+    std::vector<Widget*> widgets;
+    ScrollBar *scb_vertical = nullptr, *scb_horizontal = nullptr;
+
+    ScrollableArea(float x, float y, float width, float height, float real_width, float real_height,
+                   Theme *thm);
+    ScrollableArea(float x1, float y1, float x2, float y2, float real_width, float real_height,
+                   Theme *thm, float);
+    ~ScrollableArea();
+
+    int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
+    void Print();
 };
 
 }
