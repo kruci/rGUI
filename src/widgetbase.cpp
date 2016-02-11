@@ -332,6 +332,14 @@ namespace rGUI //Widget
         wd_md->Change_coords(x1, y1, width, height);
     }
 
-    int Widget::Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley){};
-    void Widget::Print(){};
+    int Widget::Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley){}
+    void Widget::Print()
+    {
+        wd_PrintBegin();
+        al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
+                                wd_roundx, wd_roundy, wd_c_background);
+        al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
+                                wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
+        wd_PrintEnd();
+    }
 }

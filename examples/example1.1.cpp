@@ -154,6 +154,16 @@ int main(int argc, char **argv)
     tmh.roundy = 2;
     widgets.push_back(new rGUI::ScrollableArea(250, 250,300,200,1000,1000,&tmh, 14));
 
+    ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->widgets.push_back(new rGUI::ClickableText(10,100,
+                                                                "Clicke me Sempai!", fnt, 0, &tmh, false));
+    ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->widgets.push_back(new rGUI::Button(50,
+                                                                10,100,45,"TText", "Calibri.ttf",&tmh));
+    ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->widgets.push_back(new rGUI::ClickableText(10,500,
+                                                                "Big Test Text", "Calibri.ttf", 0, 100, &tmh, false));
+    ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->widgets.push_back(new rGUI::CheckBox(10,
+                                                                        150, 25, 25, &tmh, true));
+    ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->I_added_new_widgets();
+
     float scale = 1.0f;
     while(1)
     {

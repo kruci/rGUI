@@ -14,7 +14,9 @@ namespace rGUI //ClickableText
         }
 
         wd_width = al_get_text_width(font, text.c_str());
-        wd_md->Change_coords_r(wd_x1, wd_y1, wd_width, font_height);
+        wd_height = al_get_font_ascent(font);
+        wd_Change_coords_r(wd_x1, wd_y1, wd_width, wd_height);
+        wd_md->Change_coords_r(wd_x1, wd_y1, wd_width, wd_height);
         wd_c_background = al_map_rgba(0,0,0,0);
         wd_c_outline = al_map_rgba(0,0,0,0);
 
@@ -33,6 +35,7 @@ namespace rGUI //ClickableText
     {
         wd_width = al_get_text_width(font, text.c_str());
         wd_height = al_get_font_ascent(font);
+        wd_Change_coords_r(wd_x1, wd_y1, wd_width, wd_height);
         wd_md->Change_coords_r(wd_x1, wd_y1, wd_width, wd_height);
         wd_c_background = al_map_rgba(0,0,0,0);
         wd_c_outline = al_map_rgba(0,0,0,0);
@@ -71,6 +74,16 @@ namespace rGUI //ClickableText
         }
 
         wd_PrintEnd();
+    }
+
+    void ClickableText::Change_coords(float x1, float y1, float width, float height)
+    {
+        wd_Change_coords_r(x1,y1,width, height);
+    }
+
+    void ClickableText::Change_coords_r(float &x1, float &y1, float &width, float &height)
+    {
+        wd_Change_coords_r(x1,y1,width, height);
     }
 
 }

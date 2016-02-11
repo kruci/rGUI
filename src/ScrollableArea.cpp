@@ -59,13 +59,24 @@ namespace rGUI //ScrollableArea
     int ScrollableArea::Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley)
     {
         wd_md->Input(ev, scalex, scaley);
+
         if(wd_md->md_mouse_on_it == true)
         {
+            for(int a = 0; a < (int)widgets.size();a++)
+            {
+                /*if(scb_vertical->changed == true || scb_horizontal->changed == true)
+                {*/
+                    widgets[a]->wd_md->Change_coords(wd_x1 + widgets[a]->orig_x1 - scb_horizontal->change,
+                       wd_y1 + widgets[a]->orig_y1 - scb_vertical->change, widgets[a]->wd_width, widgets[a]->wd_height);
+                //}
+                widgets[a]->Input(ev, scalex, scaley);
+            }
+            /*scb_horizontal->changed = false;
+            scb_vertical->changed = false;*/
             scb_vertical->Scrolling_input(ev, scalex, scaley);
         }
         scb_vertical->Input(ev, scalex, scaley);
         scb_horizontal->Input(ev, scalex, scaley);
-
     }
 
     void ScrollableArea::Print()
@@ -79,15 +90,47 @@ namespace rGUI //ScrollableArea
         al_draw_rounded_rectangle(1, 0, wd_width, wd_height,
                                 wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
 
+        for(int a = 0; a < (int)widgets.size();a++)
+        {
+            /*if((widgets[a]->orig_x1 - scb_horizontal->change > 0 ||
+                widgets[a]->orig_x2 - scb_horizontal->change > 0) &&
+               (widgets[a]->orig_y1 - scb_vertical->change > 0 ||
+                widgets[a]->orig_y2 - scb_vertical->change > 0) )
+            {*/
+                widgets[a]->Change_coords(widgets[a]->orig_x1 - scb_horizontal->change,
+                    widgets[a]->orig_y1 - scb_vertical->change, widgets[a]->wd_width, widgets[a]->wd_height);
+                widgets[a]->Print();
+            //}
+        }
+
         scb_horizontal->Print();
         scb_vertical->Print();
-
 
         al_set_target_bitmap(wd_ref_bmp);
         if(wd_bitmap_only == false)
         {
             al_draw_bitmap(wd_bmp, wd_x1, wd_y1, 0);
         }
+    }
+
+    void ScrollableArea::I_added_new_widgets()
+    {
+        float wid = scb_horizontal->r_size, hei = scb_vertical->r_size;
+
+        for(int a = 0; a < (int)widgets.size();a++)
+        {
+            if(widgets[a]->wd_x2 + 1 > wid)
+            {
+                wid = widgets[a]->wd_x2 + 1;
+            }
+            if(widgets[a]->wd_y2 + 1 > hei)
+            {
+                hei = widgets[a]->wd_y2 + 1;
+            }
+        }
+
+        scb_horizontal->Change_real_size_r(wid);
+        scb_vertical->Change_real_size_r(hei);
     }
 
 }

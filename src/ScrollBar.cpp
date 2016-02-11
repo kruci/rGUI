@@ -86,6 +86,7 @@ namespace rGUI //ScrollBar
             {
                 change = r_size-(vertical == false ? wd_width : wd_height);
             }
+            changed = true;
             scb_dorecalculate_scroller_poz = true;
         }
         else if(wd_md->md_mouse_on_it == true)
@@ -95,10 +96,12 @@ namespace rGUI //ScrollBar
             if(scb_mouse_z - mouse_state->z > 0)
             {
                 change += scroll_step;
+                changed = true;
             }
             else if(scb_mouse_z - mouse_state->z < 0)
             {
                 change -= scroll_step;
+                changed = true;
             }
 
             if(change < 0)
@@ -125,10 +128,14 @@ namespace rGUI //ScrollBar
         if(scb_mouse_z - mouse_state->z > 0)
         {
             change += scroll_step;
+            changed = true;
+            scb_dorecalculate_scroller_poz = true;
         }
         else if(scb_mouse_z - mouse_state->z < 0)
         {
             change -= scroll_step;
+            changed = true;
+            scb_dorecalculate_scroller_poz = true;
         }
 
         if(change < 0)
@@ -139,7 +146,7 @@ namespace rGUI //ScrollBar
         {
             change = r_size-(vertical == false ? wd_width : wd_height);
         }
-        scb_dorecalculate_scroller_poz = true;
+
     }
 
     void ScrollBar::Print()
