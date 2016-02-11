@@ -12,6 +12,8 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
+				<Option host_application="example1.1" />
+				<Option run_host_application_in_terminal="1" />
 				<Option createDefFile="1" />
 				<Compiler>
 					<Add option="-Wall" />
@@ -27,8 +29,9 @@
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
 				<Compiler>
-					<Add option="-O2" />
+					<Add option="-O3" />
 					<Add option="-Wall" />
+					<Add option="-std=c++14" />
 					<Add directory="../rGUI" />
 				</Compiler>
 				<Linker>

@@ -5,16 +5,13 @@ namespace rGUI //Button
     Button::Button(float x, float y, float width, float height, std::string texts, std::string fontfile, Theme *thm)
     : Widget( x, y, width, height, thm, false), text(texts), bt_font_file(fontfile)
     {
-
-        recalculate_text(fontfile);
-
+        constructors_recalculate_text();
     }
 
     Button::Button(float width, float height, std::string texts, std::string fontfile, Theme *thm)
     : Widget( 0, 0, width, height, thm, true), text(texts), bt_font_file(fontfile)
     {
-        recalculate_text(fontfile);
-
+        constructors_recalculate_text();
     }
 
     Button::~Button()
@@ -51,15 +48,15 @@ namespace rGUI //Button
         wd_PrintEnd();
     }
 
-    void Button::recalculate_text(std::string fontt)
+    void Button::constructors_recalculate_text()
     {
         font_height =(wd_height / 5.0f) * 3.8f;
 
-        font = al_load_ttf_font(fontt.c_str(), font_height, 0);
+        font = al_load_ttf_font(bt_font_file.c_str(), font_height, 0);
 
         if(font == nullptr)
         {
-            al_show_native_message_box(NULL, "Error", "Failed to load font!", fontt.c_str(),
+            al_show_native_message_box(NULL, "Error", "Failed to load font!", bt_font_file.c_str(),
                                        NULL, ALLEGRO_MESSAGEBOX_ERROR);
         }
         float fontwidth = al_get_text_width(font, text.c_str());
@@ -68,11 +65,11 @@ namespace rGUI //Button
         {
             font_height = font_height * (wd_width/fontwidth);
             al_destroy_font(font);
-            font = al_load_ttf_font(fontt.c_str(),font_height,0);
+            font = al_load_ttf_font(bt_font_file.c_str(),font_height,0);
         }
         if(font == nullptr)
         {
-            al_show_native_message_box(NULL, "Error", "Failed to load font!", fontt.c_str(),
+            al_show_native_message_box(NULL, "Error", "Failed to load font!", bt_font_file.c_str(),
                                        NULL, ALLEGRO_MESSAGEBOX_ERROR);
         }
 
@@ -81,17 +78,39 @@ namespace rGUI //Button
 
     }
 
+    void Button::recalculate_text()
+    {
+        font_height = (wd_height / 5.0f) * 3.8f;
+
+        fontwidth = al_get_text_width(font, text.c_str());
+
+        if(fontwidth >= wd_width)
+        {
+            font_height = font_height * (wd_width/fontwidth);
+            al_destroy_font(font);
+            font = al_load_ttf_font(bt_font_file.c_str(),font_height,0);
+        }
+        if(font == nullptr)
+        {
+            al_show_native_message_box(NULL, "Error", "Failed to load font!", bt_font_file.c_str(),
+                                       NULL, ALLEGRO_MESSAGEBOX_ERROR);
+        }
+
+        text_x = wd_x1 + (wd_width - fontwidth) / 2.0f;
+        text_y = wd_y1 + (wd_height -al_get_font_ascent(font))   / 2.0f;
+    }
+
     void Button::Change_coords(float x1, float y1, float width, float height)
     {
         wd_Change_coords(x1, y1, width, height);
         wd_md->Change_coords(x1, y1, width, height);
-        recalculate_text(bt_font_file);
+        recalculate_text();
     }
 
     void Button::Change_coords_r(float &x1, float &y1, float &width, float &height)
     {
         wd_Change_coords(x1, y1, width, height);
         wd_md->Change_coords(x1, y1, width, height);
-        recalculate_text(bt_font_file);
+        recalculate_text();
     }
 }

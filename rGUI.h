@@ -121,11 +121,13 @@ class Button : public Widget
 {
 protected:
     float text_x, text_y, font_height;
+    float fontwidth;
     ALLEGRO_FONT *font = nullptr;
 
     bool delete_font = true;
 
-    void recalculate_text(std::string fontt);
+    void constructors_recalculate_text();
+    void recalculate_text();
     std::string bt_font_file;
 public:
     std::string text;
