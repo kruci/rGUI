@@ -277,7 +277,7 @@ namespace rGUI //Widget
     {
         if(wd_bitmap_only == true)
         {
-            ref_bmp = al_get_target_bitmap();
+            wd_ref_bmp = al_get_target_bitmap();
             al_set_target_bitmap(wd_bmp);
             al_clear_to_color(al_map_rgba(0,0,0,0));
         }
@@ -304,7 +304,7 @@ namespace rGUI //Widget
 
         if(wd_bitmap_only == true)
         {
-            al_set_target_bitmap(ref_bmp);
+            al_set_target_bitmap(wd_ref_bmp);
         }
     }
 

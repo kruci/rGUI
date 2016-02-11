@@ -79,7 +79,7 @@ public:
 class Widget
 {
 protected:
-    ALLEGRO_BITMAP *ref_bmp;
+    ALLEGRO_BITMAP *wd_ref_bmp;
     bool Is_changed(float a, float b);
     bool Is_changed_r(float &a, float &b);
     void wd_PrintBegin();
@@ -254,7 +254,7 @@ private:
     void scb_recalculate_scroller_poz();
     void scb_recalculate_rb_ratio();
 public:
-    float c_background_mult = 0.8f;
+    float c_background_mult = 1.2f;
     bool vertical = false;
     bool disable = false;
     float r_size;
@@ -285,9 +285,9 @@ public:
     ScrollBar *scb_vertical = nullptr, *scb_horizontal = nullptr;
 
     ScrollableArea(float x, float y, float width, float height, float real_width, float real_height,
-                   Theme *thm);
+                   Theme *thm, float scrollbars_thickness);
     ScrollableArea(float x1, float y1, float x2, float y2, float real_width, float real_height,
-                   Theme *thm, float);
+                   Theme *thm, float scrollbars_thickness, float whatever);
     ~ScrollableArea();
 
     int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);

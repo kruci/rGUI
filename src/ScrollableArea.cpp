@@ -3,8 +3,9 @@
 namespace rGUI //ScrollableArea
 {
     ScrollableArea::ScrollableArea(float x, float y, float width, float height, float real_width, float real_height,
-                   Theme *thm)
-    : Widget(x,y, float(width+scb_thickness), float(height+scb_thickness), thm, false), r_size_w(real_width), r_size_h(real_height)
+                   Theme *thm, float scrollbars_thickness)
+    : Widget(x,y, float(width+scrollbars_thickness), float(height+scrollbars_thickness), thm, false),
+    r_size_w(real_width), r_size_h(real_height), scb_thickness(scrollbars_thickness)
     {
         scb_vertical = new   ScrollBar(wd_width - scb_thickness,0,scb_thickness,
                                        wd_height- scb_thickness, real_height, thm, true,false);
@@ -22,8 +23,9 @@ namespace rGUI //ScrollableArea
     }
 
     ScrollableArea::ScrollableArea(float x1, float y1, float x2, float y2, float real_width, float real_height,
-                   Theme *thm, float)
-    : Widget(x1,y1,x2+scb_thickness, y2+scb_thickness,0, thm, false), r_size_w(real_width), r_size_h(real_height)
+                   Theme *thm, float scrollbars_thickness, float whatever)
+    : Widget(x1,y1,x2+scrollbars_thickness, y2+scrollbars_thickness,0, thm, false),
+    r_size_w(real_width), r_size_h(real_height), scb_thickness(scrollbars_thickness)
     {
         scb_vertical = new   ScrollBar(wd_width - scb_thickness,0,scb_thickness,
                                        wd_height- scb_thickness, real_height, thm, true,false);
@@ -68,6 +70,7 @@ namespace rGUI //ScrollableArea
 
     void ScrollableArea::Print()
     {
+        wd_ref_bmp = al_get_target_bitmap();
         al_set_target_bitmap(wd_bmp);
         al_clear_to_color(al_map_rgba(0,0,0,0));
 
@@ -80,7 +83,7 @@ namespace rGUI //ScrollableArea
         scb_vertical->Print();
 
 
-        al_set_target_backbuffer(al_get_current_display());
+        al_set_target_bitmap(wd_ref_bmp);
         if(wd_bitmap_only == false)
         {
             al_draw_bitmap(wd_bmp, wd_x1, wd_y1, 0);

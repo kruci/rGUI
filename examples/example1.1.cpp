@@ -152,7 +152,7 @@ int main(int argc, char **argv)
     tmh.c_background = al_map_rgba(40,40,40,150);
     tmh.roundx = 2;
     tmh.roundy = 2;
-    widgets.push_back(new rGUI::ScrollableArea(250, 250,300,200,1000,1000,&tmh));
+    widgets.push_back(new rGUI::ScrollableArea(250, 250,300,200,1000,1000,&tmh, 14));
 
     float scale = 1.0f;
     while(1)
