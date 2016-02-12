@@ -5,6 +5,7 @@ namespace rGUI //ScrollBar
     ScrollBar::ScrollBar(float x, float y, float width, float height, float real_size, Theme *thm, bool vertical, bool bitmap_only)
     :Widget(x,y, width, height,thm, bitmap_only), vertical(vertical), r_size(real_size)
     {
+        wd_type = wt_SCROLLBAR;
         scb_recalculate_rb_ratio();
         scb_recalculate_scroller_poz();
     }

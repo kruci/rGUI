@@ -5,13 +5,13 @@ namespace rGUI //CheckBox
     CheckBox::CheckBox(float x, float y, float width, float height, Theme *thm, bool is_selected)
     : Widget( x, y, width, height, thm, false), selected(is_selected)
     {
-
+        wd_type = wt_CHECKBOX;
     }
 
     CheckBox::CheckBox(float width, float height, Theme *thm, bool is_selected)
     : Widget( 0, 0, width, height, thm, true), selected(is_selected)
     {
-
+        wd_type = wt_CHECKBOX;
     }
 
     CheckBox::~CheckBox()

@@ -7,6 +7,7 @@ namespace rGUI //SlideBars
     : Widget(x,y, width, height, thm, bitmaponly), vertical(vertical), val_min(minval),
     val_max(maxval), value(minval), values(maxval - minval + 1)
     {
+        wd_type = wt_SLIDEBAR;
         sb_mouse_z = mouse_state->z;
         if(vertical == false)
         {
@@ -100,11 +101,11 @@ namespace rGUI //SlideBars
             wd_md->md_clicked = true;
             if(vertical == false)
             {
-                value = (rGUI::mouse_state->x - wd_x1)/(wd_width/values);
+                value = (rGUI::mouse_state->x - wd_md->md_x1)/(wd_width/values);
             }
             else
             {
-                value = (rGUI::mouse_state->y - wd_y1)/(wd_height/values);
+                value = (rGUI::mouse_state->y - wd_md->md_y1)/(wd_height/values);
             }
 
             if(value < val_min)

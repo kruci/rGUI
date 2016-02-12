@@ -5,12 +5,14 @@ namespace rGUI //Button
     Button::Button(float x, float y, float width, float height, std::string texts, std::string fontfile, Theme *thm)
     : Widget( x, y, width, height, thm, false), text(texts), bt_font_file(fontfile)
     {
+        wd_type = wt_BUTTON;
         constructors_recalculate_text();
     }
 
     Button::Button(float width, float height, std::string texts, std::string fontfile, Theme *thm)
     : Widget( 0, 0, width, height, thm, true), text(texts), bt_font_file(fontfile)
     {
+        wd_type = wt_BUTTON;
         constructors_recalculate_text();
     }
 
@@ -80,8 +82,6 @@ namespace rGUI //Button
 
     void Button::recalculate_text()
     {
-        font_height = (wd_height / 5.0f) * 3.8f;
-
         fontwidth = al_get_text_width(font, text.c_str());
 
         if(fontwidth >= wd_width)

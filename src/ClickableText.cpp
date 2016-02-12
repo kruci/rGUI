@@ -6,6 +6,7 @@ namespace rGUI //ClickableText
                                  int allegro_text_flag, float font_height,Theme *thm, bool bitmap_only)
     :Widget(x,y,1,font_height, thm, bitmap_only), text(texts), print_flag(allegro_text_flag), fsize(font_height)
     {
+        wd_type = wt_CLICKABLETEXT;
         font = al_load_ttf_font(fontfile.c_str(), fsize, 0);
         if(font == nullptr)
         {
@@ -33,6 +34,7 @@ namespace rGUI //ClickableText
                                  int allegro_text_flag,Theme *thm, bool bitmap_only)
     :Widget(x,y,1,1, thm, bitmap_only), text(texts), delete_font(false), print_flag(allegro_text_flag), font(fnt)
     {
+        wd_type = wt_CLICKABLETEXT;
         wd_width = al_get_text_width(font, text.c_str());
         wd_height = al_get_font_ascent(font);
         wd_Change_coords_r(wd_x1, wd_y1, wd_width, wd_height);

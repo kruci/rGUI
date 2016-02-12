@@ -7,6 +7,7 @@ namespace rGUI //ScrollableArea
     : Widget(x,y, float(width+scrollbars_thickness), float(height+scrollbars_thickness), thm, false),
     r_size_w(real_width), r_size_h(real_height), scb_thickness(scrollbars_thickness)
     {
+        wd_type = wt_SCROLLABLEAREA;
         scb_vertical = new   ScrollBar(wd_width - scb_thickness,0,scb_thickness,
                                        wd_height- scb_thickness, real_height, thm, true,false);
 
@@ -27,6 +28,7 @@ namespace rGUI //ScrollableArea
     : Widget(x1,y1,x2+scrollbars_thickness, y2+scrollbars_thickness,0, thm, false),
     r_size_w(real_width), r_size_h(real_height), scb_thickness(scrollbars_thickness)
     {
+        wd_type = wt_SCROLLABLEAREA;
         scb_vertical = new   ScrollBar(wd_width - scb_thickness,0,scb_thickness,
                                        wd_height- scb_thickness, real_height, thm, true,false);
 
@@ -62,17 +64,12 @@ namespace rGUI //ScrollableArea
 
         if(wd_md->md_mouse_on_it == true)
         {
-            for(int a = 0; a < (int)widgets.size();a++)
+            /*for(int a = 0; a < (int)widgets.size();a++)
             {
-                /*if(scb_vertical->changed == true || scb_horizontal->changed == true)
-                {*/
-                    widgets[a]->wd_md->Change_coords(wd_x1 + widgets[a]->orig_x1 - scb_horizontal->change,
+                widgets[a]->wd_md->Change_coords(wd_x1 + widgets[a]->orig_x1 - scb_horizontal->change,
                        wd_y1 + widgets[a]->orig_y1 - scb_vertical->change, widgets[a]->wd_width, widgets[a]->wd_height);
-                //}
                 widgets[a]->Input(ev, scalex, scaley);
-            }
-            /*scb_horizontal->changed = false;
-            scb_vertical->changed = false;*/
+            }*/
             if(al_key_down(keyboard_state, ALLEGRO_KEY_LSHIFT))
             {
                 scb_horizontal->Scrolling_input(ev, scalex, scaley);
@@ -80,6 +77,18 @@ namespace rGUI //ScrollableArea
             else
             {
                 scb_vertical->Scrolling_input(ev, scalex, scaley);
+            }
+        }
+        for(int a = 0; a < (int)widgets.size();a++)
+        {
+            if((wd_md->md_mouse_on_it == false && widgets[a]->wd_md->md_clicked == true &&
+               (widgets[a]->wd_type == wt_SLIDEBAR || widgets[a]->wd_type == wt_INPUTFIELD ) &&
+               (ev.type == ALLEGRO_EVENT_MOUSE_AXES || ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN || ev.type == ALLEGRO_EVENT_KEY_CHAR))
+               || wd_md->md_mouse_on_it == true) // SLOW ?
+            {
+                widgets[a]->wd_md->Change_coords(wd_x1 + widgets[a]->orig_x1 - scb_horizontal->change,
+                    wd_y1 + widgets[a]->orig_y1 - scb_vertical->change, widgets[a]->wd_width, widgets[a]->wd_height);
+                widgets[a]->Input(ev, scalex, scaley);
             }
         }
         scb_vertical->Input(ev, scalex, scaley);

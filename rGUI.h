@@ -23,6 +23,12 @@ namespace rGUI
     extern ALLEGRO_MOUSE_STATE *mouse_state;
     extern ALLEGRO_KEYBOARD_STATE *keyboard_state;
 
+    enum WidgetsTypes
+    {
+        wt_BUTTON, wt_CHECKBOX, wt_BITMAPBUTTON, wt_CLICKABLETEXT, wt_INPUTFIELD, wt_SCROLLABLEAREA,
+        wt_SCROLLBAR, wt_SLIDEBAR, wt_WIDGET
+    };
+
     struct Theme;
     class MouseDetector;
     class Widget;
@@ -91,6 +97,7 @@ protected:
     void wd_Change_coords_r(float &x1, float &y1, float &x2, float &y2, float);
     void wd_Change_coords_r(float &x1, float &y1, float &width, float &height);
 public:
+    int wd_type;
     int wd_mouse_button = 1;
     Widget *wd_child = nullptr;
 
@@ -301,6 +308,37 @@ public:
     void Print();
 
     void I_added_new_widgets();
+};
+
+class InputField : public Widget
+{
+private:
+    std::string font_file;
+    float texty_shift, text_x, text_y, text_width, font_height;
+    float bar_x = 4;
+    ALLEGRO_FONT *font = nullptr;
+    int if_a = 0;
+    bool bmp_only = false;
+
+    void recalculate_text();
+public:
+    float if_FPS;
+    float bar_width = 3;
+    float bar_char_poz = 0;
+    std::string text;
+    ALLEGRO_USTR *al_text = nullptr;
+    int lenght_limit = 500;
+
+    InputField(float x, float y, float width, float height, std::string font_file, Theme *thm, float FPS, bool bitmap_only);
+    InputField(float x, float y, float width, float height, std::string init_text,
+               std::string font_file, Theme *thm, float FPS, bool bitmap_only);
+    ~InputField();
+
+    int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
+    void Print();
+
+    /*void Change_coords(float x1, float y1, float width, float height);
+    void Change_coords_r(float &x1, float &y1, float &width, float &height);*/
 };
 
 }

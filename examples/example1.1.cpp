@@ -153,6 +153,8 @@ int main(int argc, char **argv)
     tmh.c_background = al_map_rgba(40,40,40,150);
     tmh.roundx = 2;
     tmh.roundy = 2;
+    widgets.push_back(new rGUI::InputField(10, 400, 100, 45, "Calibri.ttf", &tmh, FPS, false));
+
     widgets.push_back(new rGUI::ScrollableArea(320, 10,300,200,1000,1000,&tmh, 14));
 
     ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->widgets.push_back(new rGUI::ClickableText(10,100,
@@ -169,7 +171,13 @@ int main(int argc, char **argv)
         widgets[((rGUI::ScrollableArea*)widgets[widgets.size()-1])->
         widgets.size() - 1]->wd_md->md_active = false;
 
+
+    ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->widgets.push_back(new rGUI::InputField(10,
+                                                                        400, 100, 45, "Calibri.ttf", &tmh, FPS, false));
+    ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->widgets.push_back(new rGUI::SlideBar(600,
+                                                                                             100, 100, 30, 1, 50, &tmh, false, false));
     ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->I_added_new_widgets();
+
 
     float scale = 1.0f;
     while(1)

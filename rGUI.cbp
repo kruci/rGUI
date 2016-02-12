@@ -27,6 +27,8 @@
 				<Option object_output="obj/Release/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
+				<Option host_application="examples/example1.1" />
+				<Option run_host_application_in_terminal="0" />
 				<Option createDefFile="1" />
 				<Compiler>
 					<Add option="-O3" />
@@ -45,7 +47,7 @@
 		<Unit filename="src/Button.cpp" />
 		<Unit filename="src/CheckBox.cpp" />
 		<Unit filename="src/ClickableText.cpp" />
-		<Unit filename="src/Image.cpp" />
+		<Unit filename="src/InputField.cpp" />
 		<Unit filename="src/ScrollBar.cpp" />
 		<Unit filename="src/ScrollableArea.cpp" />
 		<Unit filename="src/SlideBar.cpp" />

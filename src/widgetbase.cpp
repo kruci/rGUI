@@ -4,6 +4,7 @@ namespace rGUI //mousestate
 {
     ALLEGRO_MOUSE_STATE *mouse_state;
     ALLEGRO_KEYBOARD_STATE *keyboard_state;
+
 }
 
 namespace rGUI //Mouse detector

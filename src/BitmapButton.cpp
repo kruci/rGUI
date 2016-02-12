@@ -5,6 +5,7 @@ namespace rGUI //BitmpaButton
     BitmapButton::BitmapButton(float x, float y, float width, float height, std::string image, Theme *thm, bool bitmaponly)
     : Widget(x,y,width,height, thm, bitmaponly) , delete_bitmap(true)
     {
+        wd_type = wt_BITMAPBUTTON;
         bmp = al_load_bitmap(image.c_str());
         if(bmp == nullptr)
         {
@@ -18,6 +19,7 @@ namespace rGUI //BitmpaButton
     BitmapButton::BitmapButton(float x, float y, float width, float height, ALLEGRO_BITMAP *image, Theme *thm, bool bitmaponly)
     : Widget(x,y,width,height, thm, bitmaponly) , bmp(image) , delete_bitmap(false)
     {
+        wd_type = wt_BITMAPBUTTON;
         bb_orig_width  = al_get_bitmap_width(bmp);
         bb_orig_height = al_get_bitmap_height(bmp);
     }
@@ -25,6 +27,7 @@ namespace rGUI //BitmpaButton
     BitmapButton::BitmapButton(float x, float y, std::string image, Theme *thm, bool bitmaponly)
     : Widget(x,y,1,1, thm, bitmaponly) , delete_bitmap(true)
     {
+        wd_type = wt_BITMAPBUTTON;
         bmp = al_load_bitmap(image.c_str());
         if(bmp == nullptr)
         {
@@ -41,6 +44,7 @@ namespace rGUI //BitmpaButton
     BitmapButton::BitmapButton(float x, float y, ALLEGRO_BITMAP *image, Theme *thm , bool bitmaponly)
     : Widget(x,y,1,1, thm, bitmaponly) , bmp(image) , delete_bitmap(false)
     {
+        wd_type = wt_BITMAPBUTTON;
         bb_orig_width  = al_get_bitmap_width(bmp);
         bb_orig_height = al_get_bitmap_height(bmp);
 
