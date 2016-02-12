@@ -34,6 +34,7 @@ namespace rGUI
     class SlideBar;
     class ScrollBar;
     class ScrollableArea;
+    class InputField;
 
 
 struct Theme{

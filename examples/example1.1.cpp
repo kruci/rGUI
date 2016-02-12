@@ -163,6 +163,12 @@ int main(int argc, char **argv)
                                                                 "Big Test Text", "Calibri.ttf", 0, 100, &tmh, false));
     ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->widgets.push_back(new rGUI::CheckBox(10,
                                                                         150, 25, 25, &tmh, true));
+    ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->widgets.push_back(new rGUI::BitmapButton(10,1500, "image.jpg", &tmh, false));
+    //this disables Bitmapbutton clicking shadow -> it can be use as causual image
+    ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->
+        widgets[((rGUI::ScrollableArea*)widgets[widgets.size()-1])->
+        widgets.size() - 1]->wd_md->md_active = false;
+
     ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->I_added_new_widgets();
 
     float scale = 1.0f;

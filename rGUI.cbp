@@ -45,6 +45,7 @@
 		<Unit filename="src/Button.cpp" />
 		<Unit filename="src/CheckBox.cpp" />
 		<Unit filename="src/ClickableText.cpp" />
+		<Unit filename="src/Image.cpp" />
 		<Unit filename="src/ScrollBar.cpp" />
 		<Unit filename="src/ScrollableArea.cpp" />
 		<Unit filename="src/SlideBar.cpp" />
