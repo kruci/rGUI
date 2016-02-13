@@ -108,10 +108,13 @@ namespace rGUI //ScrollableArea
 
         for(int a = 0; a < (int)widgets.size();a++)
         {
-            if( ((widgets[a]->orig_x1 - scb_horizontal->change >= 0) ||
-                 (widgets[a]->orig_x2 - scb_horizontal->change >= 0)) &&
-                ((widgets[a]->orig_y1 - scb_vertical->change >= 0) ||
-                 (widgets[a]->orig_y2 - scb_vertical->change >= 0)) )
+            if(( (widgets[a]->orig_x1 >= scb_horizontal->change && widgets[a]->orig_x1 <= scb_horizontal->change + wd_width)
+                 || (widgets[a]->orig_x2 >= scb_horizontal->change && widgets[a]->orig_x2 <= scb_horizontal->change + wd_width)
+                 || (widgets[a]->orig_x1 <= scb_horizontal->change && widgets[a]->orig_x2 >= scb_horizontal->change + wd_width)
+                ) && (
+                (widgets[a]->orig_y1 >= scb_vertical->change && widgets[a]->orig_y1 <= scb_vertical->change + wd_height)
+                 || (widgets[a]->orig_y2 >= scb_vertical->change && widgets[a]->orig_y2 <= scb_vertical->change + wd_height)
+                 || (widgets[a]->orig_y1 <= scb_vertical->change && widgets[a]->orig_y2 >= scb_vertical->change + wd_height)))
             {
                 widgets[a]->Change_coords(widgets[a]->orig_x1 - scb_horizontal->change,
                     widgets[a]->orig_y1 - scb_vertical->change, widgets[a]->wd_width, widgets[a]->wd_height);
