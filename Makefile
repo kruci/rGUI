@@ -11,30 +11,30 @@ AR = ar
 LD = g++
 WINDRES = windres
 
-INC = 
-CFLAGS = -O3 -Wall -std=c++14
+INC = -I../rGUI -Isrc
+CFLAGS = -O3 -std=c++14
 RESINC = 
 LIBDIR = 
-LIB = 
-LDFLAGS = 
+LIB = ../../../../../usr/local/lib/liballegro.so ../../../../../usr/local/lib/liballegro_acodec.so ../../../../../usr/local/lib/liballegro_audio.so ../../../../../usr/local/lib/liballegro_color.so ../../../../../usr/local/lib/liballegro_dialog.so ../../../../../usr/local/lib/liballegro_font.so ../../../../../usr/local/lib/liballegro_image.so ../../../../../usr/local/lib/liballegro_main.so ../../../../../usr/local/lib/liballegro_memfile.so ../../../../../usr/local/lib/liballegro_physfs.so ../../../../../usr/local/lib/liballegro_primitives.so ../../../../../usr/local/lib/liballegro_ttf.so ../../../../../usr/local/lib/liballegro_video.so
+LDFLAGS = -s
 
-INC_DEBUG = $(INC) -I../rGUI
-CFLAGS_DEBUG = $(CFLAGS) -Wall -g
+INC_DEBUG = $(INC) -I../rGUI -Isrc
+CFLAGS_DEBUG = $(CFLAGS) -Wall -std=c++14 -pg -g
 RESINC_DEBUG = $(RESINC)
 RCFLAGS_DEBUG = $(RCFLAGS)
 LIBDIR_DEBUG = $(LIBDIR)
-LIB_DEBUG = $(LIB)
-LDFLAGS_DEBUG = $(LDFLAGS)
+LIB_DEBUG = $(LIB)-l../../../../../usr/local/lib/liballegro.so -l../../../../../usr/local/lib/liballegro_acodec.so -l../../../../../usr/local/lib/liballegro_audio.so -l../../../../../usr/local/lib/liballegro_color.so -l../../../../../usr/local/lib/liballegro_dialog.so -l../../../../../usr/local/lib/liballegro_font.so -l../../../../../usr/local/lib/liballegro_image.so -l../../../../../usr/local/lib/liballegro_main.so -l../../../../../usr/local/lib/liballegro_memfile.so -l../../../../../usr/local/lib/liballegro_physfs.so -l../../../../../usr/local/lib/liballegro_primitives.so -l../../../../../usr/local/lib/liballegro_ttf.so -l../../../../../usr/local/lib/liballegro_video.so
+LDFLAGS_DEBUG = $(LDFLAGS) -pg
 OBJDIR_DEBUG = obj/Debug
 DEP_DEBUG = 
 OUT_DEBUG = bin/Debug/librGUI.a
 
-INC_RELEASE = $(INC) -I../rGUI
+INC_RELEASE = $(INC) -I../rGUI -Isrc
 CFLAGS_RELEASE = $(CFLAGS) -O3 -Wall -std=c++14
 RESINC_RELEASE = $(RESINC)
 RCFLAGS_RELEASE = $(RCFLAGS)
 LIBDIR_RELEASE = $(LIBDIR)
-LIB_RELEASE = $(LIB)
+LIB_RELEASE = $(LIB)-l../../../../../usr/local/lib/liballegro.so -l../../../../../usr/local/lib/liballegro_acodec.so -l../../../../../usr/local/lib/liballegro_audio.so -l../../../../../usr/local/lib/liballegro_color.so -l../../../../../usr/local/lib/liballegro_dialog.so -l../../../../../usr/local/lib/liballegro_font.so -l../../../../../usr/local/lib/liballegro_image.so -l../../../../../usr/local/lib/liballegro_main.so -l../../../../../usr/local/lib/liballegro_memfile.so -l../../../../../usr/local/lib/liballegro_physfs.so -l../../../../../usr/local/lib/liballegro_primitives.so -l../../../../../usr/local/lib/liballegro_ttf.so -l../../../../../usr/local/lib/liballegro_video.so
 LDFLAGS_RELEASE = $(LDFLAGS) -s
 OBJDIR_RELEASE = obj/Release
 DEP_RELEASE = 

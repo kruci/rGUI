@@ -124,6 +124,7 @@ namespace rGUI //BigBitmap
         al_set_target_bitmap(tmpbmp);
         al_clear_to_color(c_clear);
 
+        al_hold_bitmap_drawing(true);
         for(int h = start_h; h < fin_h; h++)
         {
             for(int w = start_w; w < fin_w; w++)
@@ -131,6 +132,7 @@ namespace rGUI //BigBitmap
                 al_draw_bitmap(bitmaps[h*w_regions + w], (w-start_w)*region_size_w - offset_w, (h-start_h)*region_size_h - offset_h, 0);
             }
         }
+        al_hold_bitmap_drawing(false);
         al_set_target_bitmap(restoreto);
         al_draw_bitmap(tmpbmp, dx, dy, flags);
         return true;
@@ -153,6 +155,7 @@ namespace rGUI //BigBitmap
         al_set_target_bitmap(tmpbmp);
         al_clear_to_color(c_clear);
 
+        al_hold_bitmap_drawing(true);
         for(int h = start_h; h < fin_h; h++)
         {
             for(int w = start_w; w < fin_w; w++)
@@ -160,6 +163,7 @@ namespace rGUI //BigBitmap
                 al_draw_bitmap(bitmaps[h*w_regions + w], (w-start_w)*region_size_w - offset_w, (h-start_h)*region_size_h - offset_h, 0);
             }
         }
+        al_hold_bitmap_drawing(false);
         al_set_target_bitmap(restoreto);
         al_draw_bitmap(tmpbmp, dx, dy, flags);
         return true;

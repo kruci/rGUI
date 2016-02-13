@@ -21,6 +21,8 @@ namespace rGUI //ClickableText
         wd_c_background = al_map_rgba(0,0,0,0);
         wd_c_outline = al_map_rgba(0,0,0,0);
 
+        orig_x2 = orig_x1 + wd_width;
+        orig_y2 = orig_y1 + wd_height;
         if(bitmap_only == true)
         {
             wd_x1 = 0;
@@ -41,6 +43,9 @@ namespace rGUI //ClickableText
         wd_md->Change_coords_r(wd_x1, wd_y1, wd_width, wd_height);
         wd_c_background = al_map_rgba(0,0,0,0);
         wd_c_outline = al_map_rgba(0,0,0,0);
+
+        orig_x2 = orig_x1 + wd_width;
+        orig_y2 = orig_y1 + wd_height;
 
         if(bitmap_only == true)
         {

@@ -36,7 +36,8 @@ namespace rGUI //BitmpaButton
         }
         bb_orig_width  = al_get_bitmap_width(bmp);
         bb_orig_height = al_get_bitmap_height(bmp);
-
+        orig_x2 = orig_x1 + bb_orig_width;
+        orig_y2 = orig_y1 + bb_orig_height;
         wd_Change_coords(x, y, bb_orig_width, bb_orig_height);
         wd_md->Change_coords_r(x, y, bb_orig_width, bb_orig_height);
     }
@@ -47,7 +48,8 @@ namespace rGUI //BitmpaButton
         wd_type = wt_BITMAPBUTTON;
         bb_orig_width  = al_get_bitmap_width(bmp);
         bb_orig_height = al_get_bitmap_height(bmp);
-
+        orig_x2 = orig_x1 + bb_orig_width;
+        orig_y2 = orig_y1 + bb_orig_height;
         wd_Change_coords(x, y, bb_orig_width, bb_orig_height);
         wd_md->Change_coords_r(x, y, bb_orig_width, bb_orig_height);
     }
