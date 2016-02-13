@@ -5,6 +5,7 @@ namespace rGUI //InputField
     InputField::InputField(float x, float y, float width, float height, std::string font_file, Theme *thm, float FPS, bool bitmap_only)
     : Widget(x,y,width, height, thm, false), font_file(font_file), if_FPS(FPS), bmp_only(bitmap_only)
     {
+        wd_extented_input = true;
         wd_type = wt_INPUTFIELD;
         font_height = wd_height - 4 - wd_thickness*2.0f;
 
@@ -29,6 +30,7 @@ namespace rGUI //InputField
                             std::string font_file, Theme *thm, float FPS, bool bitmap_only)
     : Widget(x,y,width, height, thm, false), font_file(font_file), if_FPS(FPS), bmp_only(bitmap_only), text(init_text)
     {
+        wd_extented_input = true;
         wd_type = wt_INPUTFIELD;
         font_height = wd_height - 4 - wd_thickness*2.0f;
 

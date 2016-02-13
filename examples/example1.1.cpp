@@ -154,6 +154,7 @@ int main(int argc, char **argv)
     tmh.roundx = 2;
     tmh.roundy = 2;
     widgets.push_back(new rGUI::InputField(10, 400, 100, 45, "Calibri.ttf", &tmh, FPS, false));
+    widgets.push_back(new rGUI::SingleKeyInputField(130,400,200,45, 55, "Calibri.ttf", &tmh, false));
 
     widgets.push_back(new rGUI::ScrollableArea(320, 10,300,200,1000,1000,&tmh, 14));
 
@@ -174,6 +175,8 @@ int main(int argc, char **argv)
 
     ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->widgets.push_back(new rGUI::InputField(10,
                                                                         400, 100, 45, "Calibri.ttf", &tmh, FPS, false));
+    ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->widgets.push_back(new rGUI::SingleKeyInputField(130,
+                                                                                    400,200,45, 55, "Calibri.ttf", &tmh, false));
     ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->widgets.push_back(new rGUI::SlideBar(600,
                                                                                              100, 100, 30, 1, 50, &tmh, false, false));
     ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->I_added_new_widgets();

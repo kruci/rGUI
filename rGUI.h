@@ -26,7 +26,7 @@ namespace rGUI
     enum WidgetsTypes
     {
         wt_BUTTON, wt_CHECKBOX, wt_BITMAPBUTTON, wt_CLICKABLETEXT, wt_INPUTFIELD, wt_SCROLLABLEAREA,
-        wt_SCROLLBAR, wt_SLIDEBAR, wt_WIDGET
+        wt_SCROLLBAR, wt_SLIDEBAR, wt_WIDGET, wt_SINGLEKEYINPUTFIELD
     };
 
     struct Theme;
@@ -41,7 +41,7 @@ namespace rGUI
     class ScrollBar;
     class ScrollableArea;
     class InputField;
-
+    class SingleKeyInputField;
 
 struct Theme{
     float roundx = 0;
@@ -105,6 +105,7 @@ public:
     float wd_x1, wd_y1, wd_x2, wd_y2, wd_width, wd_height;
     float orig_x1, orig_x2, orig_y1, orig_y2;
     bool wd_bitmap_only = false;
+    bool wd_extented_input = false;
     float wd_roundx = 0, wd_roundy = 0, wd_thickness = 1, wd_added_thickness = 1;
     ALLEGRO_COLOR wd_c_outline = al_map_rgb(255,255,255),
                   wd_c_background = al_map_rgb(0,0,66),
@@ -312,7 +313,7 @@ public:
 
 class InputField : public Widget
 {
-private:
+public:
     std::string font_file;
     float texty_shift, text_x, text_y, text_width, font_height;
     float bar_x = 4;
@@ -321,7 +322,7 @@ private:
     bool bmp_only = false;
 
     void recalculate_text();
-public:
+//public:
     float if_FPS;
     float bar_width = 3;
     float bar_char_poz = 0;
@@ -334,11 +335,25 @@ public:
                std::string font_file, Theme *thm, float FPS, bool bitmap_only);
     ~InputField();
 
-    int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
-    void Print();
+    virtual int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
+    virtual void Print();
 
     /*void Change_coords(float x1, float y1, float width, float height);
     void Change_coords_r(float &x1, float &y1, float &width, float &height);*/
+};
+
+class SingleKeyInputField : public InputField
+{
+public:
+    int al_key;
+
+    SingleKeyInputField(float x, float y, float width, float height, std::string font_file, Theme *thm, bool bitmap_only);
+    SingleKeyInputField(float x, float y, float width, float height, int init_key, std::string font_file,
+                        Theme *thm, bool bitmap_only);
+    ~SingleKeyInputField();
+
+    int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
+    void Print();
 };
 
 }

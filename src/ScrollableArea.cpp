@@ -81,9 +81,9 @@ namespace rGUI //ScrollableArea
         }
         for(int a = 0; a < (int)widgets.size();a++)
         {
-            if((wd_md->md_mouse_on_it == false && widgets[a]->wd_md->md_clicked == true &&
-               (widgets[a]->wd_type == wt_SLIDEBAR || widgets[a]->wd_type == wt_INPUTFIELD ) &&
-               (ev.type == ALLEGRO_EVENT_MOUSE_AXES || ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN || ev.type == ALLEGRO_EVENT_KEY_CHAR))
+            if( (wd_md->md_mouse_on_it == false && widgets[a]->wd_md->md_clicked == true && widgets[a]->wd_extented_input == true &&
+               (ev.type == ALLEGRO_EVENT_MOUSE_AXES || ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN ||
+                ev.type == ALLEGRO_EVENT_KEY_CHAR || ev.type == ALLEGRO_EVENT_KEY_DOWN))
                || wd_md->md_mouse_on_it == true) // SLOW ?
             {
                 widgets[a]->wd_md->Change_coords(wd_x1 + widgets[a]->orig_x1 - scb_horizontal->change,

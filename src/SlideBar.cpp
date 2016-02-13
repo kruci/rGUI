@@ -7,6 +7,7 @@ namespace rGUI //SlideBars
     : Widget(x,y, width, height, thm, bitmaponly), vertical(vertical), val_min(minval),
     val_max(maxval), value(minval), values(maxval - minval + 1)
     {
+        wd_extented_input = true;
         wd_type = wt_SLIDEBAR;
         sb_mouse_z = mouse_state->z;
         if(vertical == false)
