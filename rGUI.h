@@ -106,6 +106,7 @@ public:
     float orig_x1, orig_x2, orig_y1, orig_y2;
     bool wd_bitmap_only = false;
     bool wd_extented_input = false;
+    bool print_active = true;
     float wd_roundx = 0, wd_roundy = 0, wd_thickness = 1, wd_added_thickness = 1;
     ALLEGRO_COLOR wd_c_outline = al_map_rgb(255,255,255),
                   wd_c_background = al_map_rgb(0,0,66),
@@ -294,6 +295,7 @@ class ScrollableArea : public Widget
 private:
     void sca_recalculate_sc_bars();
 public:
+    bool scb_vertical_active = true, scb_horizontal_active = true;
     float r_size_w, r_size_h;
     float scb_thickness = 14;
     std::vector<Widget*> widgets;
@@ -307,6 +309,8 @@ public:
 
     int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
     void Print();
+    void Set_vertical_sba_status(bool enabled);
+    void Set_horizontal_sba_status(bool enabled);
 
     void I_added_new_widgets();
 };

@@ -283,27 +283,14 @@ namespace rGUI //Widget
             al_set_target_bitmap(wd_bmp);
             al_clear_to_color(al_map_rgba(0,0,0,0));
         }
-
-        /*al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_roundx, wd_roundy, wd_c_background);
-        al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_roundx, wd_roundy, wd_c_outline, wd_thickness);*/
-
+        else if(print_active == false)
+        {
+            return;
+        }
     }
 
     void Widget::wd_PrintEnd()
     {
-        /*if(wd_md->md_mouse_on_it == true)
-        {
-            al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_roundx, wd_roundy, wd_c_outline, wd_thickness + wd_added_thickness);
-            if(wd_md->md_clicking == true)
-            {
-                al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_roundx, wd_roundy, wd_c_clicking);
-            }
-        }*/
-
         if(wd_bitmap_only == true)
         {
             al_set_target_bitmap(wd_ref_bmp);

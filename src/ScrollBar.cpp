@@ -64,7 +64,8 @@ namespace rGUI //ScrollBar
 
     int ScrollBar::Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley)
     {
-        wd_md->Input(ev, scalex, scaley);
+        if(wd_md->Input(ev, scalex, scaley) == 9)
+            return 9;
 
         if(wd_md->md_clicking == true || (wd_md->md_clicked == true && (rGUI::mouse_state->buttons & wd_mouse_button)))
         {
@@ -124,7 +125,8 @@ namespace rGUI //ScrollBar
 
     void ScrollBar::Scrolling_input(ALLEGRO_EVENT &ev, float &scalex, float &scaley)
     {
-        //wd_md->md_clicked = false;
+        if(wd_md->md_active == false)
+            return;
 
         if(scb_mouse_z - mouse_state->z > 0)
         {

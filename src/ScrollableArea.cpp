@@ -103,7 +103,7 @@ namespace rGUI //ScrollableArea
 
         al_draw_filled_rounded_rectangle(0, 0, wd_width, wd_height,
                                 wd_roundx, wd_roundy, wd_c_background);
-        al_draw_rounded_rectangle(1, 0, wd_width, wd_height,
+        al_draw_rounded_rectangle(1, 0, wd_width, wd_height-1,
                                 wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
 
         for(int a = 0; a < (int)widgets.size();a++)
@@ -150,6 +150,66 @@ namespace rGUI //ScrollableArea
 
         scb_horizontal->Change_real_size_r(wid);
         scb_vertical->Change_real_size_r(hei);
+    }
+
+    void ScrollableArea::Set_vertical_sba_status(bool enabled)
+    {
+        if(enabled == true && scb_vertical_active == false)
+        {
+            scb_vertical_active = true;
+            scb_vertical->change = 0;
+            scb_vertical->print_active = true;
+            scb_vertical->wd_md->md_active = true;
+            wd_height = wd_height + scb_thickness;
+            if(wd_bmp != nullptr)
+            {
+                al_destroy_bitmap(wd_bmp);
+            }
+            wd_bmp = al_create_bitmap(wd_width, wd_height);
+        }
+        else if(enabled == false && scb_vertical_active == true)
+        {
+            scb_vertical_active = false;
+            scb_vertical->change = 0;
+            scb_vertical->print_active = false;
+            scb_vertical->wd_md->md_active = false;
+            wd_height = wd_height - scb_thickness;
+            if(wd_bmp != nullptr)
+            {
+                al_destroy_bitmap(wd_bmp);
+            }
+            wd_bmp = al_create_bitmap(wd_width, wd_height);
+        }
+    }
+
+    void ScrollableArea::Set_horizontal_sba_status(bool enabled)
+    {
+        if(enabled == true && scb_horizontal_active == false)
+        {
+            scb_horizontal_active = true;
+            scb_horizontal->change = 0;
+            scb_horizontal->print_active = true;
+            scb_horizontal->wd_md->md_active = true;
+            wd_width = wd_width + scb_thickness;
+            if(wd_bmp != nullptr)
+            {
+                al_destroy_bitmap(wd_bmp);
+            }
+            wd_bmp = al_create_bitmap(wd_width, wd_height);
+        }
+        else if(enabled == false && scb_horizontal_active == true)
+        {
+            scb_horizontal_active = false;
+            scb_horizontal->change = 0;
+            scb_horizontal->print_active = false;
+            scb_horizontal->wd_md->md_active = false;
+            wd_width = wd_width - scb_thickness;
+            if(wd_bmp != nullptr)
+            {
+                al_destroy_bitmap(wd_bmp);
+            }
+            wd_bmp = al_create_bitmap(wd_width, wd_height);
+        }
     }
 
 }
