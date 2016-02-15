@@ -60,6 +60,8 @@ namespace rGUI //ScrollableArea
 
     int ScrollableArea::Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley)
     {
+        if(wd_md->md_active == false)
+            return 9;
         wd_md->Input(ev, scalex, scaley);
 
         if(wd_md->md_mouse_on_it == true)
@@ -97,6 +99,9 @@ namespace rGUI //ScrollableArea
 
     void ScrollableArea::Print()
     {
+        if(print_active == false)
+            return ;
+
         wd_ref_bmp = al_get_target_bitmap();
         al_set_target_bitmap(wd_bmp);
         al_clear_to_color(al_map_rgba(0,0,0,0));

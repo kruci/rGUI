@@ -131,7 +131,7 @@ namespace rGUI //InputField
 
         wd_PrintBegin();
 
-        if(wd_md->md_clicked == true && if_a <= if_FPS)
+        /*if(wd_md->md_clicked == true && if_a <= if_FPS)
         {
             al_draw_filled_rectangle(bar_x - texty_shift, text_y, bar_x - texty_shift + bar_width,
                                      text_y + font_height, wd_c_text);
@@ -140,7 +140,7 @@ namespace rGUI //InputField
         {
             if_a = 0;
         }
-        if_a++;
+        if_a++;*/
 
         al_draw_filled_rounded_rectangle(0 + wd_thickness/2.0f, 0 + wd_thickness/2.0f,
                                          wd_width- wd_thickness/2.0f, wd_height- wd_thickness/2.0f,
@@ -152,10 +152,21 @@ namespace rGUI //InputField
         if(wd_md->md_clicked == true)
         {
             al_draw_rounded_rectangle(0 + wd_thickness/2.0f + wd_added_thickness/2.0f + 1,
-                                      0 + wd_thickness/2.0f + wd_added_thickness/2.0f,
-                                      wd_width - wd_thickness/2.0f - wd_added_thickness/2.0f,
-                                      wd_height- wd_thickness/2.0f - wd_added_thickness/2.0f -1,
-                                      wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
+            0 + wd_thickness/2.0f + wd_added_thickness/2.0f,
+            wd_width - wd_thickness/2.0f - wd_added_thickness/2.0f,
+            wd_height- wd_thickness/2.0f - wd_added_thickness/2.0f -1,
+            wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
+
+            if(if_a <= if_FPS)
+            {
+                al_draw_filled_rectangle(bar_x - texty_shift, text_y, bar_x - texty_shift + bar_width,
+                text_y + font_height, wd_c_text);
+            }
+            if(if_a > if_FPS*2.0f)
+            {
+                if_a = 0;
+            }
+            if_a++;
         }
 
         wd_PrintEnd();

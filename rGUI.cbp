@@ -46,7 +46,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
-				<Option host_application="examples/example1.1" />
+				<Option host_application="examples/example1.2" />
 				<Option run_host_application_in_terminal="0" />
 				<Option createDefFile="1" />
 				<Compiler>

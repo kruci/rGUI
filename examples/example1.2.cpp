@@ -119,6 +119,7 @@ int main(int argc, char **argv)
 
     ALLEGRO_MOUSE_STATE ms;
     rGUI::mouse_state = &ms;
+    rGUI::keyboard_state = new ALLEGRO_KEYBOARD_STATE;
     rGUI::Theme tmh;
     tmh.c_text = al_map_rgb(255,255,255);
     tmh.c_outline = al_map_rgb(255,0,0);
@@ -146,7 +147,9 @@ int main(int argc, char **argv)
     widgets.push_back(new rGUI::SlideBar(10,10, 30, 120, 0, 100, &tmh, true, false));
     widgets.push_back(new rGUI::BitmapButton(10, 140, "button.png", &tmh, false));
     widgets.push_back(new rGUI::BitmapButton(10, 190,100, 45, "button.png", &tmh, false));
-
+    widgets.push_back(new rGUI::ScrollBar(200, 10, 14, 282, 2500, &tmh, true, false));
+    widgets.push_back(new rGUI::InputField(10, 260, 80, 32, "Calibri.ttf", &tmh, FPS, false));
+    widgets.push_back(new rGUI::SingleKeyInputField(100, 260, 80, 32, "Calibri.ttf",&tmh, false ));
 
     int tx = 1, ty = 0, x = 1, y = 1;
     float scale = 1;
@@ -156,6 +159,7 @@ int main(int argc, char **argv)
         al_wait_for_event(event_queue, &ev);
 
         al_get_mouse_state(&ms);
+        al_get_keyboard_state(rGUI::keyboard_state);
 
         if(ev.type == ALLEGRO_EVENT_TIMER)
         {
@@ -189,6 +193,7 @@ int main(int argc, char **argv)
             al_draw_bitmap(bouncer, bouncer_x, bouncer_y, 0);
 
             ((rGUI::ClickableText*)widgets[2])->text = std::to_string(((rGUI::SlideBar*)widgets[4])->value);
+            //tx = 0;
             for(int a = 0;a < (int)widgets.size();a++)
             {
                 widgets[a]->Change_coords(widgets[a]->wd_x1 +tx, widgets[a]->wd_y1 + ty, widgets[a]->wd_width, widgets[a]->wd_height);

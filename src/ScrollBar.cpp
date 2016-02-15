@@ -193,6 +193,7 @@ namespace rGUI //ScrollBar
     void ScrollBar::Change_coords(float x1, float y1, float width, float height)
     {
         wd_Change_coords_r(x1,y1,width, height);
+        wd_md->Change_coords_r(x1,y1,width,height);
         scb_recalculate_rb_ratio();
         scb_recalculate_scroller_poz();
     }
@@ -200,6 +201,7 @@ namespace rGUI //ScrollBar
     void ScrollBar::Change_coords_r(float &x1, float &y1, float &width, float &height)
     {
         wd_Change_coords_r(x1,y1,width, height);
+        wd_md->Change_coords_r(x1,y1,width,height);
         scb_recalculate_rb_ratio();
         scb_recalculate_scroller_poz();
     }

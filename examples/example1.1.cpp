@@ -154,7 +154,7 @@ int main(int argc, char **argv)
     tmh.roundx = 2;
     tmh.roundy = 2;
     widgets.push_back(new rGUI::InputField(10, 400, 100, 45, "Calibri.ttf", &tmh, FPS, false));
-     widgets.push_back(new rGUI::InputField(10, 450, 100, 25, "Calibri.ttf", &tmh, FPS, false));
+    widgets.push_back(new rGUI::InputField(10, 450, 100, 25, "Calibri.ttf", &tmh, FPS, false));
     widgets.push_back(new rGUI::SingleKeyInputField(130,400,200,45, 55, "Calibri.ttf", &tmh, false));
 
     widgets.push_back(new rGUI::ScrollableArea(320, 10,300,200,1000,1000,&tmh, 14));
@@ -181,8 +181,21 @@ int main(int argc, char **argv)
     ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->widgets.push_back(new rGUI::SlideBar(600,
                                                                                              100, 100, 30, 1, 50, &tmh, false, false));
     ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->I_added_new_widgets();
-    /*((rGUI::ScrollableArea*)widgets[widgets.size()-1])->Set_vertical_sba_status(false);
-    ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->Set_horizontal_sba_status(false);*/
+
+
+    widgets.push_back(new rGUI::Button(400,400,150,68,"Close", "Calibri.ttf",&tmh));
+    tmh.c_background = al_map_rgb(88,88,88);
+    widgets.push_back(new rGUI::ScrollableArea(100, 100, SCREEN_W - 200,SCREEN_H - 200 ,1000,1000,&tmh, 14));
+    ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->Set_vertical_sba_status(false);
+    ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->Set_horizontal_sba_status(false);
+    ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->widgets.push_back(new rGUI::Button(20, SCREEN_H - 200 - 60,
+                                                            80, 32, "End", "Calibri.ttf", &tmh));
+    ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->widgets.push_back(new rGUI::Button(SCREEN_W - 200 - 100,
+                                            SCREEN_H - 200 - 60, 80, 32, "Cancel", "Calibri.ttf", &tmh));
+     ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->widgets.push_back(new rGUI::ClickableText(15, 100,
+                                                            "Do you rly want end the fun?", font, 0,&tmh, false));
+    ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->print_active = false;
+    ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->wd_md->md_active = false;
 
     float scale = 1.0f;
     while(1)
@@ -214,6 +227,31 @@ int main(int argc, char **argv)
         for(int a = 0;a < (int)widgets.size();a++)
         {
             widgets[a]->Input(ev, aaa, aaa);
+        }
+
+        if(widgets[14]->wd_md->md_clicked == true)
+        {
+            widgets[14]->wd_md->md_clicked = false;
+            for(int a = 0;a < (int)widgets.size();a++)
+            {
+                widgets[a]->wd_md->md_active = false;
+            }
+            widgets[15]->wd_md->md_active = true;
+            widgets[15]->print_active = true;
+        }
+        else if(((rGUI::ScrollableArea*)widgets[15])->widgets[0]->wd_md->md_clicked == true)
+        {
+            break;
+        }
+        else if(((rGUI::ScrollableArea*)widgets[15])->widgets[1]->wd_md->md_clicked == true)
+        {
+            ((rGUI::ScrollableArea*)widgets[15])->widgets[1]->wd_md->md_clicked = false;
+            for(int a = 0;a < (int)widgets.size();a++)
+            {
+                widgets[a]->wd_md->md_active = true;
+            }
+            widgets[15]->wd_md->md_active = false;
+            widgets[15]->print_active = false;
         }
 
         if(redraw && al_is_event_queue_empty(event_queue))
