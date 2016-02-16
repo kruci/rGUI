@@ -153,8 +153,8 @@ int main(int argc, char **argv)
     tmh.c_background = al_map_rgba(40,40,40,150);
     tmh.roundx = 2;
     tmh.roundy = 2;
-    widgets.push_back(new rGUI::InputField(10, 400, 100, 45, "Calibri.ttf", &tmh, FPS, false));
-    widgets.push_back(new rGUI::InputField(10, 450, 100, 25, "Calibri.ttf", &tmh, FPS, false));
+    widgets.push_back(new rGUI::InputField(10, 400, 100, 45, "GFSArtemisia.ttf", &tmh, FPS, false));
+    widgets.push_back(new rGUI::InputField(10, 450, 100, 25, "GFSArtemisia.ttf", &tmh, FPS, false));
     widgets.push_back(new rGUI::SingleKeyInputField(130,400,200,45, 55, "Calibri.ttf", &tmh, false));
 
     widgets.push_back(new rGUI::ScrollableArea(320, 10,300,200,1000,1000,&tmh, 14));

@@ -317,6 +317,11 @@ public:
 
 class InputField : public Widget
 {
+private:
+    std::string if_help_string;
+    ALLEGRO_USTR *if_help_ustr = nullptr;
+    ALLEGRO_USTR *if_help_ustr2 = nullptr;
+    int if_help_var = 0;
 public:
     std::string font_file;
     float texty_shift, text_x, text_y, text_width, font_height;
@@ -329,7 +334,7 @@ public:
 //public:
     float if_FPS;
     float bar_width = 3;
-    float bar_char_poz = 0;
+    int bar_char_poz = 0;
     std::string text;
     ALLEGRO_USTR *al_text = nullptr;
     int lenght_limit = 500;
