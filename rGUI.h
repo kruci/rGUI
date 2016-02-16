@@ -187,7 +187,7 @@ public:
 };
 
 class SlideBar : public Widget{
-    float line_y1, line_y2, line_x1, line_x2;
+    float line_y1, line_y2, line_x1, line_x2, line_width, line_height;
     float slide_x1, slide_y1, slide_x2, slide_y2;
     float line_thickness = 11, slide_height = line_thickness*3, slide_width = slide_height/3.0f;
     float poz;
