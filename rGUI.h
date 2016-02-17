@@ -367,7 +367,13 @@ public:
 
 class Label : public ClickableText
 {
+public:
+    Label(float x1, float y1, float width, float height, std::string texts,
+          std::string font_file, int allegro_text_flag,Theme *thm, bool bitmap_only);
+    ~Label();
 
+    int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
+    void Print();
 };
 
 }
