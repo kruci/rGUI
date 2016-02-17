@@ -132,7 +132,7 @@ int main(int argc, char **argv)
 
     std::vector<rGUI::Widget*>widgets;
 
-    widgets.push_back(new rGUI::Button(50,10,100,45,"TText", "Calibri.ttf",&tmh));
+    widgets.push_back(new rGUI::Button(50,10,100,45,"Standart long text", "Calibri.ttf",&tmh));
     widgets.push_back(new rGUI::CheckBox(50,70, 25, 25, &tmh, true));
     tmh.roundx = 12;
     tmh.roundy = 12;

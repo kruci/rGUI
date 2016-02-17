@@ -365,5 +365,10 @@ public:
     void Print();
 };
 
+class Label : public ClickableText
+{
+
+};
+
 }
 #endif // _RGUI_H__
