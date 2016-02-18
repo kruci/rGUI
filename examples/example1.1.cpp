@@ -182,8 +182,21 @@ int main(int argc, char **argv)
                                                                                              100, 100, 30, 1, 50, &tmh, false, false));
     ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->I_added_new_widgets();
 
+    tmh.c_outline = al_map_rgba(0,0,0,0);
+    tmh.c_background = al_map_rgba(0,0,0,0);
+    tmh.c_text = al_map_rgb(255,215,0);
+    widgets.push_back(new rGUI::Label(30, 280, 300, 40, "Test Label with no outline, nor background", "Calibri.ttf",
+                                      1, &tmh, false));
+    tmh.c_outline = al_map_rgb(0,0,0);
+    widgets.push_back(new rGUI::Label(30, 330, 300, "Font label ypq", font, 0, &tmh, false));
+    widgets.push_back(new rGUI::Label(340, 260, 300, 200, "Some long test text, propably something copyed form THE internet :D "
+                                      , "Calibri.ttf", 35, ALLEGRO_ALIGN_CENTER, &tmh, false));
+    /*widgets.push_back(new rGUI::Label(340, 260, 300, 200, "Some long test text, propably something copyed form THE internet :D "
+                                      , font, ALLEGRO_ALIGN_CENTER, &tmh, false));*/
 
+    tmh.c_background = al_map_rgb(150,22,86);
     widgets.push_back(new rGUI::Button(400,400,150,68,"Close", "Calibri.ttf",&tmh));
+    int dialpoz = widgets.size();
     tmh.c_background = al_map_rgb(88,88,88);
     widgets.push_back(new rGUI::ScrollableArea(100, 100, SCREEN_W - 200,SCREEN_H - 200 ,1000,1000,&tmh, 14));
     ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->Set_vertical_sba_status(false);
@@ -196,6 +209,7 @@ int main(int argc, char **argv)
                                                             "Do you rly want end the fun?", font, 0,&tmh, false));
     ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->print_active = false;
     ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->wd_md->md_active = false;
+
 
     float scale = 1.0f;
     while(1)
@@ -229,29 +243,29 @@ int main(int argc, char **argv)
             widgets[a]->Input(ev, aaa, aaa);
         }
 
-        if(widgets[14]->wd_md->md_clicked == true)
+        if(widgets[dialpoz-1]->wd_md->md_clicked == true)
         {
-            widgets[14]->wd_md->md_clicked = false;
+            widgets[dialpoz-1]->wd_md->md_clicked = false;
             for(int a = 0;a < (int)widgets.size();a++)
             {
                 widgets[a]->wd_md->md_active = false;
             }
-            widgets[15]->wd_md->md_active = true;
-            widgets[15]->print_active = true;
+            widgets[dialpoz]->wd_md->md_active = true;
+            widgets[dialpoz]->print_active = true;
         }
-        else if(((rGUI::ScrollableArea*)widgets[15])->widgets[0]->wd_md->md_clicked == true)
+        else if(((rGUI::ScrollableArea*)widgets[dialpoz])->widgets[0]->wd_md->md_clicked == true)
         {
             break;
         }
-        else if(((rGUI::ScrollableArea*)widgets[15])->widgets[1]->wd_md->md_clicked == true)
+        else if(((rGUI::ScrollableArea*)widgets[dialpoz])->widgets[1]->wd_md->md_clicked == true)
         {
-            ((rGUI::ScrollableArea*)widgets[15])->widgets[1]->wd_md->md_clicked = false;
+            ((rGUI::ScrollableArea*)widgets[dialpoz])->widgets[1]->wd_md->md_clicked = false;
             for(int a = 0;a < (int)widgets.size();a++)
             {
                 widgets[a]->wd_md->md_active = true;
             }
-            widgets[15]->wd_md->md_active = false;
-            widgets[15]->print_active = false;
+            widgets[dialpoz]->wd_md->md_active = false;
+            widgets[dialpoz]->print_active = false;
         }
 
         if(redraw && al_is_event_queue_empty(event_queue))

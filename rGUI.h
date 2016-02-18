@@ -26,7 +26,7 @@ namespace rGUI
     enum WidgetsTypes
     {
         wt_BUTTON, wt_CHECKBOX, wt_BITMAPBUTTON, wt_CLICKABLETEXT, wt_INPUTFIELD, wt_SCROLLABLEAREA,
-        wt_SCROLLBAR, wt_SLIDEBAR, wt_WIDGET, wt_SINGLEKEYINPUTFIELD
+        wt_SCROLLBAR, wt_SLIDEBAR, wt_WIDGET, wt_SINGLEKEYINPUTFIELD, wt_LABEL
     };
 
     struct Theme;
@@ -165,8 +165,8 @@ public:
 };
 
 class ClickableText : public Widget{
-public:
     int print_flag;
+public:
     float fsize;
     std::string text;
     ALLEGRO_FONT *font = nullptr;
@@ -184,6 +184,8 @@ public:
 
     void Change_coords(float x1, float y1, float width, float height);
     void Change_coords_r(float &x1, float &y1, float &width, float &height);
+    virtual void Set_Print_flag(int flag);
+    int Get_Print_flag();
 };
 
 class SlideBar : public Widget{
@@ -365,15 +367,39 @@ public:
     void Print();
 };
 
-class Label : public ClickableText
+class Label : public Widget
 {
+private:
+    ALLEGRO_FONT *font = nullptr;
+    bool delete_font = true, recal_f_w = false;
+    void recalsulate_text_flag_poz();
+    void recalculate_text();
+    std::string font_file;
+    int print_flag;
 public:
+    float text_x, text_y, text_height, text_width;
+    bool multiline = false;
+    std::string text;
+
+    //Single line
     Label(float x1, float y1, float width, float height, std::string texts,
-          std::string font_file, int allegro_text_flag,Theme *thm, bool bitmap_only);
+          std::string font_file,int allegro_text_flag,Theme *thm, bool bitmap_only);
+    Label(float x1, float y1, float width, std::string texts,
+          ALLEGRO_FONT *font,int allegro_text_flag,Theme *thm, bool bitmap_only);
+    //Multiline
+    Label(float x1, float y1, float width, float height, std::string texts,
+          std::string font_file, float font_height,int allegro_text_flag,Theme *thm, bool bitmap_only);
+    Label(float x1, float y1, float width, float height, std::string texts,
+          ALLEGRO_FONT *font, int allegro_text_flag,Theme *thm, bool bitmap_only);
     ~Label();
 
     int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
     void Print();
+
+    void Change_coords(float x1, float y1, float width, float height);
+    void Change_coords_r(float &x1, float &y1, float &width, float &height);
+    virtual void Set_Print_flag(int flag);
+    int Get_Print_flag();
 };
 
 }

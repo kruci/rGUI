@@ -58,7 +58,7 @@ namespace rGUI //ClickableText
 
     ClickableText::~ClickableText()
     {
-        if(delete_font == true && font == nullptr)
+        if(delete_font == true && font != nullptr)
             al_destroy_font(font);
     }
 
@@ -93,4 +93,13 @@ namespace rGUI //ClickableText
         wd_Change_coords_r(x1,y1,width, height);
     }
 
+    void ClickableText::Set_Print_flag(int flag)
+    {
+        print_flag = flag;
+    }
+
+    int ClickableText::Get_Print_flag()
+    {
+        return print_flag;
+    }
 }
