@@ -108,7 +108,7 @@ namespace rGUI //ScrollableArea
 
         al_draw_filled_rounded_rectangle(0, 0, wd_width, wd_height,
                                 wd_roundx, wd_roundy, wd_c_background);
-        al_draw_rounded_rectangle(1, 0, wd_width, wd_height-1,
+        al_draw_rounded_rectangle(wd_thickness/2.0f , wd_thickness/2.0f, wd_width - wd_thickness/2.0f, wd_height- wd_thickness/2.0f,
                                 wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
 
         for(int a = 0; a < (int)widgets.size();a++)

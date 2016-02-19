@@ -140,11 +140,16 @@ int main(int argc, char **argv)
     tmh.roundx = 0;
     tmh.roundy = 0;
     tmh.c_text = al_map_rgb(255,0,255);
-    widgets.push_back(new rGUI::ClickableText(170,100, "Clicke me Sempai!", fnt, 0, &tmh, false));
+    widgets.push_back(new rGUI::ClickableText(160,100, "Clicke me Sempai!", fnt, 0, &tmh, false));
     widgets.push_back(new rGUI::ClickableText(widgets[1]->wd_x2 + 5, widgets[1]->comentary_text_y - (widgets[1]->wd_height -5)/2,
                                               "Comentary text", "Calibri.ttf", 0, widgets[1]->wd_height -5, &tmh, false));
-    widgets.push_back(new rGUI::SlideBar(50,100, 100, 30, 1, 50, &tmh, false, false));
-    widgets.push_back(new rGUI::SlideBar(10,10, 30, 120, 0, 100, &tmh, true, false));
+    int slidebar1poz = widgets.size();
+    widgets.push_back(new rGUI::SlideBar(50,100, 100, 30, 0, 255, &tmh, false, false));
+    ((rGUI::SlideBar*)widgets[widgets.size()-1])->wd_c_background = al_map_rgb(255,0,0);
+    widgets.push_back(new rGUI::SlideBar(10,10, 30, 120, 0, 255, &tmh, true, false));
+    ((rGUI::SlideBar*)widgets[widgets.size()-1])->wd_c_background = al_map_rgb(0,255,0);
+    widgets.push_back(new rGUI::SlideBar(210,10, 30, 120, 0, 255, &tmh, true, false));
+    ((rGUI::SlideBar*)widgets[widgets.size()-1])->wd_c_background = al_map_rgb(0,0,255);
     widgets.push_back(new rGUI::BitmapButton(10, 140, "button.png", &tmh, false));
     widgets.push_back(new rGUI::BitmapButton(10, 190,100, 45, "button.png", &tmh, false));
     widgets.push_back(new rGUI::ScrollBar(10, 250, 300, 20, 1000,&tmh, false, false));
@@ -157,6 +162,7 @@ int main(int argc, char **argv)
     widgets.push_back(new rGUI::InputField(10, 450, 100, 25, "GFSArtemisia.ttf", &tmh, FPS, false));
     widgets.push_back(new rGUI::SingleKeyInputField(130,400,200,45, 55, "Calibri.ttf", &tmh, false));
 
+    int scbnapoz = widgets.size();
     widgets.push_back(new rGUI::ScrollableArea(320, 10,300,200,1000,1000,&tmh, 14));
 
     ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->widgets.push_back(new rGUI::ClickableText(10,100,
@@ -191,8 +197,8 @@ int main(int argc, char **argv)
     widgets.push_back(new rGUI::Label(30, 330, 300, "Font label ypq", font, 0, &tmh, false));
     widgets.push_back(new rGUI::Label(340, 260, 300, 200, "Some long test text, propably something copyed form THE internet :D "
                                       , "Calibri.ttf", 35, ALLEGRO_ALIGN_CENTER, &tmh, false));
-    /*widgets.push_back(new rGUI::Label(340, 260, 300, 200, "Some long test text, propably something copyed form THE internet :D "
-                                      , font, ALLEGRO_ALIGN_CENTER, &tmh, false));*/
+    widgets.push_back(new rGUI::Label(340, 260, 300, 200, "Some long test text, propably something copyed form THE internet :D "
+                                      , font, ALLEGRO_ALIGN_CENTER, &tmh, false));
 
     tmh.c_background = al_map_rgb(150,22,86);
     widgets.push_back(new rGUI::Button(400,400,150,68,"Close", "Calibri.ttf",&tmh));
@@ -277,6 +283,9 @@ int main(int argc, char **argv)
             al_draw_bitmap(bouncer, bouncer_x, bouncer_y, 0);
 
             ((rGUI::ClickableText*)widgets[2])->text = std::to_string(((rGUI::SlideBar*)widgets[4])->value);
+            widgets[scbnapoz]->wd_c_background = al_map_rgb( ((rGUI::SlideBar*)widgets[slidebar1poz])->value ,
+                                                             ((rGUI::SlideBar*)widgets[slidebar1poz+1])-> value,
+                                                             ((rGUI::SlideBar*)widgets[slidebar1poz+2])-> value);
             for(int a = 0;a < (int)widgets.size();a++)
             {
                 widgets[a]->Print();

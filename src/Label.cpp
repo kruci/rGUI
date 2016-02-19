@@ -23,7 +23,7 @@ namespace rGUI //ClickableText
     font_file(""), font(font)
     {
         delete_font = false;
-        text_height = al_get_font_line_height(font);//font->height;
+        text_height = al_get_font_ascent(font) + al_get_font_descent(font);//font->height;
         recalculate_text();
     }
 
@@ -49,7 +49,7 @@ namespace rGUI //ClickableText
     {
         multiline = true;
         delete_font = false;
-        text_height = al_get_font_line_height(font);//font->height;
+        text_height = al_get_font_ascent(font) + al_get_font_descent(font);
         recalculate_text();
     }
 
@@ -73,6 +73,11 @@ namespace rGUI //ClickableText
             text_x = wd_x1 + 4;
             text_y = wd_y1 + (wd_height - text_height) / 2.0f;
             wd_md->Change_coords_r(text_x , text_y , text_width, text_height);
+        }
+
+        if(multiline == true)
+        {
+            wd_md->Change_coords_r(wd_x1 , wd_y1 , wd_width, wd_height);
         }
     }
 
@@ -119,6 +124,9 @@ namespace rGUI //ClickableText
                                 wd_roundx, wd_roundy, wd_c_background);
         al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
                                 wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
+        /*   Mouse detector box
+        al_draw_rounded_rectangle(wd_md->md_x1, wd_md->md_y1, wd_md->md_x2, wd_md->md_y2,
+                                wd_roundx, wd_roundy, wd_c_outline, wd_thickness);*/
 
         if(multiline == false)
         {
