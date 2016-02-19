@@ -40,9 +40,9 @@ OBJDIR_RELEASE = obj/Release
 DEP_RELEASE = 
 OUT_RELEASE = bin/Release/librGUI.a
 
-OBJ_DEBUG = $(OBJDIR_DEBUG)/src/BigBitmap.o $(OBJDIR_DEBUG)/src/BitmapButton.o $(OBJDIR_DEBUG)/src/Button.o $(OBJDIR_DEBUG)/src/CheckBox.o $(OBJDIR_DEBUG)/src/ClickableText.o $(OBJDIR_DEBUG)/src/InputField.o $(OBJDIR_DEBUG)/src/ScrollBar.o $(OBJDIR_DEBUG)/src/ScrollableArea.o $(OBJDIR_DEBUG)/src/SingleKeyInputField.o $(OBJDIR_DEBUG)/src/SlideBar.o $(OBJDIR_DEBUG)/src/widgetbase.o
+OBJ_DEBUG = $(OBJDIR_DEBUG)/src/BigBitmap.o $(OBJDIR_DEBUG)/src/BitmapButton.o $(OBJDIR_DEBUG)/src/Button.o $(OBJDIR_DEBUG)/src/CheckBox.o $(OBJDIR_DEBUG)/src/ClickableText.o $(OBJDIR_DEBUG)/src/InputField.o $(OBJDIR_DEBUG)/src/Label.o $(OBJDIR_DEBUG)/src/ScrollBar.o $(OBJDIR_DEBUG)/src/ScrollableArea.o $(OBJDIR_DEBUG)/src/SingleKeyInputField.o $(OBJDIR_DEBUG)/src/SlideBar.o $(OBJDIR_DEBUG)/src/widgetbase.o
 
-OBJ_RELEASE = $(OBJDIR_RELEASE)/src/BigBitmap.o $(OBJDIR_RELEASE)/src/BitmapButton.o $(OBJDIR_RELEASE)/src/Button.o $(OBJDIR_RELEASE)/src/CheckBox.o $(OBJDIR_RELEASE)/src/ClickableText.o $(OBJDIR_RELEASE)/src/InputField.o $(OBJDIR_RELEASE)/src/ScrollBar.o $(OBJDIR_RELEASE)/src/ScrollableArea.o $(OBJDIR_RELEASE)/src/SingleKeyInputField.o $(OBJDIR_RELEASE)/src/SlideBar.o $(OBJDIR_RELEASE)/src/widgetbase.o
+OBJ_RELEASE = $(OBJDIR_RELEASE)/src/BigBitmap.o $(OBJDIR_RELEASE)/src/BitmapButton.o $(OBJDIR_RELEASE)/src/Button.o $(OBJDIR_RELEASE)/src/CheckBox.o $(OBJDIR_RELEASE)/src/ClickableText.o $(OBJDIR_RELEASE)/src/InputField.o $(OBJDIR_RELEASE)/src/Label.o $(OBJDIR_RELEASE)/src/ScrollBar.o $(OBJDIR_RELEASE)/src/ScrollableArea.o $(OBJDIR_RELEASE)/src/SingleKeyInputField.o $(OBJDIR_RELEASE)/src/SlideBar.o $(OBJDIR_RELEASE)/src/widgetbase.o
 
 all: debug release
 
@@ -76,6 +76,9 @@ $(OBJDIR_DEBUG)/src/ClickableText.o: src/ClickableText.cpp
 
 $(OBJDIR_DEBUG)/src/InputField.o: src/InputField.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/InputField.cpp -o $(OBJDIR_DEBUG)/src/InputField.o
+
+$(OBJDIR_DEBUG)/src/Label.o: src/Label.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/Label.cpp -o $(OBJDIR_DEBUG)/src/Label.o
 
 $(OBJDIR_DEBUG)/src/ScrollBar.o: src/ScrollBar.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c src/ScrollBar.cpp -o $(OBJDIR_DEBUG)/src/ScrollBar.o
@@ -125,6 +128,9 @@ $(OBJDIR_RELEASE)/src/ClickableText.o: src/ClickableText.cpp
 
 $(OBJDIR_RELEASE)/src/InputField.o: src/InputField.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/InputField.cpp -o $(OBJDIR_RELEASE)/src/InputField.o
+
+$(OBJDIR_RELEASE)/src/Label.o: src/Label.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/Label.cpp -o $(OBJDIR_RELEASE)/src/Label.o
 
 $(OBJDIR_RELEASE)/src/ScrollBar.o: src/ScrollBar.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c src/ScrollBar.cpp -o $(OBJDIR_RELEASE)/src/ScrollBar.o
