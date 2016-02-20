@@ -213,6 +213,7 @@ public:
 
     void Change_coords(float x1, float y1, float width, float height);
     void Change_coords_r(float &x1, float &y1, float &width, float &height);
+    void Set_value(int val);
 };
 
 class BitmapButton : public Widget{
@@ -290,6 +291,7 @@ public:
     void Change_real_size(float s);
     void Change_real_size_r(float &s);
     void Scrolling_input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
+    void Set_change(float chan);
 };
 
 class ScrollableArea : public Widget

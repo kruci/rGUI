@@ -140,7 +140,7 @@ namespace rGUI //SlideBars
             {
                 value = val_min;
             }
-            if(value > val_max)
+            else if(value > val_max)
             {
                 value = val_max;
             }
@@ -219,4 +219,17 @@ namespace rGUI //SlideBars
         }
     }
 
+    void SlideBar::Set_value(int val)
+    {
+        value = val;
+        if(value < val_min)
+        {
+            value = val_min;
+        }
+        else if(value > val_max)
+        {
+            value = val_max;
+        }
+        sb_calculate_slide_poz();
+    }
 }

@@ -65,7 +65,7 @@ namespace rGUI //Button
 
         if(fontwidth >= wd_width)
         {
-            font_height = font_height * (wd_width/fontwidth);
+            font_height = font_height * ((wd_width-2.0f*wd_thickness)/fontwidth);
             al_destroy_font(font);
             font = al_load_ttf_font(bt_font_file.c_str(),font_height,0);
             fontwidth = al_get_text_width(font, text.c_str());
@@ -77,7 +77,7 @@ namespace rGUI //Button
         }
 
         text_x = wd_x1 + (wd_width - fontwidth) / 2.0f;
-        text_y = wd_y1 + (wd_height -al_get_font_ascent(font))   / 2.0f;
+        text_y = wd_y1 + (wd_height - al_get_font_ascent(font) - al_get_font_descent(font))   / 2.0f;
         if(wd_bitmap_only == true)
         {
             text_x -= wd_x1;
@@ -92,10 +92,10 @@ namespace rGUI //Button
 
         if(fontwidth >= wd_width)
         {
-            font_height = font_height * (wd_width/fontwidth);
+            font_height = font_height * ((wd_width-2.0f*wd_thickness)/fontwidth);
             al_destroy_font(font);
             font = al_load_ttf_font(bt_font_file.c_str(),font_height,0);
-             fontwidth = al_get_text_width(font, text.c_str());
+            fontwidth = al_get_text_width(font, text.c_str());
         }
         if(font == nullptr)
         {
@@ -104,7 +104,7 @@ namespace rGUI //Button
         }
 
         text_x = wd_x1 + (wd_width - fontwidth) / 2.0f;
-        text_y = wd_y1 + (wd_height -al_get_font_ascent(font))   / 2.0f;
+        text_y = wd_y1 + (wd_height -al_get_font_ascent(font) - al_get_font_descent(font))   / 2.0f;
         if(wd_bitmap_only == true)
         {
             text_x -= wd_x1;

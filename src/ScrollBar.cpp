@@ -145,7 +145,7 @@ namespace rGUI //ScrollBar
         {
             change = 0;
         }
-        if(change > r_size-(vertical == false ? wd_width : wd_height))
+        else if(change > r_size-(vertical == false ? wd_width : wd_height))
         {
             change = r_size-(vertical == false ? wd_width : wd_height);
         }
@@ -220,4 +220,17 @@ namespace rGUI //ScrollBar
         scb_recalculate_scroller_poz();
     }
 
+    void ScrollBar::Set_change(float chan)
+    {
+        change = chan;
+        if(change < 0)
+        {
+            change = 0;
+        }
+        else if(change > r_size-(vertical == false ? wd_width : wd_height))
+        {
+            change = r_size-(vertical == false ? wd_width : wd_height);
+        }
+        scb_recalculate_scroller_poz();
+    }
 }

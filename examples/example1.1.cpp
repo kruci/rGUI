@@ -150,9 +150,11 @@ int main(int argc, char **argv)
     ((rGUI::SlideBar*)widgets[widgets.size()-1])->wd_c_background = al_map_rgb(0,255,0);
     widgets.push_back(new rGUI::SlideBar(210,10, 30, 120, 0, 255, &tmh, true, false));
     ((rGUI::SlideBar*)widgets[widgets.size()-1])->wd_c_background = al_map_rgb(0,0,255);
+    ((rGUI::SlideBar*)widgets[widgets.size()-1])->Set_value(125);
     widgets.push_back(new rGUI::BitmapButton(10, 140, "button.png", &tmh, false));
     widgets.push_back(new rGUI::BitmapButton(10, 190,100, 45, "button.png", &tmh, false));
     widgets.push_back(new rGUI::ScrollBar(10, 250, 300, 20, 1000,&tmh, false, false));
+    ((rGUI::ScrollBar*)widgets[widgets.size()-1])->Set_change(7000);
     widgets.push_back(new rGUI::ScrollBar(290, 10, 20, 230, 1000,&tmh, true, false));
     ((rGUI::ScrollBar*)widgets[widgets.size()-1])->c_background_mult = 1.4f;
     tmh.c_background = al_map_rgba(40,40,40,150);
@@ -166,7 +168,7 @@ int main(int argc, char **argv)
     widgets.push_back(new rGUI::ScrollableArea(320, 10,300,200,1000,1000,&tmh, 14));
 
     ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->widgets.push_back(new rGUI::ClickableText(10,100,
-                                                                "Clicke me Sempai!", fnt, 0, &tmh, false));
+                                                                "Utf-8 text test: Iñtërnâtiônàlizætiøn", fnt, 0, &tmh, false));
     ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->widgets.push_back(new rGUI::Button(50,
                                                                 10,100,45,"TText", "Calibri.ttf",&tmh));
     ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->widgets.push_back(new rGUI::ClickableText(10,500,
