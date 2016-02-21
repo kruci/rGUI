@@ -385,14 +385,17 @@ public:
 
     //Single line
     Label(float x1, float y1, float width, float height, std::string texts,
-          std::string font_file,int allegro_text_flag,Theme *thm, bool bitmap_only);
+          std::string font_file, int allegro_text_flag,Theme *thm, bool bitmap_only);
     Label(float x1, float y1, float width, std::string texts,
-          ALLEGRO_FONT *font,int allegro_text_flag,Theme *thm, bool bitmap_only);
-    //Multiline
-    Label(float x1, float y1, float width, float height, std::string texts,
-          std::string font_file, float font_height,int allegro_text_flag,Theme *thm, bool bitmap_only);
+          ALLEGRO_FONT *font, int allegro_text_flag,Theme *thm, bool bitmap_only);
     Label(float x1, float y1, float width, float height, std::string texts,
           ALLEGRO_FONT *font, int allegro_text_flag,Theme *thm, bool bitmap_only);
+    //Multiline
+    Label(float x1, float y1, float width, float height, std::string texts,
+          std::string font_file, float font_height,int allegro_text_flag,Theme *thm, bool bitmap_only, bool multiline);
+    Label(float x1, float y1, float width, float height, std::string texts,
+          ALLEGRO_FONT *font, int allegro_text_flag,Theme *thm, bool bitmap_only, bool multiline);
+
     ~Label();
 
     int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);

@@ -161,12 +161,12 @@ namespace rGUI //SlideBars
             sb_calculate_slide_poz();
             sb_recalculate_slide_poz = false;
         }
-
+        //Line draw
         al_draw_filled_rounded_rectangle(line_x1, line_y1, line_x2, line_y2,
                                 wd_roundx, wd_roundy, wd_c_background);
         al_draw_rounded_rectangle(line_x1, line_y1, line_x2, line_y2,
                                 wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
-
+        //slide box draw
         al_draw_filled_rounded_rectangle(slide_x1, slide_y1, slide_x2, slide_y2,
                                 wd_roundx, wd_roundy, wd_c_background);
         al_draw_rounded_rectangle(slide_x1, slide_y1, slide_x2, slide_y2,

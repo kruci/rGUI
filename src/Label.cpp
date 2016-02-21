@@ -28,7 +28,18 @@ namespace rGUI //ClickableText
     }
 
     Label::Label(float x, float y, float width, float height, std::string texts,
-          std::string font_file, float font_height,int allegro_text_flag,Theme *thm, bool bitmap_only)
+          ALLEGRO_FONT *font, int allegro_text_flag,Theme *thm, bool bitmap_only)
+    :Widget(x,y,width, height, thm, bitmap_only), text(texts), print_flag(allegro_text_flag),
+    font_file(""), font(font)
+    {
+        delete_font = false;
+        text_height = al_get_font_ascent(font) + al_get_font_descent(font);//font->height;
+        recalculate_text();
+    }
+
+    //Multilane
+    Label::Label(float x, float y, float width, float height, std::string texts,
+          std::string font_file, float font_height,int allegro_text_flag,Theme *thm, bool bitmap_only, bool multilinee)
     :Widget(x,y,width,height, thm, bitmap_only), text(texts), print_flag(allegro_text_flag), font_file(font_file)
     {
         multiline = true;
@@ -43,7 +54,7 @@ namespace rGUI //ClickableText
     }
 
     Label::Label(float x, float y, float width, float height, std::string texts,
-          ALLEGRO_FONT *font, int allegro_text_flag,Theme *thm, bool bitmap_only)
+          ALLEGRO_FONT *font, int allegro_text_flag,Theme *thm, bool bitmap_only, bool multilinee)
     :Widget(x,y,width, height, thm, bitmap_only), text(texts), print_flag(allegro_text_flag),
     font_file(""), font(font)
     {
@@ -59,7 +70,7 @@ namespace rGUI //ClickableText
         if(print_flag == ALLEGRO_ALIGN_CENTRE)
         {
             text_x = wd_x1 + wd_width/2.0f;
-            text_y = wd_y1 + (wd_height - text_height)/2.0f;
+            text_y = wd_y1 + wd_height/2.0f;//(wd_height - text_height)/2.0f;
             wd_md->Change_coords(text_x - text_width/2.0f, text_y - text_height/2.0f, text_width, text_height);
         }
         else if(print_flag == ALLEGRO_ALIGN_RIGHT)

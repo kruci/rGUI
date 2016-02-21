@@ -198,9 +198,9 @@ int main(int argc, char **argv)
     tmh.c_outline = al_map_rgb(0,0,0);
     widgets.push_back(new rGUI::Label(30, 330, 300, "Font label ypq", font, 0, &tmh, false));
     widgets.push_back(new rGUI::Label(340, 260, 300, 200, "Some long test text, propably something copyed form THE internet :D "
-                                      , "Calibri.ttf", 35, ALLEGRO_ALIGN_CENTER, &tmh, false));
-    widgets.push_back(new rGUI::Label(340, 260, 300, 200, "Some long test text, propably something copyed form THE internet :D "
-                                      , font, ALLEGRO_ALIGN_CENTER, &tmh, false));
+                                      , "Calibri.ttf", 35, ALLEGRO_ALIGN_CENTER, &tmh, false, true));
+    widgets.push_back(new rGUI::Label(340, 260, 300, 200, "Some long test text, propably something copyed form THE internet :D ",
+                                      font, ALLEGRO_ALIGN_CENTER, &tmh, false, true));
 
     tmh.c_background = al_map_rgb(150,22,86);
     widgets.push_back(new rGUI::Button(400,400,150,68,"Close", "Calibri.ttf",&tmh));
@@ -218,6 +218,11 @@ int main(int argc, char **argv)
     ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->print_active = false;
     ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->wd_md->md_active = false;
 
+    /*widgets.push_back(new rGUI::Label(0,0,SCREEN_W, SCREEN_H, "Asdfghjklqwertzuiopmnbvbcxy", font, ALLEGRO_ALIGN_CENTER, &tmh, false));
+    ((rGUI::Label*)widgets[widgets.size()-1])->wd_c_background = al_map_rgba(0,0,0,0);
+    widgets.push_back(new rGUI::Label(0,0,SCREEN_W, SCREEN_H, "Asd fghjkl qwe rtz ui opm n bvbc xy", "Calibri.ttf", 50,ALLEGRO_ALIGN_CENTRE, &tmh, false, true));
+    ((rGUI::Label*)widgets[widgets.size()-1])->wd_c_background = al_map_rgba(0,0,0,0);
+    */
 
     float scale = 1.0f;
     while(1)
