@@ -1,4 +1,8 @@
 #include "../rGUI.h"
+#include <ctime>
+
+#define TIME_B clock_t cccccc = clock();
+#define TIME_E std::cout << (clock() - cccccc) << std::endl;
 
 const float FPS = 60;
 const int SCREEN_W = 640;
@@ -181,6 +185,12 @@ int main(int argc, char **argv)
         widgets[((rGUI::ScrollableArea*)widgets[widgets.size()-1])->
         widgets.size() - 1]->wd_md->md_active = false;
 
+    for(int a = 0; a < 500;a++)
+    {
+        //((rGUI::ScrollableArea*)widgets[widgets.size()-1])->widgets.push_back(new rGUI::Button(10 + a*150, 2000 + a * 80, 120, 60, "Test #" + std::to_string(a), "Calibri.ttf", &tmh));
+        ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->widgets.push_back(new rGUI::Button(10 , 2000, 120, 60, "Test #" + std::to_string(a), "Calibri.ttf", &tmh));
+    }
+
 
     ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->widgets.push_back(new rGUI::InputField(10,
                                                                         400, 100, 45, "Calibri.ttf", &tmh, FPS, false));
@@ -217,6 +227,7 @@ int main(int argc, char **argv)
                                                             "Do you rly want end the fun?", font, 0,&tmh, false));
     ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->print_active = false;
     ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->wd_md->md_active = false;
+    ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->I_added_new_widgets();
 
     /*widgets.push_back(new rGUI::Label(0,0,SCREEN_W, SCREEN_H, "Asdfghjklqwertzuiopmnbvbcxy", font, ALLEGRO_ALIGN_CENTER, &tmh, false));
     ((rGUI::Label*)widgets[widgets.size()-1])->wd_c_background = al_map_rgba(0,0,0,0);
@@ -253,7 +264,10 @@ int main(int argc, char **argv)
 
         for(int a = 0;a < (int)widgets.size();a++)
         {
+            //TIME_B
             widgets[a]->Input(ev, aaa, aaa);
+            /*if(widgets[a]->wd_type == rGUI::wt_SCROLLABLEAREA)
+                TIME_E*/
         }
 
         if(widgets[dialpoz-1]->wd_md->md_clicked == true)
@@ -280,7 +294,6 @@ int main(int argc, char **argv)
             widgets[dialpoz]->wd_md->md_active = false;
             widgets[dialpoz]->print_active = false;
         }
-
         if(redraw && al_is_event_queue_empty(event_queue))
         {
             redraw = false;
@@ -295,7 +308,10 @@ int main(int argc, char **argv)
                                                              ((rGUI::SlideBar*)widgets[slidebar1poz+2])-> value);
             for(int a = 0;a < (int)widgets.size();a++)
             {
+                //TIME_B
                 widgets[a]->Print();
+                /*if(widgets[a]->wd_type == rGUI::wt_SCROLLABLEAREA)
+                    TIME_E*/
             }
 
             al_flip_display();

@@ -298,6 +298,7 @@ class ScrollableArea : public Widget
 {
 private:
     void sca_recalculate_sc_bars();
+    bool changec_i = false, changec_p = false;
 public:
     bool scb_vertical_active = true, scb_horizontal_active = true;
     float r_size_w, r_size_h;

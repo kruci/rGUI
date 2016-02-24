@@ -81,6 +81,18 @@ namespace rGUI //ScrollableArea
                 scb_vertical->Scrolling_input(ev, scalex, scaley);
             }
         }
+        scb_vertical->Input(ev, scalex, scaley);
+        scb_horizontal->Input(ev, scalex, scaley);
+
+        if(scb_vertical->changed == true || scb_horizontal->changed == true)
+        {
+            changec_i = true;
+            changec_p = true;
+            scb_vertical->changed = false;
+            scb_horizontal->changed = false;
+        }
+
+
         for(int a = 0; a < (int)widgets.size();a++)
         {
             if( (wd_md->md_mouse_on_it == false && widgets[a]->wd_md->md_clicked == true && widgets[a]->wd_extented_input == true &&
@@ -88,13 +100,15 @@ namespace rGUI //ScrollableArea
                 ev.type == ALLEGRO_EVENT_KEY_CHAR || ev.type == ALLEGRO_EVENT_KEY_DOWN))
                || wd_md->md_mouse_on_it == true) // SLOW ?
             {
-                widgets[a]->wd_md->Change_coords(wd_x1 + widgets[a]->orig_x1 - scb_horizontal->change,
+                if(changec_i == true)
+                {
+                    widgets[a]->wd_md->Change_coords(wd_x1 + widgets[a]->orig_x1 - scb_horizontal->change,
                     wd_y1 + widgets[a]->orig_y1 - scb_vertical->change, widgets[a]->wd_width, widgets[a]->wd_height);
+                }
                 widgets[a]->Input(ev, scalex, scaley);
             }
         }
-        scb_vertical->Input(ev, scalex, scaley);
-        scb_horizontal->Input(ev, scalex, scaley);
+        changec_i = false;
     }
 
     void ScrollableArea::Print()
@@ -111,6 +125,7 @@ namespace rGUI //ScrollableArea
         al_draw_rounded_rectangle(wd_thickness/2.0f , wd_thickness/2.0f, wd_width - wd_thickness/2.0f, wd_height- wd_thickness/2.0f,
                                 wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
 
+        //al_hold_bitmap_drawing(true);
         for(int a = 0; a < (int)widgets.size();a++)
         {
             if(( (widgets[a]->orig_x1 >= scb_horizontal->change && widgets[a]->orig_x1 <= scb_horizontal->change + wd_width)
@@ -121,11 +136,19 @@ namespace rGUI //ScrollableArea
                  || (widgets[a]->orig_y2 >= scb_vertical->change && widgets[a]->orig_y2 <= scb_vertical->change + wd_height)
                  || (widgets[a]->orig_y1 <= scb_vertical->change && widgets[a]->orig_y2 >= scb_vertical->change + wd_height)))
             {
-                widgets[a]->Change_coords(widgets[a]->orig_x1 - scb_horizontal->change,
+                if(changec_p == true)
+                {
+                    widgets[a]->Change_coords(widgets[a]->orig_x1 - scb_horizontal->change,
                     widgets[a]->orig_y1 - scb_vertical->change, widgets[a]->wd_width, widgets[a]->wd_height);
+
+                    widgets[a]->wd_md->Change_coords(wd_x1 + widgets[a]->orig_x1 - scb_horizontal->change,
+                    wd_y1 + widgets[a]->orig_y1 - scb_vertical->change, widgets[a]->wd_width, widgets[a]->wd_height);
+                }
                 widgets[a]->Print();
             }
         }
+        changec_p = false;
+        //al_hold_bitmap_drawing(false);
 
         scb_horizontal->Print();
         scb_vertical->Print();
@@ -143,6 +166,12 @@ namespace rGUI //ScrollableArea
 
         for(int a = 0; a < (int)widgets.size();a++)
         {
+            widgets[a]->Change_coords(widgets[a]->orig_x1 - scb_horizontal->change,
+                    widgets[a]->orig_y1 - scb_vertical->change, widgets[a]->wd_width, widgets[a]->wd_height);
+
+            widgets[a]->wd_md->Change_coords(wd_x1 + widgets[a]->orig_x1 - scb_horizontal->change,
+                    wd_y1 + widgets[a]->orig_y1 - scb_vertical->change, widgets[a]->wd_width, widgets[a]->wd_height);
+
             if(widgets[a]->wd_x2 + 1 > wid)
             {
                 wid = widgets[a]->wd_x2 + 1;
