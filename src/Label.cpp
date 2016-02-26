@@ -154,10 +154,24 @@ namespace rGUI //ClickableText
     void Label::Change_coords(float x1, float y1, float width, float height)
     {
         wd_Change_coords_r(x1,y1,width, height);
+        wd_md->Change_coords_r(x1, y1, width, height);
         recalculate_text();
     }
 
     void Label::Change_coords_r(float &x1, float &y1, float &width, float &height)
+    {
+        wd_Change_coords_r(x1,y1,width, height);
+        wd_md->Change_coords_r(x1, y1, width, height);
+        recalculate_text();
+    }
+
+    void Label::Change_print_coords(float x1, float y1, float width, float height)
+    {
+        wd_Change_coords_r(x1,y1,width, height);
+        recalculate_text();
+    }
+
+    void Label::Change_print_coords_r(float &x1, float &y1, float &width, float &height)
     {
         wd_Change_coords_r(x1,y1,width, height);
         recalculate_text();

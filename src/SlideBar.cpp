@@ -219,6 +219,20 @@ namespace rGUI //SlideBars
         }
     }
 
+    void SlideBar::Change_print_coords(float x1, float y1, float width, float height)
+    {
+        wd_Change_coords(x1, y1, width, height);
+        sb_calculate_line_poz();
+        sb_calculate_slide_poz();
+    }
+
+    void SlideBar::Change_print_coords_r(float &x1, float &y1, float &width, float &height)
+    {
+        wd_Change_coords(x1, y1, width, height);
+        sb_calculate_line_poz();
+        sb_calculate_slide_poz();
+    }
+
     void SlideBar::Set_value(int val)
     {
         value = val;

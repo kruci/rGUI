@@ -83,16 +83,6 @@ namespace rGUI //ClickableText
         wd_PrintEnd();
     }
 
-    void ClickableText::Change_coords(float x1, float y1, float width, float height)
-    {
-        wd_Change_coords_r(x1,y1,width, height);
-    }
-
-    void ClickableText::Change_coords_r(float &x1, float &y1, float &width, float &height)
-    {
-        wd_Change_coords_r(x1,y1,width, height);
-    }
-
     void ClickableText::Set_Print_flag(int flag)
     {
         print_flag = flag;

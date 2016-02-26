@@ -138,9 +138,7 @@ namespace rGUI //InputField
         al_draw_filled_rounded_rectangle(0 + wd_thickness/2.0f, 0 + wd_thickness/2.0f,
                                          wd_width- wd_thickness/2.0f, wd_height- wd_thickness/2.0f,
                                          wd_roundx, wd_roundy, wd_c_background);
-        al_draw_rounded_rectangle(0 + wd_thickness/2.0f, 0 + wd_thickness/2.0f,
-                                  wd_width- wd_thickness/2.0f, wd_height- wd_thickness/2.0f,
-                                  wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
+
         al_draw_ustr(font, wd_c_text, text_x - texty_shift, text_y,0, al_text);
         if(wd_md->md_clicked == true)
         {
@@ -162,11 +160,27 @@ namespace rGUI //InputField
             if_a++;
         }
 
+        al_draw_rounded_rectangle(0 + wd_thickness/2.0f, 0 + wd_thickness/2.0f,
+                                  wd_width- wd_thickness/2.0f, wd_height- wd_thickness/2.0f,
+                                  wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
+
         wd_PrintEnd();
         if(bmp_only == false)
         {
             al_draw_bitmap(wd_bmp , wd_x1, wd_y1, 0);
         }
+    }
+
+    void InputField::Set_text(std::string t)
+    {
+        al_ustr_assign_cstr(al_text, t.c_str());
+        bar_char_poz = 0;
+        bar_char_poz = al_ustr_offset(al_text, 1000000);
+    }
+
+    std::string InputField::Get_text()
+    {
+        return al_cstr_dup(al_text);
     }
 
 }

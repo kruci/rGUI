@@ -5,6 +5,7 @@ namespace rGUI //mousestate
     ALLEGRO_MOUSE_STATE *mouse_state;
     ALLEGRO_KEYBOARD_STATE *keyboard_state;
 
+    void no_null(){};
 }
 
 namespace rGUI //Mouse detector
@@ -48,21 +49,26 @@ namespace rGUI //Mouse detector
                 if(md_clicked == true)
                 {
                     md_clicked_again = true;
+                    Clicked_again_callback();
                 }
                 md_clicking = false;
                 md_clicked = true;
                 md_just_clicked = true;
+                Just_clicked_callback();
                 return 2;
             }
             else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN && ev.mouse.button == md_mouse_button || md_clicking == true)
             {
                 md_clicking = true;
+                Clicking_callback();
                 return 1;
             }
             else
             {
                 md_mouse_on_it = true;
+                Mouse_on_it_callback();
                 md_clicking = false;
+                Clicking_callback();
                 return 0;
             }
         }
@@ -319,6 +325,16 @@ namespace rGUI //Widget
     {
         wd_Change_coords_r(x1, y1, width, height);
         wd_md->Change_coords_r(x1, y1, width, height);
+    }
+
+    void Widget::Change_print_coords(float x1, float y1, float width, float height)
+    {
+        wd_Change_coords_r(x1, y1, width, height);
+    }
+
+    void Widget::Change_print_coords_r(float &x1, float &y1, float &width, float &height)
+    {
+        wd_Change_coords_r(x1, y1, width, height);
     }
 
     int Widget::Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley){}

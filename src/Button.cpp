@@ -125,4 +125,16 @@ namespace rGUI //Button
         wd_md->Change_coords(x1, y1, width, height);
         recalculate_text();
     }
+
+    void Button::Change_print_coords(float x1, float y1, float width, float height)
+    {
+        wd_Change_coords(x1, y1, width, height);
+        recalculate_text();
+    }
+
+    void Button::Change_print_coords_r(float &x1, float &y1, float &width, float &height)
+    {
+        wd_Change_coords(x1, y1, width, height);
+        recalculate_text();
+    }
 }

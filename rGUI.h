@@ -22,6 +22,7 @@ namespace rGUI
 {
     extern ALLEGRO_MOUSE_STATE *mouse_state;
     extern ALLEGRO_KEYBOARD_STATE *keyboard_state;
+    extern void no_null();
 
     enum WidgetsTypes
     {
@@ -80,6 +81,11 @@ public:
     void Change_coords(float x1, float y1, float width, float height);
     void Change_coords_r(float &x1, float &y1, float &x2, float &y2, float);
     void Change_coords_r(float &x1, float &y1, float &width, float &height);
+
+    void (*Mouse_on_it_callback)() = &no_null;
+    void (*Clicking_callback)() = &no_null;
+    void (*Just_clicked_callback)() = &no_null;
+    void (*Clicked_again_callback)() = &no_null;
 };
 
 
@@ -125,6 +131,8 @@ public:
     virtual void Print();
     virtual void Change_coords(float x1, float y1, float width, float height);
     virtual void Change_coords_r(float &x1, float &y1, float &width, float &height);
+    virtual void Change_print_coords(float x1, float y1, float width, float height);
+    virtual void Change_print_coords_r(float &x1, float &y1, float &width, float &height);
 };
 
 class Button : public Widget
@@ -150,6 +158,8 @@ public:
     void Print();
     void Change_coords(float x1, float y1, float width, float height);
     void Change_coords_r(float &x1, float &y1, float &width, float &height);
+    void Change_print_coords(float x1, float y1, float width, float height);
+    void Change_print_coords_r(float &x1, float &y1, float &width, float &height);
 };
 
 class CheckBox : public Widget{
@@ -182,8 +192,6 @@ public:
     int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
     void Print();
 
-    void Change_coords(float x1, float y1, float width, float height);
-    void Change_coords_r(float &x1, float &y1, float &width, float &height);
     virtual void Set_Print_flag(int flag);
     int Get_Print_flag();
 };
@@ -213,6 +221,8 @@ public:
 
     void Change_coords(float x1, float y1, float width, float height);
     void Change_coords_r(float &x1, float &y1, float &width, float &height);
+    void Change_print_coords(float x1, float y1, float width, float height);
+    void Change_print_coords_r(float &x1, float &y1, float &width, float &height);
     void Set_value(int val);
 };
 
@@ -288,6 +298,8 @@ public:
 
     void Change_coords(float x1, float y1, float width, float height);
     void Change_coords_r(float &x1, float &y1, float &width, float &height);
+    void Change_print_coords(float x1, float y1, float width, float height);
+    void Change_print_coords_r(float &x1, float &y1, float &width, float &height);
     void Change_real_size(float s);
     void Change_real_size_r(float &s);
     void Scrolling_input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
@@ -351,6 +363,8 @@ public:
 
     virtual int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
     virtual void Print();
+    void Set_text(std::string t);
+    std::string Get_text();
 
     /*void Change_coords(float x1, float y1, float width, float height);
     void Change_coords_r(float &x1, float &y1, float &width, float &height);*/
@@ -404,6 +418,8 @@ public:
 
     void Change_coords(float x1, float y1, float width, float height);
     void Change_coords_r(float &x1, float &y1, float &width, float &height);
+    void Change_print_coords(float x1, float y1, float width, float height);
+    void Change_print_coords_r(float &x1, float &y1, float &width, float &height);
     virtual void Set_Print_flag(int flag);
     int Get_Print_flag();
 };
