@@ -168,6 +168,8 @@ int main(int argc, char **argv)
     widgets.push_back(new rGUI::InputField(10, 450, 100, 25, "GFSArtemisia.ttf", &tmh, FPS, false));
     widgets.push_back(new rGUI::SingleKeyInputField(130,400,200,45, 55, "Calibri.ttf", &tmh, false));
 
+    widgets.push_back(new rGUI::ScrollableArea(170, 170, 50,50,300,300,&tmh, 10));
+
     int scbnapoz = widgets.size();
     widgets.push_back(new rGUI::ScrollableArea(320, 10,300,200,1000,1000,&tmh, 14));
 
@@ -234,6 +236,7 @@ int main(int argc, char **argv)
     widgets.push_back(new rGUI::Label(0,0,SCREEN_W, SCREEN_H, "Asd fghjkl qwe rtz ui opm n bvbc xy", "Calibri.ttf", 50,ALLEGRO_ALIGN_CENTRE, &tmh, false, true));
     ((rGUI::Label*)widgets[widgets.size()-1])->wd_c_background = al_map_rgba(0,0,0,0);
     */
+
 
     float scale = 1.0f;
     while(1)

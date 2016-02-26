@@ -183,7 +183,8 @@ namespace rGUI //ScrollBar
         }
         else if(wd_md->md_mouse_on_it == true)
         {
-            al_draw_rounded_rectangle(sroller_x1, sroller_y1, sroller_x2, sroller_y2,
+            al_draw_rounded_rectangle(sroller_x1+wd_added_thickness/2.0, sroller_y1+wd_added_thickness/2.0,
+                                      sroller_x2-wd_added_thickness/2.0, sroller_y2-wd_added_thickness/2.0,
                                 wd_roundx, wd_roundy, wd_c_outline, wd_thickness + wd_added_thickness);
         }
 

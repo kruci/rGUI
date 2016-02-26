@@ -122,9 +122,6 @@ namespace rGUI //ScrollableArea
 
         al_draw_filled_rounded_rectangle(0, 0, wd_width, wd_height,
                                 wd_roundx, wd_roundy, wd_c_background);
-        al_draw_rounded_rectangle(wd_thickness/2.0f , wd_thickness/2.0f, wd_width - wd_thickness/2.0f, wd_height- wd_thickness/2.0f,
-                                wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
-
         //al_hold_bitmap_drawing(true);
         for(int a = 0; a < (int)widgets.size();a++)
         {
@@ -153,6 +150,11 @@ namespace rGUI //ScrollableArea
         scb_horizontal->Print();
         scb_vertical->Print();
 
+        al_draw_rounded_rectangle(wd_thickness/2.0f , wd_thickness/2.0f,
+                                  wd_width - wd_thickness/2.0f, wd_height - wd_thickness/2.0f,
+                                  wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
+
+
         al_set_target_bitmap(wd_ref_bmp);
         if(wd_bitmap_only == false)
         {
@@ -172,14 +174,23 @@ namespace rGUI //ScrollableArea
             widgets[a]->wd_md->Change_coords(wd_x1 + widgets[a]->orig_x1 - scb_horizontal->change,
                     wd_y1 + widgets[a]->orig_y1 - scb_vertical->change, widgets[a]->wd_width, widgets[a]->wd_height);
 
-            if(widgets[a]->wd_x2 + 1 > wid)
+            if(widgets[a]->orig_x2 + 1 > wid)
             {
-                wid = widgets[a]->wd_x2 + 1;
+                wid = widgets[a]->orig_x2 + 1;
             }
-            if(widgets[a]->wd_y2 + 1 > hei)
+            if(widgets[a]->orig_y2 + 1 > hei)
             {
-                hei = widgets[a]->wd_y2 + 1;
+                hei = widgets[a]->orig_y2 + 1;
             }
+        }
+
+        if(wid < wd_width - scb_thickness)
+        {
+            wid = wd_width - scb_thickness;
+        }
+        if(hei < wd_height - scb_thickness)
+        {
+            hei = wd_height - scb_thickness;
         }
 
         scb_horizontal->Change_real_size_r(wid);
