@@ -180,7 +180,8 @@ namespace rGUI //InputField
 
     std::string InputField::Get_text()
     {
-        return al_cstr_dup(al_text);
+        std::string s = al_cstr_dup(al_text);
+        return s;
     }
 
 }

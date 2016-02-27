@@ -104,6 +104,7 @@
 		<Unit filename="src/ClickableText.cpp" />
 		<Unit filename="src/InputField.cpp" />
 		<Unit filename="src/Label.cpp" />
+		<Unit filename="src/ProgressBar.cpp" />
 		<Unit filename="src/ScrollBar.cpp" />
 		<Unit filename="src/ScrollableArea.cpp" />
 		<Unit filename="src/SingleKeyInputField.cpp" />

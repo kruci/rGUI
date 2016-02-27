@@ -424,5 +424,18 @@ public:
     int Get_Print_flag();
 };
 
+class ProgressBar : public Widget
+{
+private:
+public:
+    int value = 0;
+
+    ProgressBar(float x, float y, float width, float height, int initial_val_from_0_to_100, Theme *thm, bool bitmaponly);
+    ~ProgressBar();
+
+    int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
+    void Print();
+};
+
 }
 #endif // _RGUI_H__
