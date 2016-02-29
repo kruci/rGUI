@@ -80,13 +80,13 @@ namespace rGUI //ScrollBar
                 change = (rGUI::mouse_state->y - abs(wd_md->md_y1 + sroller_y2 - sroller_y1))*rb_ratio;
             }
 
-            if(change < 0)
-            {
-                change = 0;
-            }
             if(change > r_size-(vertical == false ? wd_width : wd_height))
             {
                 change = r_size-(vertical == false ? wd_width : wd_height);
+            }
+            if(change < 0)
+            {
+                change = 0;
             }
             changed = true;
             scb_dorecalculate_scroller_poz = true;
@@ -106,13 +106,13 @@ namespace rGUI //ScrollBar
                 changed = true;
             }
 
-            if(change < 0)
-            {
-                change = 0;
-            }
             if(change > r_size-(vertical == false ? wd_width : wd_height))
             {
                 change = r_size-(vertical == false ? wd_width : wd_height);
+            }
+            if(change < 0)
+            {
+                change = 0;
             }
             scb_dorecalculate_scroller_poz = true;
         }
@@ -141,13 +141,13 @@ namespace rGUI //ScrollBar
             scb_dorecalculate_scroller_poz = true;
         }
 
+        if(change > r_size-(vertical == false ? wd_width : wd_height))
+        {
+            change = r_size-(vertical == false ? wd_width : wd_height);
+        }
         if(change < 0)
         {
             change = 0;
-        }
-        else if(change > r_size-(vertical == false ? wd_width : wd_height))
-        {
-            change = r_size-(vertical == false ? wd_width : wd_height);
         }
 
     }
@@ -224,6 +224,14 @@ namespace rGUI //ScrollBar
     void ScrollBar::Change_real_size(float s)
     {
         r_size = s;
+        if(change > r_size-(vertical == false ? wd_width : wd_height))
+        {
+            change = r_size-(vertical == false ? wd_width : wd_height);
+        }
+        if(change < 0)
+        {
+            change = 0;
+        }
         scb_recalculate_rb_ratio();
         scb_recalculate_scroller_poz();
     }
@@ -231,6 +239,14 @@ namespace rGUI //ScrollBar
     void ScrollBar::Change_real_size_r(float &s)
     {
         r_size = s;
+        if(change > r_size-(vertical == false ? wd_width : wd_height))
+        {
+            change = r_size-(vertical == false ? wd_width : wd_height);
+        }
+        if(change < 0)
+        {
+            change = 0;
+        }
         scb_recalculate_rb_ratio();
         scb_recalculate_scroller_poz();
     }

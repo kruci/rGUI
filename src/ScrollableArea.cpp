@@ -169,26 +169,17 @@ namespace rGUI //ScrollableArea
 
         for(int a = 0; a < (int)widgets.size();a++)
         {
-            widgets[a]->Change_coords(widgets[a]->orig_x1 - scb_horizontal->change,
+            /*widgets[a]->Change_coords(widgets[a]->orig_x1 - scb_horizontal->change,
                     widgets[a]->orig_y1 - scb_vertical->change, widgets[a]->wd_width, widgets[a]->wd_height);
 
             widgets[a]->wd_md->Change_coords(wd_x1 + widgets[a]->orig_x1 - scb_horizontal->change,
-                    wd_y1 + widgets[a]->orig_y1 - scb_vertical->change, widgets[a]->wd_width, widgets[a]->wd_height);
+                    wd_y1 + widgets[a]->orig_y1 - scb_vertical->change, widgets[a]->wd_width, widgets[a]->wd_height);*/
 
-            /*if(widgets[a]->orig_x2 + 1 > wid)
+            if(widgets[a]->orig_x2 + 1 > wid - orig_x1)
             {
                 wid = widgets[a]->orig_x2 + 1;
             }
-            if(widgets[a]->orig_y2 + 1 > hei)
-            {
-                hei = widgets[a]->orig_y2 + 1;
-            }*/
-
-            if(widgets[a]->orig_x2 + 1 > wid)
-            {
-                wid = widgets[a]->orig_x2 + 1;
-            }
-            if(widgets[a]->orig_y2 + 1 > hei)
+            if(widgets[a]->orig_y2 + 1 > hei - orig_y1)
             {
                 hei = widgets[a]->orig_y2 + 1;
             }
@@ -205,6 +196,15 @@ namespace rGUI //ScrollableArea
 
         scb_horizontal->Change_real_size_r(wid);
         scb_vertical->Change_real_size_r(hei);
+
+        for(int a = 0; a < (int)widgets.size();a++)
+        {
+            widgets[a]->Change_coords(widgets[a]->orig_x1 - scb_horizontal->change,
+                    widgets[a]->orig_y1 - scb_vertical->change, widgets[a]->wd_width, widgets[a]->wd_height);
+
+            widgets[a]->wd_md->Change_coords(wd_x1 + widgets[a]->orig_x1 - scb_horizontal->change,
+                    wd_y1 + widgets[a]->orig_y1 - scb_vertical->change, widgets[a]->wd_width, widgets[a]->wd_height);
+        }
     }
 
     void ScrollableArea::Set_vertical_sba_status(bool enabled)
