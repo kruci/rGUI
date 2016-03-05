@@ -277,7 +277,7 @@ private:
     int scb_mouse_z;
     bool scb_dorecalculate_scroller_poz = false;
     float rb_ratio;
-    float click_x, click_y;
+    float cx = 0, cy = 0;
 
     void scb_recalculate_scroller_poz();
     void scb_recalculate_rb_ratio();

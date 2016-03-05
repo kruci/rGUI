@@ -69,16 +69,40 @@ namespace rGUI //ScrollBar
 
         if(wd_md->md_clicking == true || (wd_md->md_clicked == true && (rGUI::mouse_state->buttons & wd_mouse_button)))
         {
+            if(wd_md->md_clicked == false)
+            {
+                if(scalex*rGUI::mouse_state->x <= wd_md->md_x1 + sroller_x2 - wd_x1
+                   && scalex*rGUI::mouse_state->x >= wd_md->md_x1 + sroller_x1 - wd_x1  &&
+                   scaley*rGUI::mouse_state->y <= wd_md->md_y2 + sroller_y2 - wd_y2
+                   && scaley*rGUI::mouse_state->y >= wd_md->md_y1 + sroller_y1 - wd_y1)
+                {
+                    cx = (wd_md->md_x1 + sroller_x2  - wd_x1 - scalex*(float)rGUI::mouse_state->x)- 1 - ceil(wd_thickness/2.0f);// - rb_ratio;
+                    cy = (wd_md->md_y1 + sroller_y2  - wd_y1 - scaley*(float)rGUI::mouse_state->y)- 1 - ceil(wd_thickness/2.0f);// - rb_ratio;
+                }
+                else
+                {
+                    cx = 0;
+                    cy = 0;
+                }
+            }
+
             wd_md->md_clicked = true;
 
             if(vertical == false)
             {
-                change = (rGUI::mouse_state->x - abs(wd_md->md_x1 + sroller_x2 - sroller_x1))*rb_ratio;
+                //change = (scalex*rGUI::mouse_state->x - abs(wd_md->md_x1 + sroller_x2 - sroller_x1))*rb_ratio;
+                //change = (scalex*(float)rGUI::mouse_state->x - abs(wd_md->md_x1 + sroller_x2 - sroller_x1) + cx)*rb_ratio;// + cx*rb_ratio;
+                change = (scalex*(float)rGUI::mouse_state->x - abs(wd_md->md_x1 + sroller_x2 - sroller_x1 - cx))*rb_ratio;
             }
             else
             {
-                change = (rGUI::mouse_state->y - abs(wd_md->md_y1 + sroller_y2 - sroller_y1))*rb_ratio;
+                //change = (scaley*rGUI::mouse_state->y - abs(wd_md->md_y1 + sroller_y2 - sroller_y1))*rb_ratio;
+                //change = (scaley*(float)rGUI::mouse_state->y - abs(wd_md->md_y1 + sroller_y2 - sroller_y1) +cy)*rb_ratio;// + cy*rb_ratio;
+                change = (scaley*(float)rGUI::mouse_state->y - abs(wd_md->md_y1 + sroller_y2 - sroller_y1 - cy))*rb_ratio;
             }
+            std::cout << cx << " " << cy << std::endl;
+            std::cout << cx << " " << cy << std::endl;
+            std::cout << change << " " << std::endl;
 
             if(change > r_size-(vertical == false ? wd_width : wd_height))
             {
