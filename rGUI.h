@@ -201,6 +201,7 @@ class SlideBar : public Widget{
     float slide_x1, slide_y1, slide_x2, slide_y2;
     float line_thickness = 11, slide_height = line_thickness*3, slide_width = slide_height/3.0f;
     float poz;
+    float cx = 0, cy = 0;
     int sb_mouse_z;
 
     void sb_calculate_slide_poz();

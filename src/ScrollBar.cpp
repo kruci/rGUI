@@ -100,9 +100,6 @@ namespace rGUI //ScrollBar
                 //change = (scaley*(float)rGUI::mouse_state->y - abs(wd_md->md_y1 + sroller_y2 - sroller_y1) +cy)*rb_ratio;// + cy*rb_ratio;
                 change = (scaley*(float)rGUI::mouse_state->y - abs(wd_md->md_y1 + sroller_y2 - sroller_y1 - cy))*rb_ratio;
             }
-            std::cout << cx << " " << cy << std::endl;
-            std::cout << cx << " " << cy << std::endl;
-            std::cout << change << " " << std::endl;
 
             if(change > r_size-(vertical == false ? wd_width : wd_height))
             {
