@@ -103,37 +103,32 @@ namespace rGUI //SlideBars
 
         if(wd_md->md_clicking == true || (wd_md->md_clicked == true && (rGUI::mouse_state->buttons & wd_mouse_button)))
         {
-            /*if(wd_md->md_clicked == false)
+            if(wd_md->md_clicked == false)
             {
                 if(scalex*rGUI::mouse_state->x <= wd_md->md_x1 + slide_x2 - wd_x1
                    && scalex*rGUI::mouse_state->x >= wd_md->md_x1 + slide_x1 - wd_x1  &&
                    scaley*rGUI::mouse_state->y <= wd_md->md_y2 + slide_y2 - wd_y2
                    && scaley*rGUI::mouse_state->y >= wd_md->md_y1 + slide_y1 - wd_y1)
                 {
-                    cy = (scaley*(float)rGUI::mouse_state->y - (poz));
-                    cx = (scalex*(float)rGUI::mouse_state->x - (poz));
-                    std::cout << cx << " " << cy << std::endl;
-                    std::cout << poz << std::endl;
-                    std::cout << scaley*rGUI::mouse_state->x << std::endl;
-                    std::cout << " " << std::endl;
+                    cx = scalex*(float)rGUI::mouse_state->x - ((value*wd_width)/(float)values + wd_md->md_x1);
+                    cy = scaley*(float)rGUI::mouse_state->y - ((value*wd_height)/(float)values + wd_md->md_y1);
                 }
                 else
                 {
                     cx = 0;
                     cy = 0;
                 }
-            }*/
+            }
             wd_md->md_clicked = true;
 
             if(vertical == false)
             {
-                value = (scalex*(float)rGUI::mouse_state->x /*+ cx*/ - wd_md->md_x1)/(wd_width/(float)values);
+                value = (scalex*(float)rGUI::mouse_state->x - cx - wd_md->md_x1)/(wd_width/(float)values);
             }
             else
             {
-                value = (scaley*(float)rGUI::mouse_state->y /*+ cy*/ - wd_md->md_y1)/(wd_height/(float)values);
+                value = (scaley*(float)rGUI::mouse_state->y - cy - wd_md->md_y1)/(wd_height/(float)values);
             }
-            //std::cout << value << std::endl;
 
             if(value < val_min)
             {
