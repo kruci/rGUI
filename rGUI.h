@@ -329,6 +329,7 @@ public:
     void Print();
     void Set_vertical_sba_status(bool enabled);
     void Set_horizontal_sba_status(bool enabled);
+    void Change_coords(float x1, float y1, float width, float height);
 
     void I_added_new_widgets();
 };

@@ -267,4 +267,28 @@ namespace rGUI //ScrollableArea
         }
     }
 
+    void ScrollableArea::Change_coords(float x1, float y1, float width, float height)
+    {
+        wd_Change_coords(x1,y1,width, height);
+        if(wd_bmp != nullptr)
+        {
+            al_destroy_bitmap(wd_bmp);
+        }
+        wd_bmp = al_create_bitmap(wd_width, wd_height);
+
+        scb_vertical->Change_coords(wd_width - scb_thickness,0,scb_thickness,
+                                       wd_height- scb_thickness);
+
+        scb_horizontal->Change_coords(0,wd_height - scb_thickness, wd_width - scb_thickness,
+                                       scb_thickness);
+
+        scb_vertical->wd_md->Change_coords(wd_x2 - scb_thickness, wd_y1, scb_thickness,
+                                       wd_height- scb_thickness);
+        scb_horizontal->wd_md->Change_coords(wd_x1, wd_y2 - scb_thickness, wd_width - scb_thickness,
+                                       scb_thickness);
+        wd_md->Change_coords(wd_x1, wd_y1, wd_width - scb_thickness, wd_height - scb_thickness);
+
+        I_added_new_widgets();
+    }
+
 }
