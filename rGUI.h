@@ -362,6 +362,8 @@ public:
     int bar_char_poz = 0;
     std::string text;
     ALLEGRO_USTR *al_text = nullptr;
+    ALLEGRO_USTR *al_selected = nullptr;
+    bool CTRL_A = false;
     int lenght_limit = 500;
 
     InputField(float x, float y, float width, float height, std::string font_file, Theme *thm, float FPS, bool bitmap_only);

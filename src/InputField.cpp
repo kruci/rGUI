@@ -18,6 +18,7 @@ namespace rGUI //InputField
         }
 
         al_text = al_ustr_new("");
+        al_selected = al_ustr_new("");
         text_x = wd_thickness + wd_added_thickness + 2;
         text_y = (wd_height - font_height)/2.0f;
         texty_shift = 0;
@@ -44,6 +45,7 @@ namespace rGUI //InputField
         }
 
         al_text = al_ustr_new(init_text.c_str());
+        al_selected = al_ustr_new("");
         bar_char_poz = text.size()-1;
         text_x = wd_thickness + wd_added_thickness + 2;
         text_y = (wd_height - font_height)/2.0f;
@@ -77,6 +79,8 @@ namespace rGUI //InputField
             al_destroy_font(font);
         if(al_text != nullptr)
             al_ustr_free(al_text);
+        if(al_selected != nullptr)
+            al_ustr_free(al_selected);
         if(if_help_ustr != nullptr)
             al_ustr_free(if_help_ustr);
     }
@@ -96,18 +100,65 @@ namespace rGUI //InputField
             if(ev.type == ALLEGRO_EVENT_KEY_CHAR && ev.keyboard.keycode == ALLEGRO_KEY_BACKSPACE && al_ustr_size(al_text) > 0 &&
                bar_char_poz-1 >= 0)
             {
-                al_ustr_prev_get(al_text, &bar_char_poz);
-                al_ustr_remove_chr(al_text, bar_char_poz);
+                if(CTRL_A == true)
+                {
+                    al_ustr_remove_range(al_text, 0, al_ustr_length(al_text));
+                    bar_char_poz = 0;
+                    text = al_cstr_dup(al_text);
+                    CTRL_A = false;
+                }
+                else
+                {
+                    al_ustr_prev_get(al_text, &bar_char_poz);
+                    al_ustr_remove_chr(al_text, bar_char_poz);
+                }
             }
             else if(ev.type == ALLEGRO_EVENT_KEY_CHAR && ev.keyboard.keycode == ALLEGRO_KEY_LEFT && bar_char_poz > 0)
             {
                 al_ustr_prev_get(al_text, &bar_char_poz);
                 if_a = 0;
+                CTRL_A = false;
             }
             else if(ev.type == ALLEGRO_EVENT_KEY_CHAR && ev.keyboard.keycode == ALLEGRO_KEY_RIGHT && bar_char_poz < al_ustr_size(al_text))
             {
                 al_ustr_get_next(al_text, &bar_char_poz);
                 if_a = 0;
+                CTRL_A = false;
+            }
+            else if(ev.type == ALLEGRO_EVENT_KEY_CHAR && ev.keyboard.keycode == ALLEGRO_KEY_C && (ev.keyboard.modifiers & ALLEGRO_KEYMOD_CTRL) )
+            {
+                if(CTRL_A == true)
+                {
+                    al_set_clipboard_text(al_get_current_display(), text.c_str());
+                    CTRL_A = false;
+                }
+            }
+            else if(ev.type == ALLEGRO_EVENT_KEY_CHAR && ev.keyboard.keycode == ALLEGRO_KEY_V && (ev.keyboard.modifiers & ALLEGRO_KEYMOD_CTRL) &&
+                    al_clipboard_has_text(al_get_current_display()))
+            {
+                if(CTRL_A == true)
+                {
+                    char *tmptxt = al_get_clipboard_text(al_get_current_display());
+                    text = tmptxt;
+                    al_free(tmptxt);
+                    al_ustr_assign_cstr(al_text, text.c_str());
+                    bar_char_poz = al_ustr_length(al_text);
+                    CTRL_A = false;
+                }
+                else
+                {
+                    char *tmptxt = al_get_clipboard_text(al_get_current_display());
+                    ALLEGRO_USTR *tmpustr = al_ustr_new(tmptxt);
+                    al_ustr_insert_cstr(al_text, bar_char_poz, tmptxt);
+                    al_free(tmptxt);
+                    bar_char_poz += al_ustr_length(tmpustr);
+                    al_ustr_free(tmpustr);
+                    text = al_cstr_dup(al_text);
+                }
+            }
+            else if(ev.type == ALLEGRO_EVENT_KEY_CHAR && ev.keyboard.keycode == ALLEGRO_KEY_A && (ev.keyboard.modifiers & ALLEGRO_KEYMOD_CTRL) )
+            {
+                CTRL_A = true;
             }
             else if(ev.type == ALLEGRO_EVENT_KEY_CHAR)
             {
