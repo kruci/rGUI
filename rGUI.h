@@ -316,6 +316,12 @@ public:
     bool scb_vertical_active = true, scb_horizontal_active = true;
     float r_size_w, r_size_h;
     float scb_thickness = 14;
+
+    bool zoomable = false;
+    float zw = 1, zh = 1;
+    float sca_mouse_z;
+    ALLEGRO_TRANSFORM rt, tt;
+
     std::vector<Widget*> widgets;
     ScrollBar *scb_vertical = nullptr, *scb_horizontal = nullptr;
 
