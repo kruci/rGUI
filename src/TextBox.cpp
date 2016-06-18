@@ -55,15 +55,31 @@ namespace rGUI //TextBox
         {
             al_do_multiline_text(font, wd_width, text.c_str(), textdrawcallback, mld);
         }
-        else if(!(wd_bf & rg_MULTILINE))
+        /*else if(!(wd_bf & rg_MULTILINE))
         {
              al_draw_text(font,wd_c_text, text_x, text_y, print_flag, text.c_str());
-        }
+        }*/
         else
         {
             al_draw_multiline_text(font, wd_c_text, text_x, text_y, wd_width,
                                    text_height,print_flag, text.c_str());
         }
+
+        if((wd_bf & rg_AS_BUTTON))
+        {
+            if(wd_md->md_mouse_on_it == true)
+            {
+                 al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
+                    wd_roundx, wd_roundy, wd_c_outline, wd_thickness + wd_added_thickness);
+            }
+
+            if(wd_md->md_clicking == true)
+            {
+                al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
+                                wd_roundx, wd_roundy, wd_c_clicking);
+            }
+        }
+
         wd_PrintEnd();
     }
 

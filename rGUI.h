@@ -47,7 +47,8 @@ namespace rGUI
         rg_TOP = 0x002, rg_BOTOM = 0x004, rg_VERTICAL_CENTER = 0x008,
         rg_LEFT = 0x010, rg_RIGHT = 0x020, rg_HORIZONTAL_CENTER = 0x040,
         rg_RESIZE_FRAME_H = 0x080, rg_RESIZE_FRAME_W = 0x100, rg_RESIZE_FRAME = 0x200,
-        rg_RESIZE_TEXT = 0x400,rg_MULTILINE = 0x800, rg_CUSTOM_TEXT_DRAW = 0x1000
+        rg_RESIZE_TEXT = 0x400,rg_MULTILINE = 0x800, rg_CUSTOM_TEXT_DRAW = 0x1000,
+        rg_AS_BUTTON = 0x2000
     };
 
     struct Theme;
