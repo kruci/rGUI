@@ -23,11 +23,23 @@ namespace rGUI
     extern ALLEGRO_MOUSE_STATE *mouse_state;
     extern ALLEGRO_KEYBOARD_STATE *keyboard_state;
     extern void no_null();
+    extern bool _multilinecb(int _line_num, const char *_line, int _sizes, void *_extra);
+
+    struct ml_data{
+        int maxlinesize = 0, lines = 0;
+    };
 
     enum WidgetsTypes
     {
         wt_BUTTON, wt_CHECKBOX, wt_BITMAPBUTTON, wt_CLICKABLETEXT, wt_INPUTFIELD, wt_SCROLLABLEAREA,
         wt_SCROLLBAR, wt_SLIDEBAR, wt_WIDGET, wt_SINGLEKEYINPUTFIELD, wt_LABEL
+    };
+
+    enum rGUIbitflags{
+        rg_BITMAP_ONLY = 0x001,
+        rg_TOP = 0x002, rg_BOTOM = 0x004, rg_VERTICAL_CENTER = 0x008,
+        rg_LEFT = 0x010, rg_RIGHT = 0x020, rg_HORIZONTAL_CENTER = 0x040,
+        rg_RESIZE_FRAME = 0x080, rg_RESIZE_TEXT = 0x100,rg_MULTILINE = 0x200
     };
 
     struct Theme;
@@ -105,6 +117,7 @@ protected:
 public:
     int wd_type;
     int wd_mouse_button = 1;
+    int wd_bf = 0;
     Widget *wd_child = nullptr;
 
     float comentary_text_y;
@@ -394,7 +407,7 @@ public:
     void Print();
 };
 
-class Label : public Widget
+class [[deprecated("use TextBox instead")]] Label : public Widget
 {
 private:
     ALLEGRO_FONT *font = nullptr;
@@ -421,6 +434,12 @@ public:
     Label(float x1, float y1, float width, float height, std::string texts,
           ALLEGRO_FONT *font, int allegro_text_flag,Theme *thm, bool bitmap_only, bool multiline);
 
+    /*//bitflags
+    Label(float x, float y, float width, float height, std::string texts,
+          std::string font_file, float font_height, Theme *thm, int bitflags);
+    Label(float x, float y, float width, float height, std::string texts,
+          ALLEGRO_FONT *font,Theme *thm, int bitflags);*/
+
     ~Label();
 
     int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
@@ -446,6 +465,41 @@ public:
     int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
     void Print();
 };
+
+class TextBox : public Widget
+{
+private:
+    ALLEGRO_FONT *font = nullptr;
+    bool delete_font = true;
+    std::string font_file;
+    int print_flag;
+    ml_data mld;
+    float multiline_height = 0;
+public:
+    float text_x, text_y, text_height, text_width;
+    std::string text;
+
+    //bitflags
+    TextBox(float x, float y, float width, float height, std::string texts,
+          std::string font_file, float font_height, Theme *thm, int bitflags);
+    TextBox(float x, float y, float width, float height, std::string texts,
+          ALLEGRO_FONT *font, Theme *thm, int bitflags);
+
+    ~TextBox();
+
+    int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
+    void Print();
+
+    void Change_coords(float x1, float y1, float width, float height);
+    void Change_coords_r(float &x1, float &y1, float &width, float &height);
+    void Change_print_coords(float x1, float y1, float width, float height);
+    void Change_print_coords_r(float &x1, float &y1, float &width, float &height);
+    virtual void Set_flags(int flags);
+    int Get_flags();
+};
+
+
+
 
 }
 #endif // _RGUI_H__

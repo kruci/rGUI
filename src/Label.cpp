@@ -64,6 +64,56 @@ namespace rGUI //ClickableText
         recalculate_text();
     }
 
+    /*//
+    //
+    //
+    //Bitflags
+    Label::Label(float x, float y, float width, float height, std::string texts,
+          std::string font_file, float font_height, Theme *thm, int bitflags)
+    :Widget(x,y,width, height, thm, (bitflags & rg_BITMAP_ONLY)), text(texts),
+        font_file(""), font(font)
+    {
+        wd_bf = bitflags;
+
+        if((bitflags & rg_HORIZONTAL_CENTER) == true)
+        {
+            print_flag = ALLEGRO_ALIGN_CENTRE;
+        }
+        else if((bitflags & rg_LEFT) == true)
+        {
+            print_flag = ALLEGRO_ALIGN_LEFT;
+        }
+        else if((bitflags & rg_RIGHT) == true)
+        {
+            print_flag = ALLEGRO_ALIGN_RIGHT;
+        }
+
+        if((bitflags & rg_MULTILINE) == true)
+        {
+            multiline = true;
+        }
+
+        text_height = font_height;
+        font = al_load_ttf_font(font_file.c_str(), text_height, 0);
+        if(font == nullptr)
+        {
+            al_show_native_message_box(NULL, "Error", "Failed to load font!", font_file.c_str(),
+                                       NULL, ALLEGRO_MESSAGEBOX_ERROR);
+        }
+        recalculate_text();
+
+    }
+    Label::Label(float x, float y, float width, float height, std::string texts,
+          ALLEGRO_FONT *font, Theme *thm, int bitflags)
+    :Widget(x,y,width, height, thm, (bitflags & rg_BITMAP_ONLY)), text(texts),
+        font_file(""), font(font)
+    {
+        wd_bf = bitflags;
+    }
+    //
+    //
+    //
+    //*/
 
     void Label::recalsulate_text_flag_poz()
     {

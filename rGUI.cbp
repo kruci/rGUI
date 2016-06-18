@@ -4,6 +4,7 @@
 	<Project>
 		<Option title="rGUI" />
 		<Option pch_mode="2" />
+		<Option default_target="Release" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
@@ -33,8 +34,8 @@
 				<Option object_output="obj/Release/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
-				<Option host_application="examples/example1.2" />
-				<Option run_host_application_in_terminal="0" />
+				<Option host_application="bin/examples/example1" />
+				<Option run_host_application_in_terminal="1" />
 				<Option createDefFile="1" />
 				<Compiler>
 					<Add option="-O3" />
@@ -51,8 +52,9 @@
 				<Option output="bin/examples/example1" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="examples/" />
 				<Option object_output="obj/examples/" />
-				<Option type="0" />
+				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
 				<Compiler>
 					<Add option="-O3" />
 					<Add option="-std=c++14" />
@@ -125,6 +127,10 @@
 			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/SlideBar.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/TextBox.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>

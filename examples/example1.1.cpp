@@ -5,8 +5,8 @@
 #define TIME_E std::cout << (clock() - cccccc) << std::endl;
 
 const float FPS = 60;
-const int SCREEN_W = 640;
-const int SCREEN_H = 480;
+const int SCREEN_W = 900;
+const int SCREEN_H = 700;
 const int BOUNCER_SIZE = 32;
 
 inline int error_message(std::string error_string)
@@ -215,6 +215,16 @@ int main(int argc, char **argv)
                                       , "Calibri.ttf", 35, ALLEGRO_ALIGN_CENTER, &tmh, false, true));
     widgets.push_back(new rGUI::Label(340, 260, 300, 200, "Some long test text, propably something copyed form THE internet :D ",
                                       font, ALLEGRO_ALIGN_CENTER, &tmh, false, true));
+
+
+
+    tmh.c_text = al_map_rgb(0,0,255);
+    tmh.c_background = al_map_rgba(100,100,100,100);
+    widgets.push_back(new rGUI::TextBox(10,500,500,100,"Test textsadasdasdasd  dasd as ddas das das dasd asd as das dasd ",
+                                        "Calibri.ttf", 50, &tmh, (rGUI::rg_HORIZONTAL_CENTER | rGUI::rg_MULTILINE  | rGUI::rg_RESIZE_FRAME)));
+
+
+
 
     tmh.c_background = al_map_rgb(150,22,86);
     widgets.push_back(new rGUI::Button(400,400,150,68,"Close", "Calibri.ttf",&tmh));

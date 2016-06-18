@@ -6,6 +6,13 @@ namespace rGUI //mousestate
     ALLEGRO_KEYBOARD_STATE *keyboard_state;
 
     void no_null(){};
+
+    bool _multilinecb(int _line_num, const char *_line, int _sizes, void *_extra)
+    {
+        ((ml_data*)_extra)->lines = _line_num + 1;
+        ((ml_data*)_extra)->maxlinesize = (((ml_data*)_extra)->maxlinesize < _sizes ? _sizes : ((ml_data*)_extra)->maxlinesize);
+        return true;
+    }
 }
 
 namespace rGUI //Mouse detector
