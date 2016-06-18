@@ -10,7 +10,15 @@ namespace rGUI //mousestate
     bool _multilinecb(int _line_num, const char *_line, int _sizes, void *_extra)
     {
         ((ml_data*)_extra)->lines = _line_num + 1;
-        ((ml_data*)_extra)->maxlinesize = (((ml_data*)_extra)->maxlinesize < _sizes ? _sizes : ((ml_data*)_extra)->maxlinesize);
+
+        std::string currentlinestr = ((std::string)_line).substr(0,_sizes);
+        int currnetlinesize = al_get_text_width(((ml_data*)_extra)->font, currentlinestr.c_str());
+
+        if(((ml_data*)_extra)->maxlinesize < currnetlinesize)
+        {
+            ((ml_data*)_extra)->maxlinesize = currnetlinesize;
+            ((ml_data*)_extra)->longesttext = currentlinestr;
+        }
         return true;
     }
 }

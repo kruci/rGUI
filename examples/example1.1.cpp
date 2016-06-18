@@ -219,9 +219,13 @@ int main(int argc, char **argv)
 
 
     tmh.c_text = al_map_rgb(0,0,255);
+    tmh.thickness = 10;
     tmh.c_background = al_map_rgba(100,100,100,100);
-    widgets.push_back(new rGUI::TextBox(10,500,500,100,"Test textsadasdasdasd  dasd as ddas das das dasd asd as das dasd ",
-                                        "Calibri.ttf", 50, &tmh, (rGUI::rg_HORIZONTAL_CENTER | rGUI::rg_MULTILINE  | rGUI::rg_RESIZE_FRAME)));
+    widgets.push_back(new rGUI::TextBox
+            (10,500,500,150,
+             //"0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40",
+            "loooooooooooooooooong text small ttext lol ol pol klol loooooooooooooooooooooooooonger text",
+            "Calibri.ttf", 30, &tmh, ( rGUI::rg_RESIZE_FRAME | rGUI::rg_MULTILINE)));
 
 
 

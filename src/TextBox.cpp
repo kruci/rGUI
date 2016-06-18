@@ -6,6 +6,7 @@ namespace rGUI //TextBox
           std::string font_file, float font_height, Theme *thm, int bitflags)
     :Widget(x,y,width,height, thm, (bitflags & rg_BITMAP_ONLY)), text(texts), font_file(font_file)
     {
+        wd_type = wt_TEXTBOX;
         font = al_load_ttf_font(font_file.c_str(), font_height, 0);
         if(font == nullptr)
         {
@@ -21,6 +22,7 @@ namespace rGUI //TextBox
           ALLEGRO_FONT *font, Theme *thm, int bitflags)
     :Widget(x,y,width,height, thm, (bitflags & rg_BITMAP_ONLY)), text(texts), font_file(""), font(font)
     {
+        wd_type = wt_TEXTBOX;
         delete_font = false;
         text_height = al_get_font_ascent(font) + al_get_font_descent(font);
 
@@ -94,31 +96,69 @@ namespace rGUI //TextBox
 
         text_width = al_get_text_width(font, text.c_str());
 
-        if(text_width >= wd_width && ((wd_bf & rg_RESIZE_TEXT)) && (delete_font == true))
+        if((text_width >= wd_width) && (wd_bf & rg_RESIZE_TEXT) && (delete_font == true) && (!(wd_bf & rg_MULTILINE)))
         {
             text_height = text_height * (wd_width/text_width);
             al_destroy_font(font);
             font = al_load_ttf_font(font_file.c_str(),text_height,0);
-            text_width = al_get_text_width(font, text.c_str());
-        }
-        else if((wd_bf & rg_RESIZE_FRAME) && !(wd_bf & rg_MULTILINE))
-        {
-            wd_Change_coords(wd_x1,wd_y1,text_width + wd_thickness + 1, text_height + wd_thickness + 1);
-            wd_md->Change_coords(wd_md->md_x1, wd_md->md_y1, text_width + wd_thickness + 1, text_height + wd_thickness + 1);
-        }
-        if(font == nullptr)
-        {
-            al_show_native_message_box(NULL, "Error", "Failed to load font!", font_file.c_str(),
+            if(font == nullptr)
+            {
+                al_show_native_message_box(NULL, "Error", "Failed to load font!", font_file.c_str(),
                                        NULL, ALLEGRO_MESSAGEBOX_ERROR);
+            }
+            text_width = al_get_text_width(font, text.c_str());
         }
         text_height = al_get_font_ascent(font) + al_get_font_descent(font);
         if(wd_bf & rg_MULTILINE)
         {
+            mld.font = font;
             al_do_multiline_text(font, wd_width, text.c_str(), _multilinecb, &mld);
             multiline_height = mld.lines * text_height;
+            multiline_longest_text = mld.maxlinesize;
+            //std::cout << multiline_longest_text << "  " << mld.longesttext.c_str() << std::endl;
         }
 
+        if((wd_bf & rg_RESIZE_FRAME) && (!(wd_bf & rg_MULTILINE)))
+        {
+            wd_Change_coords(wd_x1,wd_y1,text_width + 2*wd_thickness + 2, text_height + 2*wd_thickness + 2);
+            wd_md->Change_coords(wd_md->md_x1, wd_md->md_y1, text_width + 2*wd_thickness + 2, text_height + 2*wd_thickness + 2);
+        }
+        else if((!(wd_bf & rg_MULTILINE)) && ((wd_bf & rg_RESIZE_FRAME_H) || (wd_bf & rg_RESIZE_FRAME_W)))
+        {
+            float _w = wd_width, _h = wd_height;
+            if((wd_bf & rg_RESIZE_FRAME_H))
+            {
+                _h = text_height + 2*wd_thickness + 2;
+            }
+            if((wd_bf & rg_RESIZE_FRAME_W))
+            {
+                _w = text_width + 2*wd_thickness + 2;
+            }
+            wd_Change_coords(wd_x1,wd_y1,_w, _h);
+            wd_md->Change_coords(wd_md->md_x1, wd_md->md_y1, _w, _h);
+        }
+        else if((wd_bf & rg_RESIZE_FRAME) && (wd_bf & rg_MULTILINE))
+        {
+            wd_Change_coords(    wd_x1,wd_y1 , multiline_longest_text + 2*wd_thickness +2,
+                                 mld.lines * text_height + 2*wd_thickness +2);
+            wd_md->Change_coords(wd_md->md_x1, wd_md->md_y1, multiline_longest_text + 2*wd_thickness +2,
+                                 mld.lines * text_height + 2*wd_thickness+2);
+        }
+        else if(((wd_bf & rg_RESIZE_FRAME_H) || (wd_bf & rg_RESIZE_FRAME_W)) && (wd_bf & rg_MULTILINE))
+        {
+            float _w = wd_width, _h = wd_height;
+            if((wd_bf & rg_RESIZE_FRAME_H))
+            {
+                _h = mld.lines * text_height + 2*wd_thickness +2;
+            }
+            if((wd_bf & rg_RESIZE_FRAME_W))
+            {
+                _w = multiline_longest_text + 2*wd_thickness +2;
+            }
 
+            wd_Change_coords(wd_x1,wd_y1,_w, _h);
+            wd_md->Change_coords(wd_md->md_x1, wd_md->md_y1, _w, _h);
+        }
 
         if((wd_bf & rg_HORIZONTAL_CENTER))
         {
@@ -136,19 +176,35 @@ namespace rGUI //TextBox
             text_x = wd_x1 + wd_thickness + 1;
         }
 
-
-        if((wd_bf & rg_TOP))
+        if((wd_bf & rg_MULTILINE))
         {
-            text_y = wd_y1 + wd_thickness + 1;
+            if((wd_bf & rg_TOP))
+            {
+                text_y = wd_y1 + wd_thickness + 1;
+            }
+            else if((wd_bf & rg_BOTOM))
+            {
+                text_y = wd_y2 - multiline_height - wd_thickness - 1;
+            }
+            else //((wd_bf & rg_VERTICAL_CENTER) == true)
+            {
+                text_y = wd_y1 + (wd_height/2) - (multiline_height/2);
+            }
         }
-        else if((wd_bf & rg_BOTOM))
+        else
         {
-            text_y = wd_y2 - text_height - wd_thickness - 1;
-        }
-        else //((wd_bf & rg_VERTICAL_CENTER) == true)
-        {
-            text_y = wd_y1 + (wd_height/2) - (text_height/2);
-            //std::cout << text_height << "  " << text_y<< std::endl;
+            if((wd_bf & rg_TOP))
+            {
+                text_y = wd_y1 + wd_thickness + 1;
+            }
+            else if((wd_bf & rg_BOTOM))
+            {
+                text_y = wd_y2 - text_height - wd_thickness - 1;
+            }
+            else //((wd_bf & rg_VERTICAL_CENTER) == true)
+            {
+                text_y = wd_y1 + (wd_height/2) - (text_height/2);
+            }
         }
 
         if((wd_bf & rg_BITMAP_ONLY))
@@ -156,27 +212,6 @@ namespace rGUI //TextBox
             text_x -= wd_x1;
             text_y -= wd_y1;
         }
-
-        if((wd_bf & rg_RESIZE_FRAME) && (wd_bf & rg_MULTILINE))
-        {
-            if(multiline_height >= (wd_height + 4))
-            {
-                text_y = wd_y1 + wd_thickness + 1;
-            }
-            else
-            {
-                text_y = wd_y1 + wd_thickness + 1;
-            }
-
-            if((wd_bf & rg_BITMAP_ONLY))
-            {
-                text_y -= wd_y1;
-            }
-
-            wd_Change_coords(wd_x1,wd_y1,wd_width, text_y - wd_y1 + mld.lines * text_height + wd_thickness + 1);
-            wd_md->Change_coords(wd_x1, wd_y1, wd_width, text_y - wd_y1 + mld.lines * text_height + wd_thickness + 1);
-        }
-
     }
 
     int TextBox::Get_flags()
