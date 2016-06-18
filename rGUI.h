@@ -22,13 +22,18 @@ namespace rGUI
 {
     extern ALLEGRO_MOUSE_STATE *mouse_state;
     extern ALLEGRO_KEYBOARD_STATE *keyboard_state;
-    extern void no_null();
-    extern bool _multilinecb(int _line_num, const char *_line, int _sizes, void *_extra);
+    extern void no_null(); //blank function for function pointer
+    extern bool _multilinecb(int _line_num, const char *_line, int _sizes, void *_extra); //calculate TextBox multiline dimensions
 
-    struct ml_data{
+    extern void Init();
+    extern void GetStates();
+    extern void End();
+
+    struct ml_data{ //used by TextBox for multiline dimensions and custom text draw
         ALLEGRO_FONT *font = nullptr;
         int maxlinesize = 0, lines = 0;
         std::string longesttext = "";
+        void *dat = nullptr;
     };
 
     enum WidgetsTypes
@@ -42,7 +47,7 @@ namespace rGUI
         rg_TOP = 0x002, rg_BOTOM = 0x004, rg_VERTICAL_CENTER = 0x008,
         rg_LEFT = 0x010, rg_RIGHT = 0x020, rg_HORIZONTAL_CENTER = 0x040,
         rg_RESIZE_FRAME_H = 0x080, rg_RESIZE_FRAME_W = 0x100, rg_RESIZE_FRAME = 0x200,
-        rg_RESIZE_TEXT = 0x400,rg_MULTILINE = 0x800
+        rg_RESIZE_TEXT = 0x400,rg_MULTILINE = 0x800, rg_CUSTOM_TEXT_DRAW = 0x1000
     };
 
     struct Theme;
@@ -476,13 +481,18 @@ private:
     bool delete_font = true;
     std::string font_file;
     int print_flag;
-    ml_data mld;
     float multiline_height = 0, multiline_longest_text = 0;
 public:
     float text_x, text_y, text_height, text_width;
     std::string text;
 
-    //bitflags
+    //add extra text draw data to mld->data
+    ml_data *mld = nullptr;
+    //pointer to custom text draw
+    bool (*textdrawcallback)(int, const char*, int, void*) = nullptr;
+    //pointer to text dimension calculating function
+    bool (*textcalccallback)(int, const char*, int, void*) = &_multilinecb;
+
     TextBox(float x, float y, float width, float height, std::string texts,
           std::string font_file, float font_height, Theme *thm, int bitflags);
     TextBox(float x, float y, float width, float height, std::string texts,

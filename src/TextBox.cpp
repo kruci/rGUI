@@ -14,7 +14,7 @@ namespace rGUI //TextBox
                                        NULL, ALLEGRO_MESSAGEBOX_ERROR);
         }
         text_height = al_get_font_ascent(font) + al_get_font_descent(font);
-
+        mld = new ml_data;
         Set_flags(bitflags);
     }
 
@@ -26,6 +26,7 @@ namespace rGUI //TextBox
         delete_font = false;
         text_height = al_get_font_ascent(font) + al_get_font_descent(font);
 
+        mld = new ml_data;
         Set_flags(bitflags);
     }
 
@@ -33,6 +34,8 @@ namespace rGUI //TextBox
     {
         if(delete_font == true && font != nullptr)
             al_destroy_font(font);
+        if(mld != nullptr)
+            delete mld;
     }
 
     int TextBox::Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley)
@@ -47,17 +50,18 @@ namespace rGUI //TextBox
                                 wd_roundx, wd_roundy, wd_c_background);
         al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
                                 wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
-        /*   Mouse detector box
-        al_draw_rounded_rectangle(wd_md->md_x1, wd_md->md_y1, wd_md->md_x2, wd_md->md_y2,
-                                wd_roundx, wd_roundy, wd_c_outline, wd_thickness);*/
 
-        if(!(wd_bf & rg_MULTILINE))
+        if((wd_bf & rg_CUSTOM_TEXT_DRAW) && (textdrawcallback != nullptr))
+        {
+            al_do_multiline_text(font, wd_width, text.c_str(), textdrawcallback, mld);
+        }
+        else if(!(wd_bf & rg_MULTILINE))
         {
              al_draw_text(font,wd_c_text, text_x, text_y, print_flag, text.c_str());
         }
         else
         {
-            al_draw_multiline_text(font, wd_c_text, text_x, text_y/*wd_y1 + wd_thickness + 1*/, wd_width,
+            al_draw_multiline_text(font, wd_c_text, text_x, text_y, wd_width,
                                    text_height,print_flag, text.c_str());
         }
         wd_PrintEnd();
@@ -111,11 +115,10 @@ namespace rGUI //TextBox
         text_height = al_get_font_ascent(font) + al_get_font_descent(font);
         if(wd_bf & rg_MULTILINE)
         {
-            mld.font = font;
-            al_do_multiline_text(font, wd_width, text.c_str(), _multilinecb, &mld);
-            multiline_height = mld.lines * text_height;
-            multiline_longest_text = mld.maxlinesize;
-            //std::cout << multiline_longest_text << "  " << mld.longesttext.c_str() << std::endl;
+            mld->font = font;
+            al_do_multiline_text(font, wd_width, text.c_str(), textcalccallback, mld);
+            multiline_height = mld->lines * text_height;
+            multiline_longest_text = mld->maxlinesize;
         }
 
         if((wd_bf & rg_RESIZE_FRAME) && (!(wd_bf & rg_MULTILINE)))
@@ -140,16 +143,16 @@ namespace rGUI //TextBox
         else if((wd_bf & rg_RESIZE_FRAME) && (wd_bf & rg_MULTILINE))
         {
             wd_Change_coords(    wd_x1,wd_y1 , multiline_longest_text + 2*wd_thickness +2,
-                                 mld.lines * text_height + 2*wd_thickness +2);
+                                 mld->lines * text_height + 2*wd_thickness +2);
             wd_md->Change_coords(wd_md->md_x1, wd_md->md_y1, multiline_longest_text + 2*wd_thickness +2,
-                                 mld.lines * text_height + 2*wd_thickness+2);
+                                 mld->lines * text_height + 2*wd_thickness+2);
         }
         else if(((wd_bf & rg_RESIZE_FRAME_H) || (wd_bf & rg_RESIZE_FRAME_W)) && (wd_bf & rg_MULTILINE))
         {
             float _w = wd_width, _h = wd_height;
             if((wd_bf & rg_RESIZE_FRAME_H))
             {
-                _h = mld.lines * text_height + 2*wd_thickness +2;
+                _h = mld->lines * text_height + 2*wd_thickness +2;
             }
             if((wd_bf & rg_RESIZE_FRAME_W))
             {

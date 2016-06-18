@@ -2,8 +2,8 @@
 
 namespace rGUI //mousestate
 {
-    ALLEGRO_MOUSE_STATE *mouse_state;
-    ALLEGRO_KEYBOARD_STATE *keyboard_state;
+    ALLEGRO_MOUSE_STATE *mouse_state = nullptr;
+    ALLEGRO_KEYBOARD_STATE *keyboard_state = nullptr;
 
     void no_null(){};
 
@@ -20,6 +20,26 @@ namespace rGUI //mousestate
             ((ml_data*)_extra)->longesttext = currentlinestr;
         }
         return true;
+    }
+
+    void Init()
+    {
+        mouse_state = new ALLEGRO_MOUSE_STATE;
+        keyboard_state = new ALLEGRO_KEYBOARD_STATE;
+    }
+
+    void GetStates()
+    {
+        al_get_mouse_state(mouse_state);
+        al_get_keyboard_state(keyboard_state);
+    }
+
+    void End()
+    {
+        if(keyboard_state != nullptr)
+            delete keyboard_state;
+        if(mouse_state != nullptr)
+            delete mouse_state;
     }
 }
 
