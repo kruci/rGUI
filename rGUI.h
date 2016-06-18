@@ -472,6 +472,9 @@ public:
 
     int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
     void Print();
+
+    void Set_value(int val);
+    int Get_value();
 };
 
 class TextBox : public Widget
@@ -484,7 +487,7 @@ private:
     float multiline_height = 0, multiline_longest_text = 0;
 public:
     float text_x, text_y, text_height, text_width;
-    std::string text;
+    std::string text; //if you want to set text use Set_text(std::string t)
 
     //add extra text draw data to mld->data
     ml_data *mld = nullptr;
@@ -507,8 +510,10 @@ public:
     void Change_coords_r(float &x1, float &y1, float &width, float &height);
     void Change_print_coords(float x1, float y1, float width, float height);
     void Change_print_coords_r(float &x1, float &y1, float &width, float &height);
-    virtual void Set_flags(int flags);
-    int Get_flags();
+    void Set_flags(int flags);
+    int  Get_flags();
+    void Set_text(std::string t);
+    std::string Get_text();
 };
 
 

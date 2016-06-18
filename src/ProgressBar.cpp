@@ -46,4 +46,13 @@ namespace rGUI //ProgressBar
         wd_PrintEnd();
     }
 
+    void ProgressBar::Set_value(int val)
+    {
+        value = val;
+    }
+
+    int ProgressBar::Get_value()
+    {
+        return value;
+    }
 }

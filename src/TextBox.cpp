@@ -221,4 +221,15 @@ namespace rGUI //TextBox
     {
         return wd_bf;
     }
+
+    void TextBox::Set_text(std::string t)
+    {
+        text = t;
+        Set_flags(wd_bf);
+    }
+
+    std::string TextBox::Get_text()
+    {
+        return text;
+    }
 }
