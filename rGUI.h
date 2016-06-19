@@ -492,6 +492,7 @@ private:
     std::string font_file;
     int print_flag;
     float multiline_height = 0, multiline_longest_text = 0;
+    int cr_x, cr_y, cr_w, cr_h;
 public:
     float text_x, text_y, text_height, text_width;
     std::string text; //if you want to set text use Set_text(std::string t)

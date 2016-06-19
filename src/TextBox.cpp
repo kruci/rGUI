@@ -51,19 +51,31 @@ namespace rGUI //TextBox
         al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
                                 wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
 
+        if(!(wd_bf & rg_RESIZE_TEXT))
+        {
+            al_get_clipping_rectangle(&cr_x, &cr_y, &cr_w, &cr_h);
+            al_set_clipping_rectangle(wd_x1, wd_y1, wd_width - wd_thickness/2, wd_height - wd_thickness/2);
+        }
+
         if((wd_bf & rg_CUSTOM_TEXT_DRAW) && (textdrawcallback != nullptr))
         {
-            al_do_multiline_text(font, wd_width, text.c_str(), textdrawcallback, mld);
+            al_do_multiline_text(font, wd_width- wd_thickness, text.c_str(), textdrawcallback, mld);
         }
-        /*else if(!(wd_bf & rg_MULTILINE))
+        else if(!(wd_bf & rg_MULTILINE))
         {
              al_draw_text(font,wd_c_text, text_x, text_y, print_flag, text.c_str());
-        }*/
+        }
         else
         {
-            al_draw_multiline_text(font, wd_c_text, text_x, text_y, wd_width,
+            al_draw_multiline_text(font, wd_c_text, text_x, text_y, wd_width- wd_thickness,
                                    text_height,print_flag, text.c_str());
         }
+
+        if(!(wd_bf & rg_RESIZE_TEXT))
+        {
+            al_set_clipping_rectangle(cr_x, cr_y, cr_w, cr_h);
+        }
+
 
         if((wd_bf & rg_AS_BUTTON))
         {
@@ -132,7 +144,7 @@ namespace rGUI //TextBox
         if(wd_bf & rg_MULTILINE)
         {
             mld->font = font;
-            al_do_multiline_text(font, wd_width, text.c_str(), textcalccallback, mld);
+            al_do_multiline_text(font, wd_width - wd_thickness, text.c_str(), textcalccallback, mld);
             multiline_height = mld->lines * text_height;
             multiline_longest_text = mld->maxlinesize;
         }
