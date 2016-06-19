@@ -187,6 +187,7 @@ int main(int argc, char **argv)
         widgets[((rGUI::ScrollableArea*)widgets[widgets.size()-1])->
         widgets.size() - 1]->wd_md->md_active = false;
 
+    ((rGUI::ScrollableArea*)widgets[widgets.size()-1])->zoomable = true;
     for(int a = 0; a < 500;a++)
     {
         //((rGUI::ScrollableArea*)widgets[widgets.size()-1])->widgets.push_back(new rGUI::Button(10 + a*150, 2000 + a * 80, 120, 60, "Test #" + std::to_string(a), "Calibri.ttf", &tmh));

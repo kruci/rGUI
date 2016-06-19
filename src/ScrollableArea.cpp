@@ -72,9 +72,39 @@ namespace rGUI //ScrollableArea
                        wd_y1 + widgets[a]->orig_y1 - scb_vertical->change, widgets[a]->wd_width, widgets[a]->wd_height);
                 widgets[a]->Input(ev, scalex, scaley);
             }*/
-            if(al_key_down(keyboard_state, ALLEGRO_KEY_LSHIFT))
+            if(ev.type == ALLEGRO_EVENT_KEY_DOWN && ev.keyboard.keycode == zoomkey)
+            {
+                sca_mouse_z = mouse_state->z;
+            }
+
+            if(al_key_down(keyboard_state, horizontalscrollkey))
             {
                 scb_horizontal->Scrolling_input(ev, scalex, scaley);
+            }
+            else if(al_key_down(keyboard_state, zoomkey))
+            {
+                prevzoom = zoom;
+                if(sca_mouse_z - mouse_state->z > 0)
+                {
+                    zoom -= zoomstep;
+                }
+                else if(sca_mouse_z - mouse_state->z < 0)
+                {
+                    zoom += zoomstep;
+                }
+
+                if(zoom <= 0)
+                {
+                    zoom = zoomstep;
+                }
+                sca_mouse_z = mouse_state->z;
+
+                scb_vertical->Change_real_size(r_size_h * zoom);
+                scb_vertical->Set_change( (scb_vertical->change/prevzoom) * zoom);
+                scb_horizontal->Change_real_size(r_size_w * zoom);
+                scb_horizontal->Set_change((scb_horizontal->change/prevzoom) * zoom);
+                scb_vertical->changed = true;
+                scb_horizontal->changed = true;
             }
             else
             {
@@ -102,9 +132,13 @@ namespace rGUI //ScrollableArea
             {
                 if(changec_i == true)
                 {
-                    widgets[a]->wd_md->Change_coords(wd_x1 + widgets[a]->orig_x1 - scb_horizontal->change,
-                    wd_y1 + widgets[a]->orig_y1 - scb_vertical->change, widgets[a]->wd_width, widgets[a]->wd_height);
+                    widgets[a]->wd_md->Change_coords(wd_x1 + widgets[a]->orig_x1*zoom - scb_horizontal->change,
+                                                     wd_y1 + widgets[a]->orig_y1*zoom - scb_vertical->change,
+                                                     (widgets[a]->orig_x2 - widgets[a]->orig_x1)*zoom,
+                                                     (widgets[a]->orig_y2 - widgets[a]->orig_y1)*zoom);
                 }
+                /*float sxz = scalex*zoom, sxy = scaley*zoom;
+                widgets[a]->Input(ev, sxz, sxy);*/
                 widgets[a]->Input(ev, scalex, scaley);
             }
         }
@@ -119,33 +153,59 @@ namespace rGUI //ScrollableArea
         wd_ref_bmp = al_get_target_bitmap();
         al_set_target_bitmap(wd_bmp);
         al_clear_to_color(al_map_rgba(0,0,0,0));
-
         al_draw_filled_rounded_rectangle(0, 0, wd_width, wd_height,
                                 wd_roundx, wd_roundy, wd_c_background);
+
+        if(zoomable == true)
+        {
+            //al_copy_transform(&ct, al_get_current_transform());
+            al_scale_transform(&rest, zoom, zoom);
+            al_use_transform(&rest);
+        }
+
         //al_hold_bitmap_drawing(true);
         for(int a = 0; a < (int)widgets.size();a++)
         {
-            if(( (widgets[a]->orig_x1 >= scb_horizontal->change && widgets[a]->orig_x1 <= scb_horizontal->change + wd_width)
+            /*if(( (widgets[a]->orig_x1 >= scb_horizontal->change && widgets[a]->orig_x1 <= scb_horizontal->change + wd_width)
                  || (widgets[a]->orig_x2 >= scb_horizontal->change && widgets[a]->orig_x2 <= scb_horizontal->change + wd_width)
                  || (widgets[a]->orig_x1 <= scb_horizontal->change && widgets[a]->orig_x2 >= scb_horizontal->change + wd_width)
                 ) && (
                 (widgets[a]->orig_y1 >= scb_vertical->change && widgets[a]->orig_y1 <= scb_vertical->change + wd_height)
                  || (widgets[a]->orig_y2 >= scb_vertical->change && widgets[a]->orig_y2 <= scb_vertical->change + wd_height)
                  || (widgets[a]->orig_y1 <= scb_vertical->change && widgets[a]->orig_y2 >= scb_vertical->change + wd_height)))
+            {*/
+            if(( (widgets[a]->orig_x1 *zoom >= scb_horizontal->change && widgets[a]->orig_x1 *zoom<= scb_horizontal->change + wd_width)
+                 || (widgets[a]->orig_x2 *zoom>= scb_horizontal->change && widgets[a]->orig_x2 *zoom<= scb_horizontal->change + wd_width)
+                 || (widgets[a]->orig_x1 *zoom<= scb_horizontal->change && widgets[a]->orig_x2 *zoom>= scb_horizontal->change + wd_width)
+                ) && (
+                (widgets[a]->orig_y1 *zoom>= scb_vertical->change && widgets[a]->orig_y1 *zoom<= scb_vertical->change + wd_height)
+                 || (widgets[a]->orig_y2 *zoom>= scb_vertical->change && widgets[a]->orig_y2 *zoom<= scb_vertical->change + wd_height)
+                 || (widgets[a]->orig_y1 *zoom<= scb_vertical->change && widgets[a]->orig_y2 *zoom>= scb_vertical->change + wd_height)))
             {
                 if(changec_p == true)
                 {
-                    widgets[a]->Change_coords(widgets[a]->orig_x1 - scb_horizontal->change,
-                    widgets[a]->orig_y1 - scb_vertical->change, widgets[a]->wd_width, widgets[a]->wd_height);
+                    widgets[a]->Change_print_coords(widgets[a]->orig_x1 - scb_horizontal->change/zoom,
+                    widgets[a]->orig_y1 - scb_vertical->change/zoom, widgets[a]->wd_width, widgets[a]->wd_height);
 
-                    widgets[a]->wd_md->Change_coords(wd_x1 + widgets[a]->orig_x1 - scb_horizontal->change,
-                    wd_y1 + widgets[a]->orig_y1 - scb_vertical->change, widgets[a]->wd_width, widgets[a]->wd_height);
+                    /*widgets[a]->wd_md->Change_coords(wd_x1 + widgets[a]->orig_x1 - scb_horizontal->change,
+                    wd_y1 + widgets[a]->orig_y1 - scb_vertical->change, widgets[a]->wd_width, widgets[a]->wd_height);*/
+
+                    widgets[a]->wd_md->Change_coords(wd_x1 + widgets[a]->orig_x1*zoom - scb_horizontal->change,
+                                                     wd_y1 + widgets[a]->orig_y1*zoom - scb_vertical->change,
+                                                     (widgets[a]->orig_x2 - widgets[a]->orig_x1)*zoom,
+                                                     (widgets[a]->orig_y2 - widgets[a]->orig_y1)*zoom);
                 }
                 widgets[a]->Print();
             }
         }
         changec_p = false;
         //al_hold_bitmap_drawing(false);
+
+        if(zoomable == true)
+        {
+            al_identity_transform(&rest);
+            al_use_transform(&rest);
+        }
 
         scb_horizontal->Print();
         scb_vertical->Print();
@@ -196,14 +256,23 @@ namespace rGUI //ScrollableArea
 
         scb_horizontal->Change_real_size_r(wid);
         scb_vertical->Change_real_size_r(hei);
+        r_size_w = wid;
+        r_size_h = hei;
 
         for(int a = 0; a < (int)widgets.size();a++)
         {
-            widgets[a]->Change_coords(widgets[a]->orig_x1 - scb_horizontal->change,
+            /*widgets[a]->Change_coords(widgets[a]->orig_x1 - scb_horizontal->change,
                     widgets[a]->orig_y1 - scb_vertical->change, widgets[a]->wd_width, widgets[a]->wd_height);
 
             widgets[a]->wd_md->Change_coords(wd_x1 + widgets[a]->orig_x1 - scb_horizontal->change,
-                    wd_y1 + widgets[a]->orig_y1 - scb_vertical->change, widgets[a]->wd_width, widgets[a]->wd_height);
+                    wd_y1 + widgets[a]->orig_y1 - scb_vertical->change, widgets[a]->wd_width, widgets[a]->wd_height);*/
+            widgets[a]->Change_coords(widgets[a]->orig_x1 - scb_horizontal->change/zoom,
+                    widgets[a]->orig_y1 - scb_vertical->change/zoom, widgets[a]->wd_width, widgets[a]->wd_height);
+
+            widgets[a]->wd_md->Change_coords(wd_x1 + widgets[a]->orig_x1*zoom - scb_horizontal->change,
+                                             wd_y1 + widgets[a]->orig_y1*zoom - scb_vertical->change,
+                                             (widgets[a]->orig_x2 - widgets[a]->orig_x1)*zoom,
+                                             (widgets[a]->orig_y2 - widgets[a]->orig_y1)*zoom);
         }
     }
 

@@ -51,6 +51,10 @@ namespace rGUI
         rg_AS_BUTTON = 0x2000
     };
 
+    enum rGUIScrollableAreabf{
+        rg_VERTICAL_SCROLL = 0x001, rg_HORIZONTAL_SCROLL = 0x002, rg_ZOOMABLE = 0x004
+    };
+
     struct Theme;
     class MouseDetector;
     class Widget;
@@ -340,9 +344,11 @@ public:
     float scb_thickness = 14;
 
     bool zoomable = false;
-    float zw = 1, zh = 1;
+    float prevzoom = 1,zoom = 1, zoomstep = 0.05;
+    //float scbv_or_r = 0, scbh_or_r = 0;
     float sca_mouse_z;
-    ALLEGRO_TRANSFORM rt, tt;
+    ALLEGRO_TRANSFORM ct, rest;
+    int zoomkey = ALLEGRO_KEY_LCTRL, horizontalscrollkey = ALLEGRO_KEY_LSHIFT;
 
     std::vector<Widget*> widgets;
     ScrollBar *scb_vertical = nullptr, *scb_horizontal = nullptr;
