@@ -81,7 +81,7 @@ namespace rGUI //ScrollableArea
             {
                 scb_horizontal->Scrolling_input(ev, scalex, scaley);
             }
-            else if(al_key_down(keyboard_state, zoomkey))
+            else if(al_key_down(keyboard_state, zoomkey) && (zoomable == true))
             {
                 prevzoom = zoom;
                 if(sca_mouse_z - mouse_state->z > 0)

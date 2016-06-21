@@ -110,8 +110,8 @@ namespace rGUI //SlideBars
                    scaley*rGUI::mouse_state->y <= wd_md->md_y2 + slide_y2 - wd_y2
                    && scaley*rGUI::mouse_state->y >= wd_md->md_y1 + slide_y1 - wd_y1)
                 {
-                    cx = scalex*(float)rGUI::mouse_state->x - ((value*wd_width)/(float)values + wd_md->md_x1);
-                    cy = scaley*(float)rGUI::mouse_state->y - ((value*wd_height)/(float)values + wd_md->md_y1);
+                    cx = scalex*(float)rGUI::mouse_state->x - ((value* wd_md->md_width)/(float)values + wd_md->md_x1);
+                    cy = scaley*(float)rGUI::mouse_state->y - ((value* wd_md->md_height)/(float)values + wd_md->md_y1);
                 }
                 else
                 {
@@ -123,11 +123,11 @@ namespace rGUI //SlideBars
 
             if(vertical == false)
             {
-                value = (scalex*(float)rGUI::mouse_state->x - cx - wd_md->md_x1)/(wd_width/(float)values);
+                value = (scalex*(float)rGUI::mouse_state->x - cx - wd_md->md_x1)/(wd_md->md_width/(float)values);
             }
             else
             {
-                value = (scaley*(float)rGUI::mouse_state->y - cy - wd_md->md_y1)/(wd_height/(float)values);
+                value = (scaley*(float)rGUI::mouse_state->y - cy - wd_md->md_y1)/(wd_md->md_height/(float)values);
             }
 
             if(value < val_min)

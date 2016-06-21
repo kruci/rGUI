@@ -159,6 +159,9 @@ public:
     virtual void Change_coords_r(float &x1, float &y1, float &width, float &height);
     virtual void Change_print_coords(float x1, float y1, float width, float height);
     virtual void Change_print_coords_r(float &x1, float &y1, float &width, float &height);
+
+    virtual int Get_flags();
+    virtual void Set_flags(int flags);
 };
 
 class Button : public Widget
