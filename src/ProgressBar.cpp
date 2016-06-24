@@ -32,15 +32,15 @@ namespace rGUI //ProgressBar
         }
 
         al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_roundx, wd_roundy, wd_c_background);
-        al_draw_rounded_rectangle(wd_x1 + wd_thickness/2.0, wd_y1 + wd_thickness/2.0,
-                                  wd_x2 - wd_thickness/2.0, wd_y2 - wd_thickness/2.0,
-                                wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
+        al_draw_rounded_rectangle(wd_x1 + wd_theme.thickness/2.0, wd_y1 + wd_theme.thickness/2.0,
+                                  wd_x2 - wd_theme.thickness/2.0, wd_y2 - wd_theme.thickness/2.0,
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
         if(value > 0)
         {
-             al_draw_filled_rounded_rectangle(wd_x1 + wd_thickness +1, wd_y1 + wd_thickness +1,
-                            (wd_x1 + wd_thickness +1.0f)+ ((wd_x2 - wd_thickness -1.0f)-(wd_x1 + wd_thickness +1))*((float)value/100.0f),
-                            wd_y2 - wd_thickness -1, wd_roundx, wd_roundy, wd_c_text);
+             al_draw_filled_rounded_rectangle(wd_x1 + wd_theme.thickness +1, wd_y1 + wd_theme.thickness +1,
+                            (wd_x1 + wd_theme.thickness +1.0f)+ ((wd_x2 - wd_theme.thickness -1.0f)-(wd_x1 + wd_theme.thickness +1))*((float)value/100.0f),
+                            wd_y2 - wd_theme.thickness -1, wd_theme.roundx, wd_theme.roundy, wd_theme.c_text);
         }
 
         wd_PrintEnd();

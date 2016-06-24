@@ -154,7 +154,7 @@ namespace rGUI //ScrollableArea
         al_set_target_bitmap(wd_bmp);
         al_clear_to_color(al_map_rgba(0,0,0,0));
         al_draw_filled_rounded_rectangle(0, 0, wd_width, wd_height,
-                                wd_roundx, wd_roundy, wd_c_background);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
 
         if(zoomable == true)
         {
@@ -210,9 +210,9 @@ namespace rGUI //ScrollableArea
         scb_horizontal->Print();
         scb_vertical->Print();
 
-        al_draw_rounded_rectangle(wd_thickness/2.0f , wd_thickness/2.0f,
-                                  wd_width - wd_thickness/2.0f, wd_height - wd_thickness/2.0f,
-                                  wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
+        al_draw_rounded_rectangle(wd_theme.thickness/2.0f , wd_theme.thickness/2.0f,
+                                  wd_width - wd_theme.thickness/2.0f, wd_height - wd_theme.thickness/2.0f,
+                                  wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
 
 
         al_set_target_bitmap(wd_ref_bmp);

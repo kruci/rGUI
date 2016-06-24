@@ -32,19 +32,19 @@ namespace rGUI //Button
     {
         wd_PrintBegin();
         al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_roundx, wd_roundy, wd_c_background);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
         al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
-        al_draw_text(font,wd_c_text, text_x, text_y,0, text.c_str());
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
+        al_draw_text(font,wd_theme.c_text, text_x, text_y,0, text.c_str());
 
         if(wd_md->md_mouse_on_it == true)
         {
             al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_roundx, wd_roundy, wd_c_outline, wd_thickness + wd_added_thickness);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness + wd_theme.added_thickness);
             if(wd_md->md_clicking == true)
             {
                 al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_roundx, wd_roundy, wd_c_clicking);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_clicking);
             }
         }
         wd_PrintEnd();
@@ -65,7 +65,7 @@ namespace rGUI //Button
 
         if(fontwidth >= wd_width)
         {
-            font_height = font_height * ((wd_width-2.0f*wd_thickness)/fontwidth);
+            font_height = font_height * ((wd_width-2.0f*wd_theme.thickness)/fontwidth);
             al_destroy_font(font);
             font = al_load_ttf_font(bt_font_file.c_str(),font_height,0);
             fontwidth = al_get_text_width(font, text.c_str());
@@ -92,7 +92,7 @@ namespace rGUI //Button
 
         if(fontwidth >= wd_width)
         {
-            font_height = font_height * ((wd_width-2.0f*wd_thickness)/fontwidth);
+            font_height = font_height * ((wd_width-2.0f*wd_theme.thickness)/fontwidth);
             al_destroy_font(font);
             font = al_load_ttf_font(bt_font_file.c_str(),font_height,0);
             fontwidth = al_get_text_width(font, text.c_str());

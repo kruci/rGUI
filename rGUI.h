@@ -36,23 +36,23 @@ namespace rGUI
         void *dat = nullptr;
     };
 
-    enum WidgetsTypes
+    enum WidgetsTypes//wt
     {
         wt_BUTTON, wt_CHECKBOX, wt_BITMAPBUTTON, wt_CLICKABLETEXT, wt_INPUTFIELD, wt_SCROLLABLEAREA,
         wt_SCROLLBAR, wt_SLIDEBAR, wt_WIDGET, wt_SINGLEKEYINPUTFIELD, wt_LABEL, wt_TEXTBOX
     };
 
-    enum rGUIbitflags{
-        rg_BITMAP_ONLY = 0x001,
-        rg_TOP = 0x002, rg_BOTOM = 0x004, rg_VERTICAL_CENTER = 0x008,
-        rg_LEFT = 0x010, rg_RIGHT = 0x020, rg_HORIZONTAL_CENTER = 0x040,
-        rg_RESIZE_FRAME_H = 0x080, rg_RESIZE_FRAME_W = 0x100, rg_RESIZE_FRAME = 0x200,
-        rg_RESIZE_TEXT = 0x400,rg_MULTILINE = 0x800, rg_CUSTOM_TEXT_DRAW = 0x1000,
-        rg_AS_BUTTON = 0x2000
+    enum BitFlags{//bf
+        bf_BITMAP_ONLY = 0x001,
+        bf_TOP = 0x002, bf_BOTOM = 0x004, bf_VERTICAL_CENTER = 0x008,
+        bf_LEFT = 0x010, bf_RIGHT = 0x020, bf_HORIZONTAL_CENTER = 0x040,
+        bf_RESIZE_WIDGET_H = 0x080, bf_RESIZE_WIDGET_W = 0x100, bf_RESIZE_WIDGET = 0x200,
+        bf_RESIZE_TEXT = 0x400,bf_MULTILINE = 0x800, bf_CUSTOM_TEXT_DRAW = 0x1000,
+        bf_AS_BUTTON = 0x2000, bf_HAS_FRAME = 0x4000
     };
 
     enum rGUIScrollableAreabf{
-        rg_VERTICAL_SCROLL = 0x001, rg_HORIZONTAL_SCROLL = 0x002, rg_ZOOMABLE = 0x004
+        bf_VERTICAL_SCROLL = 0x001, bf_HORIZONTAL_SCROLL = 0x002, bf_ZOOMABLE = 0x004
     };
 
     struct Theme;
@@ -68,6 +68,8 @@ namespace rGUI
     class ScrollableArea;
     class InputField;
     class SingleKeyInputField;
+    class ProgressBar;
+    class TextBox;
 
 struct Theme{
     float roundx = 0;
@@ -139,11 +141,12 @@ public:
     bool wd_bitmap_only = false;
     bool wd_extented_input = false;
     bool print_active = true;
-    float wd_roundx = 0, wd_roundy = 0, wd_thickness = 1, wd_added_thickness = 1;
-    ALLEGRO_COLOR wd_c_outline = al_map_rgb(255,255,255),
-                  wd_c_background = al_map_rgb(0,0,66),
-                  wd_c_text = al_map_rgb(255,255,255),
-                  wd_c_clicking = al_map_rgba(0,0,0,150);
+    Theme wd_theme;
+    /*float wd_theme.roundx = 0, wd_theme.roundy = 0, wd_theme.thickness = 1, wd_theme.added_thickness = 1;
+    ALLEGRO_COLOR wd_theme.c_outline = al_map_rgb(255,255,255),
+                  wd_theme.c_background = al_map_rgb(0,0,66),
+                  wd_theme.c_text = al_map_rgb(255,255,255),
+                  wd_theme.c_clicking = al_map_rgba(0,0,0,150);*/
     ALLEGRO_BITMAP *wd_bmp = nullptr;
     MouseDetector *wd_md = nullptr;
 

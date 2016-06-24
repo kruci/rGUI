@@ -4,7 +4,7 @@ namespace rGUI //TextBox
 {
     TextBox::TextBox(float x, float y, float width, float height, std::string texts,
           std::string font_file, float font_height, Theme *thm, int bitflags)
-    :Widget(x,y,width,height, thm, (bitflags & rg_BITMAP_ONLY)), text(texts), font_file(font_file)
+    :Widget(x,y,width,height, thm, (bitflags & bf_BITMAP_ONLY)), text(texts), font_file(font_file)
     {
         wd_type = wt_TEXTBOX;
         font = al_load_ttf_font(font_file.c_str(), font_height, 0);
@@ -20,7 +20,7 @@ namespace rGUI //TextBox
 
     TextBox::TextBox(float x, float y, float width, float height, std::string texts,
           ALLEGRO_FONT *font, Theme *thm, int bitflags)
-    :Widget(x,y,width,height, thm, (bitflags & rg_BITMAP_ONLY)), text(texts), font_file(""), font(font)
+    :Widget(x,y,width,height, thm, (bitflags & bf_BITMAP_ONLY)), text(texts), font_file(""), font(font)
     {
         wd_type = wt_TEXTBOX;
         delete_font = false;
@@ -46,49 +46,52 @@ namespace rGUI //TextBox
     void TextBox::Print()
     {
         wd_PrintBegin();
-        al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_roundx, wd_roundy, wd_c_background);
-        al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
+        if(wd_bf & bf_HAS_FRAME)
+        {
+            al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
+            al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
+        }
 
-        if(!(wd_bf & rg_RESIZE_TEXT))
+        if(!(wd_bf & bf_RESIZE_TEXT))
         {
             al_get_clipping_rectangle(&cr_x, &cr_y, &cr_w, &cr_h);
-            al_set_clipping_rectangle(wd_x1, wd_y1, wd_width - wd_thickness/2, wd_height - wd_thickness/2);
+            al_set_clipping_rectangle(wd_x1, wd_y1, wd_width - wd_theme.thickness/2, wd_height - wd_theme.thickness/2);
         }
 
-        if((wd_bf & rg_CUSTOM_TEXT_DRAW) && (textdrawcallback != nullptr))
+        if((wd_bf & bf_CUSTOM_TEXT_DRAW) && (textdrawcallback != nullptr))
         {
-            al_do_multiline_text(font, wd_width- wd_thickness, text.c_str(), textdrawcallback, mld);
+            al_do_multiline_text(font, wd_width- wd_theme.thickness, text.c_str(), textdrawcallback, mld);
         }
-        else if(!(wd_bf & rg_MULTILINE))
+        else if(!(wd_bf & bf_MULTILINE))
         {
-             al_draw_text(font,wd_c_text, text_x, text_y, print_flag, text.c_str());
+             al_draw_text(font,wd_theme.c_text, text_x, text_y, print_flag, text.c_str());
         }
         else
         {
-            al_draw_multiline_text(font, wd_c_text, text_x, text_y, wd_width- wd_thickness,
+            al_draw_multiline_text(font, wd_theme.c_text, text_x, text_y, wd_width- wd_theme.thickness,
                                    text_height,print_flag, text.c_str());
         }
 
-        if(!(wd_bf & rg_RESIZE_TEXT))
+        if(!(wd_bf & bf_RESIZE_TEXT))
         {
             al_set_clipping_rectangle(cr_x, cr_y, cr_w, cr_h);
         }
 
 
-        if((wd_bf & rg_AS_BUTTON))
+        if((wd_bf & bf_AS_BUTTON))
         {
-            if(wd_md->md_mouse_on_it == true)
+            if(wd_md->md_mouse_on_it == true && (wd_bf & bf_HAS_FRAME))
             {
                  al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                    wd_roundx, wd_roundy, wd_c_outline, wd_thickness + wd_added_thickness);
+                    wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness + wd_theme.added_thickness);
             }
 
             if(wd_md->md_clicking == true)
             {
                 al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_roundx, wd_roundy, wd_c_clicking);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_clicking);
             }
         }
 
@@ -124,11 +127,11 @@ namespace rGUI //TextBox
     void TextBox::Set_flags(int flags)
     {
         wd_bf = flags;
-        wd_bitmap_only = (wd_bf & rg_BITMAP_ONLY);
+        wd_bitmap_only = (wd_bf & bf_BITMAP_ONLY);
 
         text_width = al_get_text_width(font, text.c_str());
 
-        if((text_width >= wd_width) && (wd_bf & rg_RESIZE_TEXT) && (delete_font == true) && (!(wd_bf & rg_MULTILINE)))
+        if((text_width >= wd_width) && (wd_bf & bf_RESIZE_TEXT) && (delete_font == true) && (!(wd_bf & bf_MULTILINE)))
         {
             text_height = text_height * (wd_width/text_width);
             al_destroy_font(font);
@@ -141,104 +144,104 @@ namespace rGUI //TextBox
             text_width = al_get_text_width(font, text.c_str());
         }
         text_height = al_get_font_ascent(font) + al_get_font_descent(font);
-        if(wd_bf & rg_MULTILINE)
+        if(wd_bf & bf_MULTILINE)
         {
             mld->font = font;
-            al_do_multiline_text(font, wd_width - wd_thickness, text.c_str(), textcalccallback, mld);
+            al_do_multiline_text(font, wd_width - wd_theme.thickness, text.c_str(), textcalccallback, mld);
             multiline_height = mld->lines * text_height;
             multiline_longest_text = mld->maxlinesize;
         }
 
-        if((wd_bf & rg_RESIZE_FRAME) && (!(wd_bf & rg_MULTILINE)))
+        if((wd_bf & bf_RESIZE_WIDGET) && (!(wd_bf & bf_MULTILINE)))
         {
-            wd_Change_coords(wd_x1,wd_y1,text_width + 2*wd_thickness + 2, text_height + 2*wd_thickness + 2);
-            wd_md->Change_coords(wd_md->md_x1, wd_md->md_y1, text_width + 2*wd_thickness + 2, text_height + 2*wd_thickness + 2);
+            wd_Change_coords(wd_x1,wd_y1,text_width + 2*wd_theme.thickness + 2, text_height + 2*wd_theme.thickness + 2);
+            wd_md->Change_coords(wd_md->md_x1, wd_md->md_y1, text_width + 2*wd_theme.thickness + 2, text_height + 2*wd_theme.thickness + 2);
         }
-        else if((!(wd_bf & rg_MULTILINE)) && ((wd_bf & rg_RESIZE_FRAME_H) || (wd_bf & rg_RESIZE_FRAME_W)))
+        else if((!(wd_bf & bf_MULTILINE)) && ((wd_bf & bf_RESIZE_WIDGET_H) || (wd_bf & bf_RESIZE_WIDGET_W)))
         {
             float _w = wd_width, _h = wd_height;
-            if((wd_bf & rg_RESIZE_FRAME_H))
+            if((wd_bf & bf_RESIZE_WIDGET_H))
             {
-                _h = text_height + 2*wd_thickness + 2;
+                _h = text_height + 2*wd_theme.thickness + 2;
             }
-            if((wd_bf & rg_RESIZE_FRAME_W))
+            if((wd_bf & bf_RESIZE_WIDGET_W))
             {
-                _w = text_width + 2*wd_thickness + 2;
+                _w = text_width + 2*wd_theme.thickness + 2;
             }
             wd_Change_coords(wd_x1,wd_y1,_w, _h);
             wd_md->Change_coords(wd_md->md_x1, wd_md->md_y1, _w, _h);
         }
-        else if((wd_bf & rg_RESIZE_FRAME) && (wd_bf & rg_MULTILINE))
+        else if((wd_bf & bf_RESIZE_WIDGET) && (wd_bf & bf_MULTILINE))
         {
-            wd_Change_coords(    wd_x1,wd_y1 , multiline_longest_text + 2*wd_thickness +2,
-                                 mld->lines * text_height + 2*wd_thickness +2);
-            wd_md->Change_coords(wd_md->md_x1, wd_md->md_y1, multiline_longest_text + 2*wd_thickness +2,
-                                 mld->lines * text_height + 2*wd_thickness+2);
+            wd_Change_coords(    wd_x1,wd_y1 , multiline_longest_text + 2*wd_theme.thickness +2,
+                                 mld->lines * text_height + 2*wd_theme.thickness +2);
+            wd_md->Change_coords(wd_md->md_x1, wd_md->md_y1, multiline_longest_text + 2*wd_theme.thickness +2,
+                                 mld->lines * text_height + 2*wd_theme.thickness+2);
         }
-        else if(((wd_bf & rg_RESIZE_FRAME_H) || (wd_bf & rg_RESIZE_FRAME_W)) && (wd_bf & rg_MULTILINE))
+        else if(((wd_bf & bf_RESIZE_WIDGET_H) || (wd_bf & bf_RESIZE_WIDGET_W)) && (wd_bf & bf_MULTILINE))
         {
             float _w = wd_width, _h = wd_height;
-            if((wd_bf & rg_RESIZE_FRAME_H))
+            if((wd_bf & bf_RESIZE_WIDGET_H))
             {
-                _h = mld->lines * text_height + 2*wd_thickness +2;
+                _h = mld->lines * text_height + 2*wd_theme.thickness +2;
             }
-            if((wd_bf & rg_RESIZE_FRAME_W))
+            if((wd_bf & bf_RESIZE_WIDGET_W))
             {
-                _w = multiline_longest_text + 2*wd_thickness +2;
+                _w = multiline_longest_text + 2*wd_theme.thickness +2;
             }
 
             wd_Change_coords(wd_x1,wd_y1,_w, _h);
             wd_md->Change_coords(wd_md->md_x1, wd_md->md_y1, _w, _h);
         }
 
-        if((wd_bf & rg_HORIZONTAL_CENTER))
+        if((wd_bf & bf_HORIZONTAL_CENTER))
         {
             print_flag = ALLEGRO_ALIGN_CENTRE;
             text_x = wd_x1 + wd_width/2.0f;
         }
-        else if((wd_bf & rg_RIGHT))
+        else if((wd_bf & bf_RIGHT))
         {
             print_flag = ALLEGRO_ALIGN_RIGHT;
-            text_x = wd_x2 - wd_thickness - 1;
+            text_x = wd_x2 - wd_theme.thickness - 1;
         }
-        else//((wd_bf & rg_LEFT))
+        else//((wd_bf & bf_LEFT))
         {
             print_flag = ALLEGRO_ALIGN_LEFT;
-            text_x = wd_x1 + wd_thickness + 1;
+            text_x = wd_x1 + wd_theme.thickness + 1;
         }
 
-        if((wd_bf & rg_MULTILINE))
+        if((wd_bf & bf_MULTILINE))
         {
-            if((wd_bf & rg_TOP))
+            if((wd_bf & bf_TOP))
             {
-                text_y = wd_y1 + wd_thickness + 1;
+                text_y = wd_y1 + wd_theme.thickness + 1;
             }
-            else if((wd_bf & rg_BOTOM))
+            else if((wd_bf & bf_BOTOM))
             {
-                text_y = wd_y2 - multiline_height - wd_thickness - 1;
+                text_y = wd_y2 - multiline_height - wd_theme.thickness - 1;
             }
-            else //((wd_bf & rg_VERTICAL_CENTER) == true)
+            else //((wd_bf & bf_VERTICAL_CENTER) == true)
             {
                 text_y = wd_y1 + (wd_height/2) - (multiline_height/2);
             }
         }
         else
         {
-            if((wd_bf & rg_TOP))
+            if((wd_bf & bf_TOP))
             {
-                text_y = wd_y1 + wd_thickness + 1;
+                text_y = wd_y1 + wd_theme.thickness + 1;
             }
-            else if((wd_bf & rg_BOTOM))
+            else if((wd_bf & bf_BOTOM))
             {
-                text_y = wd_y2 - text_height - wd_thickness - 1;
+                text_y = wd_y2 - text_height - wd_theme.thickness - 1;
             }
-            else //((wd_bf & rg_VERTICAL_CENTER) == true)
+            else //((wd_bf & bf_VERTICAL_CENTER) == true)
             {
                 text_y = wd_y1 + (wd_height/2) - (text_height/2);
             }
         }
 
-        if((wd_bf & rg_BITMAP_ONLY))
+        if((wd_bf & bf_BITMAP_ONLY))
         {
             text_x -= wd_x1;
             text_y -= wd_y1;

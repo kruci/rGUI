@@ -36,23 +36,23 @@ namespace rGUI //CheckBox
         wd_PrintBegin();
 
         al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_roundx, wd_roundy, wd_c_background);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
         al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
         if(selected == true)
         {
             al_draw_filled_circle(wd_x1 + wd_width/2.0f, wd_y1 + wd_height/2.0f,
-                                  (wd_width < wd_height ? (wd_width/8.0f)*3.0f -wd_thickness : (wd_height/8.0f)*3.0f -wd_thickness), wd_c_text);
+                                  (wd_width < wd_height ? (wd_width/8.0f)*3.0f -wd_theme.thickness : (wd_height/8.0f)*3.0f -wd_theme.thickness), wd_theme.c_text);
         }
 
         if(wd_md->md_mouse_on_it == true)
         {
             al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_roundx, wd_roundy, wd_c_outline, wd_thickness + wd_added_thickness);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness + wd_theme.added_thickness);
             if(wd_md->md_clicking == true)
             {
                 al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_roundx, wd_roundy, wd_c_clicking);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_clicking);
             }
         }
 

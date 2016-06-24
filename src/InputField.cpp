@@ -7,7 +7,7 @@ namespace rGUI //InputField
     {
         wd_extented_input = true;
         wd_type = wt_INPUTFIELD;
-        font_height = wd_height - 4 - wd_thickness*2.0f;
+        font_height = wd_height - 4 - wd_theme.thickness*2.0f;
 
         font = al_load_ttf_font(font_file.c_str(), font_height, 0);
 
@@ -19,7 +19,7 @@ namespace rGUI //InputField
 
         al_text = al_ustr_new("");
         al_selected = al_ustr_new("");
-        text_x = wd_thickness + wd_added_thickness + 2;
+        text_x = wd_theme.thickness + wd_theme.added_thickness + 2;
         text_y = (wd_height - font_height)/2.0f;
         texty_shift = 0;
 
@@ -34,7 +34,7 @@ namespace rGUI //InputField
     {
         wd_extented_input = true;
         wd_type = wt_INPUTFIELD;
-        font_height = wd_height - 4 - wd_thickness*2.0f;
+        font_height = wd_height - 4 - wd_theme.thickness*2.0f;
 
         font = al_load_ttf_font(font_file.c_str(), font_height, 0);
 
@@ -47,7 +47,7 @@ namespace rGUI //InputField
         al_text = al_ustr_new(init_text.c_str());
         al_selected = al_ustr_new("");
         bar_char_poz = text.size()-1;
-        text_x = wd_thickness + wd_added_thickness + 2;
+        text_x = wd_theme.thickness + wd_theme.added_thickness + 2;
         text_y = (wd_height - font_height)/2.0f;
         texty_shift = 0;
 
@@ -58,7 +58,7 @@ namespace rGUI //InputField
 
     void InputField::recalculate_text()
     {
-        /*font_height = wd_height - 4 - wd_thickness*2.0f;
+        /*font_height = wd_height - 4 - wd_theme.thickness*2.0f;
 
         font = al_load_ttf_font(font_file.c_str(), font_height, 0);
 
@@ -70,7 +70,7 @@ namespace rGUI //InputField
 
         text_y = (wd_height - font_height)/2.0f;
         texty_shift = 0;
-        text_x = wd_thickness + 2 - texty_shift;
+        text_x = wd_theme.thickness + 2 - texty_shift;
     }
 
     InputField::~InputField()
@@ -178,31 +178,31 @@ namespace rGUI //InputField
         al_ustr_truncate(if_help_ustr,0);
         if_help_ustr = al_ustr_dup_substr(al_text, 0, bar_char_poz);
         text_width = al_get_ustr_width(font, al_text);
-        texty_shift = text_width - wd_width + bar_width + wd_thickness + wd_added_thickness + 6;
+        texty_shift = text_width - wd_width + bar_width + wd_theme.thickness + wd_theme.added_thickness + 6;
         texty_shift = (texty_shift > 0 ? texty_shift : 0);
         bar_x = (al_ustr_size(al_text) > 0 ? text_x + al_get_ustr_width(font, if_help_ustr) : text_x);
         texty_shift = (bar_x - texty_shift < 0 ?
-                       bar_x - wd_thickness - wd_added_thickness - text_x: texty_shift);
+                       bar_x - wd_theme.thickness - wd_theme.added_thickness - text_x: texty_shift);
 
         wd_PrintBegin();
 
-        al_draw_filled_rounded_rectangle(0 + wd_thickness/2.0f, 0 + wd_thickness/2.0f,
-                                         wd_width- wd_thickness/2.0f, wd_height- wd_thickness/2.0f,
-                                         wd_roundx, wd_roundy, wd_c_background);
+        al_draw_filled_rounded_rectangle(0 + wd_theme.thickness/2.0f, 0 + wd_theme.thickness/2.0f,
+                                         wd_width- wd_theme.thickness/2.0f, wd_height- wd_theme.thickness/2.0f,
+                                         wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
 
-        al_draw_ustr(font, wd_c_text, text_x - texty_shift, text_y,0, al_text);
+        al_draw_ustr(font, wd_theme.c_text, text_x - texty_shift, text_y,0, al_text);
         if(wd_md->md_clicked == true)
         {
-            al_draw_rounded_rectangle(0 + wd_thickness/2.0f + wd_added_thickness/2.0f + 1,
-            0 + wd_thickness/2.0f + wd_added_thickness/2.0f,
-            wd_width - wd_thickness/2.0f - wd_added_thickness/2.0f,
-            wd_height- wd_thickness/2.0f - wd_added_thickness/2.0f -1,
-            wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
+            al_draw_rounded_rectangle(0 + wd_theme.thickness/2.0f + wd_theme.added_thickness/2.0f + 1,
+            0 + wd_theme.thickness/2.0f + wd_theme.added_thickness/2.0f,
+            wd_width - wd_theme.thickness/2.0f - wd_theme.added_thickness/2.0f,
+            wd_height- wd_theme.thickness/2.0f - wd_theme.added_thickness/2.0f -1,
+            wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
 
             if(if_a <= if_FPS)
             {
                 al_draw_filled_rectangle(bar_x - texty_shift, text_y, bar_x - texty_shift + bar_width,
-                text_y + font_height, wd_c_text);
+                text_y + font_height, wd_theme.c_text);
             }
             if(if_a > if_FPS*2.0f)
             {
@@ -211,9 +211,9 @@ namespace rGUI //InputField
             if_a++;
         }
 
-        al_draw_rounded_rectangle(0 + wd_thickness/2.0f, 0 + wd_thickness/2.0f,
-                                  wd_width- wd_thickness/2.0f, wd_height- wd_thickness/2.0f,
-                                  wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
+        al_draw_rounded_rectangle(0 + wd_theme.thickness/2.0f, 0 + wd_theme.thickness/2.0f,
+                                  wd_width- wd_theme.thickness/2.0f, wd_height- wd_theme.thickness/2.0f,
+                                  wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
 
         wd_PrintEnd();
         if(bmp_only == false)

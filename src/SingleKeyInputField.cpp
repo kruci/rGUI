@@ -56,26 +56,26 @@ namespace rGUI //SingleKeyInputField
     void SingleKeyInputField::Print()
     {
         text_width = al_get_text_width(font, text.c_str());
-        texty_shift = text_width - wd_width + bar_width + wd_thickness + wd_added_thickness + 6;
+        texty_shift = text_width - wd_width + bar_width + wd_theme.thickness + wd_theme.added_thickness + 6;
         texty_shift = (texty_shift > 0 ? texty_shift : 0);
 
         wd_PrintBegin();
 
 
-        al_draw_filled_rounded_rectangle(0 + wd_thickness/2.0f, 0 + wd_thickness/2.0f,
-                                         wd_width- wd_thickness/2.0f, wd_height- wd_thickness/2.0f,
-                                         wd_roundx, wd_roundy, wd_c_background);
-        al_draw_rounded_rectangle(0 + wd_thickness/2.0f, 0 + wd_thickness/2.0f,
-                                  wd_width- wd_thickness/2.0f, wd_height- wd_thickness/2.0f,
-                                  wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
-        al_draw_text(font, wd_c_text, text_x - texty_shift, text_y,0, text.c_str());
+        al_draw_filled_rounded_rectangle(0 + wd_theme.thickness/2.0f, 0 + wd_theme.thickness/2.0f,
+                                         wd_width- wd_theme.thickness/2.0f, wd_height- wd_theme.thickness/2.0f,
+                                         wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
+        al_draw_rounded_rectangle(0 + wd_theme.thickness/2.0f, 0 + wd_theme.thickness/2.0f,
+                                  wd_width- wd_theme.thickness/2.0f, wd_height- wd_theme.thickness/2.0f,
+                                  wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
+        al_draw_text(font, wd_theme.c_text, text_x - texty_shift, text_y,0, text.c_str());
         if(wd_md->md_clicked == true)
         {
-            al_draw_rounded_rectangle(0 + wd_thickness/2.0f + wd_added_thickness/2.0f + 1,
-                                      0 + wd_thickness/2.0f + wd_added_thickness/2.0f,
-                                      wd_width - wd_thickness/2.0f - wd_added_thickness/2.0f,
-                                      wd_height- wd_thickness/2.0f - wd_added_thickness/2.0f -1,
-                                      wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
+            al_draw_rounded_rectangle(0 + wd_theme.thickness/2.0f + wd_theme.added_thickness/2.0f + 1,
+                                      0 + wd_theme.thickness/2.0f + wd_theme.added_thickness/2.0f,
+                                      wd_width - wd_theme.thickness/2.0f - wd_theme.added_thickness/2.0f,
+                                      wd_height- wd_theme.thickness/2.0f - wd_theme.added_thickness/2.0f -1,
+                                      wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
         }
 
         wd_PrintEnd();

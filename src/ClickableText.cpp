@@ -18,8 +18,8 @@ namespace rGUI //ClickableText
         wd_height = al_get_font_ascent(font);
         wd_Change_coords_r(wd_x1, wd_y1, wd_width, wd_height);
         wd_md->Change_coords_r(wd_x1, wd_y1, wd_width, wd_height);
-        wd_c_background = al_map_rgba(0,0,0,0);
-        wd_c_outline = al_map_rgba(0,0,0,0);
+        wd_theme.c_background = al_map_rgba(0,0,0,0);
+        wd_theme.c_outline = al_map_rgba(0,0,0,0);
 
         orig_x2 = orig_x1 + wd_width;
         orig_y2 = orig_y1 + wd_height;
@@ -41,8 +41,8 @@ namespace rGUI //ClickableText
         wd_height = al_get_font_ascent(font);
         wd_Change_coords_r(wd_x1, wd_y1, wd_width, wd_height);
         wd_md->Change_coords_r(wd_x1, wd_y1, wd_width, wd_height);
-        wd_c_background = al_map_rgba(0,0,0,0);
-        wd_c_outline = al_map_rgba(0,0,0,0);
+        wd_theme.c_background = al_map_rgba(0,0,0,0);
+        wd_theme.c_outline = al_map_rgba(0,0,0,0);
 
         orig_x2 = orig_x1 + wd_width;
         orig_y2 = orig_y1 + wd_height;
@@ -70,13 +70,13 @@ namespace rGUI //ClickableText
     void ClickableText::Print()
     {
         wd_PrintBegin();
-        al_draw_text(font,wd_c_text, wd_x1, wd_y1, print_flag, text.c_str());
+        al_draw_text(font,wd_theme.c_text, wd_x1, wd_y1, print_flag, text.c_str());
 
         if(wd_md->md_mouse_on_it == true && disable_clicking_shadow == false)
         {
             if(wd_md->md_clicking == true)
             {
-                al_draw_text(font,wd_c_clicking, wd_x1, wd_y1, print_flag, text.c_str());
+                al_draw_text(font,wd_theme.c_clicking, wd_x1, wd_y1, print_flag, text.c_str());
             }
         }
 

@@ -171,14 +171,14 @@ namespace rGUI //Widget
         orig_y1 = y1;
         orig_y2 = y2;
 
-        wd_roundx = thm->roundx;
-        wd_roundy = thm->roundy;
-        wd_thickness = thm->thickness;
-        wd_c_outline = thm->c_outline;
-        wd_c_background = thm->c_background;
-        wd_c_text = thm->c_text;
-        wd_c_clicking = thm->c_clicking;
-        wd_added_thickness = thm->added_thickness;
+        wd_theme.roundx = thm->roundx;
+        wd_theme.roundy = thm->roundy;
+        wd_theme.thickness = thm->thickness;
+        wd_theme.c_outline = thm->c_outline;
+        wd_theme.c_background = thm->c_background;
+        wd_theme.c_text = thm->c_text;
+        wd_theme.c_clicking = thm->c_clicking;
+        wd_theme.added_thickness = thm->added_thickness;
 
         if(wd_bitmap_only == true)
         {
@@ -201,14 +201,14 @@ namespace rGUI //Widget
         orig_y1 = wd_y1;
         orig_y2 = wd_y2;
 
-        wd_roundx = thm->roundx;
-        wd_roundy = thm->roundy;
-        wd_thickness = thm->thickness;
-        wd_c_outline = thm->c_outline;
-        wd_c_background = thm->c_background;
-        wd_c_text = thm->c_text;
-        wd_c_clicking = thm->c_clicking;
-        wd_added_thickness = thm->added_thickness;
+        wd_theme.roundx = thm->roundx;
+        wd_theme.roundy = thm->roundy;
+        wd_theme.thickness = thm->thickness;
+        wd_theme.c_outline = thm->c_outline;
+        wd_theme.c_background = thm->c_background;
+        wd_theme.c_text = thm->c_text;
+        wd_theme.c_clicking = thm->c_clicking;
+        wd_theme.added_thickness = thm->added_thickness;
 
         if(wd_bitmap_only == true)
         {
@@ -340,14 +340,14 @@ namespace rGUI //Widget
 
     void Widget::Update_theme(Theme *thm)
     {
-        wd_roundx = thm->roundx;
-        wd_roundy = thm->roundy;
-        wd_thickness = thm->thickness;
-        wd_c_outline = thm->c_outline;
-        wd_c_background = thm->c_background;
-        wd_c_text = thm->c_text;
-        wd_c_clicking = thm->c_clicking;
-        wd_added_thickness = thm->added_thickness;
+        wd_theme.roundx = thm->roundx;
+        wd_theme.roundy = thm->roundy;
+        wd_theme.thickness = thm->thickness;
+        wd_theme.c_outline = thm->c_outline;
+        wd_theme.c_background = thm->c_background;
+        wd_theme.c_text = thm->c_text;
+        wd_theme.c_clicking = thm->c_clicking;
+        wd_theme.added_thickness = thm->added_thickness;
     }
 
     void Widget::Change_coords(float x1, float y1, float width, float height)
@@ -381,9 +381,9 @@ namespace rGUI //Widget
     {
         wd_PrintBegin();
         al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_roundx, wd_roundy, wd_c_background);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
         al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
         wd_PrintEnd();
     }
 

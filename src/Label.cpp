@@ -70,25 +70,25 @@ namespace rGUI //ClickableText
     //Bitflags
     Label::Label(float x, float y, float width, float height, std::string texts,
           std::string font_file, float font_height, Theme *thm, int bitflags)
-    :Widget(x,y,width, height, thm, (bitflags & rg_BITMAP_ONLY)), text(texts),
+    :Widget(x,y,width, height, thm, (bitflags & bf_BITMAP_ONLY)), text(texts),
         font_file(""), font(font)
     {
         wd_bf = bitflags;
 
-        if((bitflags & rg_HORIZONTAL_CENTER) == true)
+        if((bitflags & bf_HORIZONTAL_CENTER) == true)
         {
             print_flag = ALLEGRO_ALIGN_CENTRE;
         }
-        else if((bitflags & rg_LEFT) == true)
+        else if((bitflags & bf_LEFT) == true)
         {
             print_flag = ALLEGRO_ALIGN_LEFT;
         }
-        else if((bitflags & rg_RIGHT) == true)
+        else if((bitflags & bf_RIGHT) == true)
         {
             print_flag = ALLEGRO_ALIGN_RIGHT;
         }
 
-        if((bitflags & rg_MULTILINE) == true)
+        if((bitflags & bf_MULTILINE) == true)
         {
             multiline = true;
         }
@@ -105,7 +105,7 @@ namespace rGUI //ClickableText
     }
     Label::Label(float x, float y, float width, float height, std::string texts,
           ALLEGRO_FONT *font, Theme *thm, int bitflags)
-    :Widget(x,y,width, height, thm, (bitflags & rg_BITMAP_ONLY)), text(texts),
+    :Widget(x,y,width, height, thm, (bitflags & bf_BITMAP_ONLY)), text(texts),
         font_file(""), font(font)
     {
         wd_bf = bitflags;
@@ -182,20 +182,20 @@ namespace rGUI //ClickableText
     {
         wd_PrintBegin();
         al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_roundx, wd_roundy, wd_c_background);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
         al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
         /*   Mouse detector box
         al_draw_rounded_rectangle(wd_md->md_x1, wd_md->md_y1, wd_md->md_x2, wd_md->md_y2,
-                                wd_roundx, wd_roundy, wd_c_outline, wd_thickness);*/
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);*/
 
         if(multiline == false)
         {
-             al_draw_text(font,wd_c_text, text_x, text_y, print_flag, text.c_str());
+             al_draw_text(font,wd_theme.c_text, text_x, text_y, print_flag, text.c_str());
         }
         else
         {
-            al_draw_multiline_text(font, wd_c_text, text_x, wd_y1 + 4, wd_width,
+            al_draw_multiline_text(font, wd_theme.c_text, text_x, wd_y1 + 4, wd_width,
                                    text_height,print_flag, text.c_str());
         }
         wd_PrintEnd();

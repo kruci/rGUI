@@ -180,25 +180,25 @@ namespace rGUI //SlideBars
         }
         //Line draw
         al_draw_filled_rounded_rectangle(line_x1, line_y1, line_x2, line_y2,
-                                wd_roundx, wd_roundy, wd_c_background);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
         al_draw_rounded_rectangle(line_x1, line_y1, line_x2, line_y2,
-                                wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
         //slide box draw
         al_draw_filled_rounded_rectangle(slide_x1, slide_y1, slide_x2, slide_y2,
-                                wd_roundx, wd_roundy, wd_c_background);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
         al_draw_rounded_rectangle(slide_x1, slide_y1, slide_x2, slide_y2,
-                                wd_roundx, wd_roundy, wd_c_outline, wd_thickness);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
 
         if(wd_md->md_mouse_on_it == true)
         {
             al_draw_rounded_rectangle(slide_x1, slide_y1, slide_x2, slide_y2,
-                                wd_roundx, wd_roundy, wd_c_outline, wd_thickness + wd_added_thickness);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness + wd_theme.added_thickness);
         }
 
         if(wd_md->md_clicking == true || wd_md->md_clicked == true)
         {
             al_draw_filled_rounded_rectangle(slide_x1, slide_y1, slide_x2, slide_y2,
-                                wd_roundx, wd_roundy, wd_c_clicking);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_clicking);
         }
 
         wd_PrintEnd();

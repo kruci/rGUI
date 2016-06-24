@@ -77,7 +77,7 @@ namespace rGUI //BitmpaButton
         if(wd_md->md_clicking == true)
         {
             al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                        wd_roundx, wd_roundy, wd_c_clicking);
+                        wd_theme.roundx, wd_theme.roundy, wd_theme.c_clicking);
         }
         wd_PrintEnd();
      }
