@@ -2,8 +2,8 @@
 
 namespace rGUI //ProgressBar
 {
-    ProgressBar::ProgressBar(float x, float y, float width, float height, int initial_val_from_0_to_100, Theme *thm, bool bitmaponly)
-        :Widget(x,y,width, height, thm, bitmaponly), value(initial_val_from_0_to_100)
+    ProgressBar::ProgressBar(float x, float y, float width, float height, int initial_val_from_0_to_100, Theme *thm)
+        :Widget(x,y,width, height, thm), value(initial_val_from_0_to_100)
     {
 
     }
@@ -11,11 +11,6 @@ namespace rGUI //ProgressBar
     ProgressBar::~ProgressBar()
     {
 
-    }
-
-    int ProgressBar::Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley)
-    {
-        return wd_md->Input(ev, scalex, scaley);
     }
 
     void ProgressBar::Print()
@@ -31,16 +26,21 @@ namespace rGUI //ProgressBar
             value = 100;
         }
 
-        al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
-        al_draw_rounded_rectangle(wd_x1 + wd_theme.thickness/2.0, wd_y1 + wd_theme.thickness/2.0,
-                                  wd_x2 - wd_theme.thickness/2.0, wd_y2 - wd_theme.thickness/2.0,
+        al_draw_filled_rounded_rectangle( wd_theme.added_thickness/2,
+                                          wd_theme.added_thickness/2,
+                                          wd_width + wd_theme.added_thickness/2,
+                                          wd_height + wd_theme.added_thickness/2,
+                                          wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
+        al_draw_rounded_rectangle(wd_theme.added_thickness/2+ wd_theme.thickness/2,
+                                  wd_theme.added_thickness/2+ wd_theme.thickness/2,
+                                  wd_width + wd_theme.added_thickness/2 - wd_theme.thickness/2,
+                                  wd_height + wd_theme.added_thickness/2 - wd_theme.thickness/2,
                                 wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
         if(value > 0)
         {
-             al_draw_filled_rounded_rectangle(wd_x1 + wd_theme.thickness +1, wd_y1 + wd_theme.thickness +1,
-                            (wd_x1 + wd_theme.thickness +1.0f)+ ((wd_x2 - wd_theme.thickness -1.0f)-(wd_x1 + wd_theme.thickness +1))*((float)value/100.0f),
-                            wd_y2 - wd_theme.thickness -1, wd_theme.roundx, wd_theme.roundy, wd_theme.c_text);
+             al_draw_filled_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness +1, wd_theme.added_thickness/2 + wd_theme.thickness +1,
+                            (wd_theme.added_thickness/2 + wd_theme.thickness +1.0f)+ ((wd_theme.added_thickness/2 + wd_width - wd_theme.thickness -1.0f)-(wd_theme.added_thickness/2 + wd_theme.thickness +1))*((float)value/100.0f),
+                            wd_theme.added_thickness/2 + wd_height - wd_theme.thickness -1, wd_theme.roundx, wd_theme.roundy, wd_theme.c_text);
         }
 
         wd_PrintEnd();

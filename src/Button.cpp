@@ -3,18 +3,12 @@
 namespace rGUI //Button
 {
     Button::Button(float x, float y, float width, float height, std::string texts, std::string fontfile, Theme *thm)
-    : Widget( x, y, width, height, thm, false), text(texts), bt_font_file(fontfile)
+    : Widget( x, y, width, height, thm), text(texts), bt_font_file(fontfile)
     {
         wd_type = wt_BUTTON;
         constructors_recalculate_text();
     }
 
-    Button::Button(float width, float height, std::string texts, std::string fontfile, Theme *thm)
-    : Widget( 0, 0, width, height, thm, true), text(texts), bt_font_file(fontfile)
-    {
-        wd_type = wt_BUTTON;
-        constructors_recalculate_text();
-    }
 
     Button::~Button()
     {
@@ -23,27 +17,38 @@ namespace rGUI //Button
 
     }
 
-    int Button::Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley)
-    {
-        return wd_md->Input(ev, scalex, scaley);
-    }
-
     void Button::Print()
     {
         wd_PrintBegin();
-        al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
-        al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
+        al_draw_filled_rounded_rectangle( wd_theme.added_thickness/2,
+                                          wd_theme.added_thickness/2,
+                                          wd_width + wd_theme.added_thickness/2,
+                                          wd_height + wd_theme.added_thickness/2,
+                                          wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
+        al_draw_rounded_rectangle(wd_theme.added_thickness/2+ wd_theme.thickness/2,
+                                  wd_theme.added_thickness/2+ wd_theme.thickness/2,
+                                  wd_width + wd_theme.added_thickness/2 - wd_theme.thickness/2,
+                                  wd_height + wd_theme.added_thickness/2 - wd_theme.thickness/2,
                                 wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
-        al_draw_text(font,wd_theme.c_text, text_x, text_y,0, text.c_str());
+        al_set_clipping_rectangle(wd_theme.added_thickness/2,wd_theme.added_thickness/2,
+                                  wd_theme.added_thickness/2 + wd_width -wd_theme.thickness, wd_height + wd_theme.added_thickness/2 -wd_theme.thickness);
+        al_draw_text(font,wd_theme.c_text, text_x, text_y,ALLEGRO_ALIGN_CENTRE, text.c_str());
+        al_set_clipping_rectangle(0,0,
+                                  wd_width + wd_theme.added_thickness, wd_height + wd_theme.added_thickness);
 
         if(wd_md->md_mouse_on_it == true)
         {
-            al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
+            al_draw_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness/2,
+                                  wd_theme.added_thickness/2 + wd_theme.thickness/2,
+                                  wd_width + wd_theme.added_thickness/2 -  wd_theme.thickness/2,
+                                  wd_height + wd_theme.added_thickness/2-  wd_theme.thickness/2,
                                 wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness + wd_theme.added_thickness);
             if(wd_md->md_clicking == true)
             {
-                al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
+                al_draw_filled_rounded_rectangle(wd_theme.added_thickness/2,
+                                          wd_theme.added_thickness/2,
+                                          wd_width + wd_theme.added_thickness/2,
+                                          wd_height + wd_theme.added_thickness/2,
                                 wd_theme.roundx, wd_theme.roundy, wd_theme.c_clicking);
             }
         }
@@ -63,8 +68,10 @@ namespace rGUI //Button
         }
         fontwidth = al_get_text_width(font, text.c_str());
 
-        if(fontwidth >= wd_width)
+        if(fontwidth >= (wd_width - 2*wd_theme.thickness) )
         {
+            /*float f =  font_height/fontwidth;
+            font_height = f* (wd_width - 3*wd_theme.thickness)-1;*/
             font_height = font_height * ((wd_width-2.0f*wd_theme.thickness)/fontwidth);
             al_destroy_font(font);
             font = al_load_ttf_font(bt_font_file.c_str(),font_height,0);
@@ -76,22 +83,21 @@ namespace rGUI //Button
                                        NULL, ALLEGRO_MESSAGEBOX_ERROR);
         }
 
-        text_x = wd_x1 + (wd_width - fontwidth) / 2.0f;
-        text_y = wd_y1 + (wd_height - al_get_font_ascent(font) - al_get_font_descent(font))   / 2.0f;
-        if(wd_bitmap_only == true)
-        {
-            text_x -= wd_x1;
-            text_y -= wd_y1;
-        }
-
+        /*text_x = wd_theme.added_thickness/2 + wd_theme.thickness/2 + (wd_width - fontwidth) / 2.0f;
+        text_y = wd_theme.added_thickness/2 + wd_theme.thickness/2 + (wd_height - al_get_font_ascent(font) - al_get_font_descent(font))   / 2.0f;
+        */
+        text_x = (wd_theme.added_thickness + wd_width)/2;
+        text_y = (wd_theme.added_thickness + wd_height)/2 - font_height/2;
     }
 
     void Button::recalculate_text()
     {
         fontwidth = al_get_text_width(font, text.c_str());
 
-        if(fontwidth >= wd_width)
+        if(fontwidth >= (wd_width - 2*wd_theme.thickness))
         {
+            /*float f =  font_height/fontwidth;
+            font_height = f* (wd_width - 3*wd_theme.thickness)-1;*/
             font_height = font_height * ((wd_width-2.0f*wd_theme.thickness)/fontwidth);
             al_destroy_font(font);
             font = al_load_ttf_font(bt_font_file.c_str(),font_height,0);
@@ -103,13 +109,11 @@ namespace rGUI //Button
                                        NULL, ALLEGRO_MESSAGEBOX_ERROR);
         }
 
-        text_x = wd_x1 + (wd_width - fontwidth) / 2.0f;
-        text_y = wd_y1 + (wd_height -al_get_font_ascent(font) - al_get_font_descent(font))   / 2.0f;
-        if(wd_bitmap_only == true)
-        {
-            text_x -= wd_x1;
-            text_y -= wd_y1;
-        }
+        /*text_x = wd_theme.added_thickness/2 + wd_theme.thickness/2 + (wd_width - fontwidth) / 2.0f;
+        text_y = wd_theme.added_thickness/2 + wd_theme.thickness/2 + (wd_height -al_get_font_ascent(font) - al_get_font_descent(font))   / 2.0f;
+        */
+        text_x = (wd_theme.added_thickness + wd_width)/2;
+        text_y = (wd_theme.added_thickness + wd_height)/2 - font_height/2;
     }
 
     void Button::Change_coords(float x1, float y1, float width, float height)
@@ -135,6 +139,11 @@ namespace rGUI //Button
     void Button::Change_print_coords_r(float &x1, float &y1, float &width, float &height)
     {
         wd_Change_coords(x1, y1, width, height);
+        recalculate_text();
+    }
+    void Button::Update_theme(Theme *thm)
+    {
+        wd_Update_theme(thm);
         recalculate_text();
     }
 }

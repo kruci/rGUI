@@ -4,7 +4,7 @@ namespace rGUI //TextBox
 {
     TextBox::TextBox(float x, float y, float width, float height, std::string texts,
           std::string font_file, float font_height, Theme *thm, int bitflags)
-    :Widget(x,y,width,height, thm, (bitflags & bf_BITMAP_ONLY)), text(texts), font_file(font_file)
+    :Widget(x,y,width,height, thm), text(texts), font_file(font_file)
     {
         wd_type = wt_TEXTBOX;
         font = al_load_ttf_font(font_file.c_str(), font_height, 0);
@@ -20,7 +20,7 @@ namespace rGUI //TextBox
 
     TextBox::TextBox(float x, float y, float width, float height, std::string texts,
           ALLEGRO_FONT *font, Theme *thm, int bitflags)
-    :Widget(x,y,width,height, thm, (bitflags & bf_BITMAP_ONLY)), text(texts), font_file(""), font(font)
+    :Widget(x,y,width,height, thm), text(texts), font_file(""), font(font)
     {
         wd_type = wt_TEXTBOX;
         delete_font = false;
@@ -38,31 +38,32 @@ namespace rGUI //TextBox
             delete mld;
     }
 
-    int TextBox::Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley)
-    {
-        return wd_md->Input(ev, scalex, scaley);
-    }
-
     void TextBox::Print()
     {
         wd_PrintBegin();
         if(wd_bf & bf_HAS_FRAME)
         {
-            al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
-            al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
+            al_draw_filled_rounded_rectangle( wd_theme.added_thickness/2,
+                                          wd_theme.added_thickness/2,
+                                          wd_width + wd_theme.added_thickness/2,
+                                          wd_height + wd_theme.added_thickness/2,
+                                          wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
+            al_draw_rounded_rectangle(wd_theme.added_thickness/2+ wd_theme.thickness/2,
+                                  wd_theme.added_thickness/2+ wd_theme.thickness/2,
+                                  wd_width + wd_theme.added_thickness/2 - wd_theme.thickness/2,
+                                  wd_height + wd_theme.added_thickness/2 - wd_theme.thickness/2,
                                 wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
         }
 
-        if(!(wd_bf & bf_RESIZE_TEXT))
+        if(!(wd_bf & bf_RESIZE_CONTENT))
         {
-            al_get_clipping_rectangle(&cr_x, &cr_y, &cr_w, &cr_h);
-            al_set_clipping_rectangle(wd_x1, wd_y1, wd_width - wd_theme.thickness/2, wd_height - wd_theme.thickness/2);
+            al_set_clipping_rectangle(wd_theme.added_thickness/2, wd_theme.added_thickness/2,
+                                      wd_width + wd_theme.added_thickness/2, wd_height + wd_theme.added_thickness/2);
         }
 
         if((wd_bf & bf_CUSTOM_TEXT_DRAW) && (textdrawcallback != nullptr))
         {
-            al_do_multiline_text(font, wd_width- wd_theme.thickness, text.c_str(), textdrawcallback, mld);
+            al_do_multiline_text(font, wd_width- wd_theme.thickness*2, text.c_str(), textdrawcallback, mld);
         }
         else if(!(wd_bf & bf_MULTILINE))
         {
@@ -70,13 +71,13 @@ namespace rGUI //TextBox
         }
         else
         {
-            al_draw_multiline_text(font, wd_theme.c_text, text_x, text_y, wd_width- wd_theme.thickness,
+            al_draw_multiline_text(font, wd_theme.c_text, text_x, text_y, wd_width- wd_theme.thickness*2,
                                    text_height,print_flag, text.c_str());
         }
 
-        if(!(wd_bf & bf_RESIZE_TEXT))
+        if(!(wd_bf & bf_RESIZE_CONTENT))
         {
-            al_set_clipping_rectangle(cr_x, cr_y, cr_w, cr_h);
+            al_set_clipping_rectangle(0, 0, wd_width + wd_theme.added_thickness/2, wd_height+ wd_theme.added_thickness/2);
         }
 
 
@@ -84,13 +85,19 @@ namespace rGUI //TextBox
         {
             if(wd_md->md_mouse_on_it == true && (wd_bf & bf_HAS_FRAME))
             {
-                 al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                    wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness + wd_theme.added_thickness);
+                 al_draw_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness/2,
+                                  wd_theme.added_thickness/2 + wd_theme.thickness/2,
+                                  wd_width + wd_theme.added_thickness/2 -  wd_theme.thickness/2,
+                                  wd_height + wd_theme.added_thickness/2-  wd_theme.thickness/2,
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness + wd_theme.added_thickness);
             }
 
             if(wd_md->md_clicking == true)
             {
-                al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
+                al_draw_filled_rounded_rectangle(wd_theme.added_thickness/2,
+                                          wd_theme.added_thickness/2,
+                                          wd_width + wd_theme.added_thickness/2,
+                                          wd_height + wd_theme.added_thickness/2,
                                 wd_theme.roundx, wd_theme.roundy, wd_theme.c_clicking);
             }
         }
@@ -127,11 +134,10 @@ namespace rGUI //TextBox
     void TextBox::Set_flags(int flags)
     {
         wd_bf = flags;
-        wd_bitmap_only = (wd_bf & bf_BITMAP_ONLY);
 
         text_width = al_get_text_width(font, text.c_str());
 
-        if((text_width >= wd_width) && (wd_bf & bf_RESIZE_TEXT) && (delete_font == true) && (!(wd_bf & bf_MULTILINE)))
+        if((text_width >= wd_width) && (wd_bf & bf_RESIZE_CONTENT) && (delete_font == true) && (!(wd_bf & bf_MULTILINE)))
         {
             text_height = text_height * (wd_width/text_width);
             al_destroy_font(font);
@@ -197,54 +203,48 @@ namespace rGUI //TextBox
         if((wd_bf & bf_HORIZONTAL_CENTER))
         {
             print_flag = ALLEGRO_ALIGN_CENTRE;
-            text_x = wd_x1 + wd_width/2.0f;
+            text_x = wd_theme.added_thickness/2 + wd_width/2.0f;
         }
         else if((wd_bf & bf_RIGHT))
         {
             print_flag = ALLEGRO_ALIGN_RIGHT;
-            text_x = wd_x2 - wd_theme.thickness - 1;
+            text_x = wd_width + wd_theme.added_thickness/2 - wd_theme.thickness - 1;
         }
         else//((wd_bf & bf_LEFT))
         {
             print_flag = ALLEGRO_ALIGN_LEFT;
-            text_x = wd_x1 + wd_theme.thickness + 1;
+            text_x = wd_theme.added_thickness/2 + wd_theme.thickness + 1;
         }
 
         if((wd_bf & bf_MULTILINE))
         {
             if((wd_bf & bf_TOP))
             {
-                text_y = wd_y1 + wd_theme.thickness + 1;
+                text_y = wd_theme.added_thickness/2 + wd_theme.thickness + 1;
             }
             else if((wd_bf & bf_BOTOM))
             {
-                text_y = wd_y2 - multiline_height - wd_theme.thickness - 1;
+                text_y = wd_height + wd_theme.added_thickness/2 - multiline_height - wd_theme.thickness - 1;
             }
             else //((wd_bf & bf_VERTICAL_CENTER) == true)
             {
-                text_y = wd_y1 + (wd_height/2) - (multiline_height/2);
+                text_y = wd_theme.added_thickness/2 + (wd_height/2) - (multiline_height/2);
             }
         }
         else
         {
             if((wd_bf & bf_TOP))
             {
-                text_y = wd_y1 + wd_theme.thickness + 1;
+                text_y = wd_theme.added_thickness/2 + wd_theme.thickness + 1;
             }
             else if((wd_bf & bf_BOTOM))
             {
-                text_y = wd_y2 - text_height - wd_theme.thickness - 1;
+                text_y = wd_height + wd_theme.added_thickness/2 - text_height - wd_theme.thickness - 1;
             }
             else //((wd_bf & bf_VERTICAL_CENTER) == true)
             {
-                text_y = wd_y1 + (wd_height/2) - (text_height/2);
+                text_y = wd_theme.added_thickness/2 + (wd_height/2) - (text_height/2);
             }
-        }
-
-        if((wd_bf & bf_BITMAP_ONLY))
-        {
-            text_x -= wd_x1;
-            text_y -= wd_y1;
         }
     }
 
@@ -262,5 +262,10 @@ namespace rGUI //TextBox
     std::string TextBox::Get_text()
     {
         return text;
+    }
+    void TextBox::Update_theme(Theme *thm)
+    {
+        wd_Update_theme(thm);
+        Set_flags(wd_bf);
     }
 }

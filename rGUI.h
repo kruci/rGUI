@@ -17,18 +17,25 @@
 #include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro_native_dialog.h>
 #include <allegro5/allegro_memfile.h>
+#include <allegro5/allegro_physfs.h>
+#include <allegro5/allegro_video.h>
 
 namespace rGUI
 {
     extern ALLEGRO_MOUSE_STATE *mouse_state;
     extern ALLEGRO_KEYBOARD_STATE *keyboard_state;
-    extern void no_null(); //blank function for function pointer
-    extern bool _multilinecb(int _line_num, const char *_line, int _sizes, void *_extra); //calculate TextBox multiline dimensions
-
-    extern void Init();
-    extern void GetStates();
+    extern ALLEGRO_EVENT event;
+    extern float scale_x , scale_y , offset_x , offset_y,//scale is Screen size divided by display size
+                 trans_mouse_x, trans_mouse_y;
+    extern bool Init_Allegro();
+    extern void Init_rGUI(float _scale_x = 1, float _scale_y = 1, float _offset_x = 0, float _offset_y = 0);
+    extern void GetStatesAdnEvents(ALLEGRO_EVENT &ev);
     extern void End();
 
+
+    extern int error_message(std::string error_string);
+    extern void no_null(); //blank function for function pointer
+    extern bool _multilinecb(int _line_num, const char *_line, int _sizes, void *_extra); //calculate TextBox multiline dimensions
     struct ml_data{ //used by TextBox for multiline dimensions and custom text draw
         ALLEGRO_FONT *font = nullptr;
         int maxlinesize = 0, lines = 0;
@@ -42,17 +49,18 @@ namespace rGUI
         wt_SCROLLBAR, wt_SLIDEBAR, wt_WIDGET, wt_SINGLEKEYINPUTFIELD, wt_LABEL, wt_TEXTBOX
     };
 
-    enum BitFlags{//bf
-        bf_BITMAP_ONLY = 0x001,
+    enum BitFlags_TextBox{//bf
         bf_TOP = 0x002, bf_BOTOM = 0x004, bf_VERTICAL_CENTER = 0x008,
         bf_LEFT = 0x010, bf_RIGHT = 0x020, bf_HORIZONTAL_CENTER = 0x040,
         bf_RESIZE_WIDGET_H = 0x080, bf_RESIZE_WIDGET_W = 0x100, bf_RESIZE_WIDGET = 0x200,
-        bf_RESIZE_TEXT = 0x400,bf_MULTILINE = 0x800, bf_CUSTOM_TEXT_DRAW = 0x1000,
+        bf_RESIZE_CONTENT = 0x400,bf_MULTILINE = 0x800, bf_CUSTOM_TEXT_DRAW = 0x1000,
         bf_AS_BUTTON = 0x2000, bf_HAS_FRAME = 0x4000
     };
-
-    enum rGUIScrollableAreabf{
+    enum BitFlags_ScrollableArea{
         bf_VERTICAL_SCROLL = 0x001, bf_HORIZONTAL_SCROLL = 0x002, bf_ZOOMABLE = 0x004
+    };
+    enum BitFlags_SlideBar_ScrollBar{
+        bf_VERTICAL = 0x001, bf_HORIZONTAL = 0x002
     };
 
     struct Theme;
@@ -62,7 +70,6 @@ namespace rGUI
 
     class Button;
     class CheckBox;
-    class ClickableText;
     class SlideBar;
     class ScrollBar;
     class ScrollableArea;
@@ -102,7 +109,8 @@ public:
     MouseDetector(float x, float y, float width, float height);
     ~MouseDetector();
 
-    float Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
+    int Specific_Input(ALLEGRO_EVENT &ev);
+    int Input();
 
     void Change_coords(float x1, float y1, float x2, float y2, float);
     void Change_coords(float x1, float y1, float width, float height);
@@ -124,39 +132,38 @@ protected:
     bool Is_changed_r(float &a, float &b);
     void wd_PrintBegin();
     void wd_PrintEnd();
+    void wd_CreateBitmap(float w, float h);
 
     void wd_Change_coords(float x1, float y1, float x2, float y2, float);
     void wd_Change_coords(float x1, float y1, float width, float height);
     void wd_Change_coords_r(float &x1, float &y1, float &x2, float &y2, float);
     void wd_Change_coords_r(float &x1, float &y1, float &width, float &height);
+
+    void wd_Update_theme(Theme *thm);
 public:
     int wd_type;
-    int wd_mouse_button = 1;
     int wd_bf = 0;
-    Widget *wd_child = nullptr;
 
     float comentary_text_y;
     float wd_x1, wd_y1, wd_x2, wd_y2, wd_width, wd_height;
     float orig_x1, orig_x2, orig_y1, orig_y2;
-    bool wd_bitmap_only = false;
     bool wd_extented_input = false;
-    bool print_active = true;
+    bool wd_print_active = true;
     Theme wd_theme;
-    /*float wd_theme.roundx = 0, wd_theme.roundy = 0, wd_theme.thickness = 1, wd_theme.added_thickness = 1;
-    ALLEGRO_COLOR wd_theme.c_outline = al_map_rgb(255,255,255),
-                  wd_theme.c_background = al_map_rgb(0,0,66),
-                  wd_theme.c_text = al_map_rgb(255,255,255),
-                  wd_theme.c_clicking = al_map_rgba(0,0,0,150);*/
+
     ALLEGRO_BITMAP *wd_bmp = nullptr;
     MouseDetector *wd_md = nullptr;
 
-    Widget(float x1, float y1, float x2, float y2, float, Theme *thm, bool bitmap_only);
-    Widget(float x, float y, float width, float height, Theme *thm, bool bitmap_only);
+    std::vector<Widget*> widgets;
+
+    Widget(float x1, float y1, float x2, float y2, float, Theme *thm);
+    Widget(float x, float y, float width, float height, Theme *thm);
     ~Widget();
 
-    void Update_theme(Theme *thm);
+    virtual void Update_theme(Theme *thm);
 
-    virtual int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
+    virtual int Specific_Input(ALLEGRO_EVENT &ev);
+    virtual int Input();
     virtual void Print();
     virtual void Change_coords(float x1, float y1, float width, float height);
     virtual void Change_coords_r(float &x1, float &y1, float &width, float &height);
@@ -183,15 +190,14 @@ public:
     std::string text;
 
     Button(float x, float y, float width, float height, std::string texts, std::string fontfile, Theme *thm);
-    Button(float width, float height, std::string texts, std::string fontfile, Theme *thm);
     ~Button();
 
-    int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
     void Print();
     void Change_coords(float x1, float y1, float width, float height);
     void Change_coords_r(float &x1, float &y1, float &width, float &height);
     void Change_print_coords(float x1, float y1, float width, float height);
     void Change_print_coords_r(float &x1, float &y1, float &width, float &height);
+    void Update_theme(Theme *thm);
 };
 
 class CheckBox : public Widget{
@@ -199,33 +205,11 @@ public:
     bool selected = false;
 
     CheckBox(float x, float y, float width, float height, Theme *thm, bool is_selected);
-    CheckBox(float width, float height, Theme *thm, bool is_selected);
     ~CheckBox();
 
-    int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
+    int Specific_Input(ALLEGRO_EVENT &ev);
+    int Input();
     void Print();
-};
-
-class ClickableText : public Widget{
-    int print_flag;
-public:
-    float fsize;
-    std::string text;
-    ALLEGRO_FONT *font = nullptr;
-    bool delete_font = true;
-    bool disable_clicking_shadow = false;
-
-    ClickableText(float x, float y, std::string texts, std::string fontfile,int allegro_text_flag,
-                  float font_height, Theme *thm, bool bitmap_only);
-    ClickableText(float x, float y, std::string texts, ALLEGRO_FONT *fnt,int allegro_text_flag,
-                  Theme *thm, bool bitmap_only);
-    ~ClickableText();
-
-    int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
-    void Print();
-
-    virtual void Set_Print_flag(int flag);
-    int Get_Print_flag();
 };
 
 class SlideBar : public Widget{
@@ -246,10 +230,11 @@ public:
     int value, val_max, val_min;
 
     SlideBar(float x, float y, float width, float height, int minval, int maxval,
-             Theme *thm, bool vertical = false, bool bitmaponly = false);
+             Theme *thm, int bitflags);
     ~SlideBar();
 
-    int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
+    int Specific_Input(ALLEGRO_EVENT &ev);
+    int Input();
     void Print();
 
     void Change_coords(float x1, float y1, float width, float height);
@@ -257,23 +242,25 @@ public:
     void Change_print_coords(float x1, float y1, float width, float height);
     void Change_print_coords_r(float &x1, float &y1, float &width, float &height);
     void Set_value(int val);
+    void Set_flags(int flags);
+    void Update_theme(Theme *thm);
 };
 
 class BitmapButton : public Widget{
+private:
+    float pw, ph;
 public:
     float bb_orig_width, bb_orig_height;
 
     ALLEGRO_BITMAP *bmp = nullptr;
     bool delete_bitmap = false;
 
-    BitmapButton(float x, float y, float width, float height, std::string image, Theme *thm, bool bitmaponly);
-    BitmapButton(float x, float y, float width, float height, ALLEGRO_BITMAP *image, Theme *thm, bool bitmaponly);
-    BitmapButton(float x, float y, std::string image, Theme *thm, bool bitmaponly);
-    BitmapButton(float x, float y, ALLEGRO_BITMAP *image, Theme *thm, bool bitmaponly);
+    BitmapButton(float x, float y, float width, float height, std::string image, Theme *thm, int bitflags);
+    BitmapButton(float x, float y, float width, float height, ALLEGRO_BITMAP *image, Theme *thm, int bitflags);
     ~BitmapButton();
 
-    int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
     void Print();
+    void Set_flags(int flags);
 };
 
 class BigBitmap
@@ -316,17 +303,17 @@ private:
     void scb_recalculate_rb_ratio();
 public:
     float c_background_mult = 1.2f;
-    bool vertical = false;
     bool disable = false;
     bool changed = false;
     float r_size;
     float change = 0;
     float scroll_step = 30;
 
-    ScrollBar(float x, float y, float width, float height, float real_size, Theme *thm, bool vertical, bool bitmap_only);
+    ScrollBar(float x, float y, float width, float height, float real_size, Theme *thm, int bitflags);
     ~ScrollBar();
 
-    int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
+    int Specific_Input(ALLEGRO_EVENT& ev);
+    int Input();
     void Print();
 
     void Change_coords(float x1, float y1, float width, float height);
@@ -335,8 +322,10 @@ public:
     void Change_print_coords_r(float &x1, float &y1, float &width, float &height);
     void Change_real_size(float s);
     void Change_real_size_r(float &s);
-    void Scrolling_input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
+    void Scrolling_input();
     void Set_change(float chan);
+    void Set_flags(int flags);
+    void Update_theme(Theme *thm);
 };
 
 class ScrollableArea : public Widget
@@ -351,27 +340,29 @@ public:
 
     bool zoomable = false;
     float prevzoom = 1,zoom = 1, zoomstep = 0.05;
-    //float scbv_or_r = 0, scbh_or_r = 0;
     float sca_mouse_z;
     ALLEGRO_TRANSFORM ct, rest;
     int zoomkey = ALLEGRO_KEY_LCTRL, horizontalscrollkey = ALLEGRO_KEY_LSHIFT;
 
-    std::vector<Widget*> widgets;
+
     ScrollBar *scb_vertical = nullptr, *scb_horizontal = nullptr;
 
     ScrollableArea(float x, float y, float width, float height, float real_width, float real_height,
-                   Theme *thm, float scrollbars_thickness);
+                   Theme *thm, float scrollbars_thickness, int bitflags);
     ScrollableArea(float x1, float y1, float x2, float y2, float real_width, float real_height,
-                   Theme *thm, float scrollbars_thickness, float whatever);
+                   Theme *thm, float scrollbars_thickness, int bitflags, float whatever);
     ~ScrollableArea();
 
-    int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
+    int Specific_Input(ALLEGRO_EVENT& ev);
+    int Input();
     void Print();
     void Set_vertical_sba_status(bool enabled);
     void Set_horizontal_sba_status(bool enabled);
     void Change_coords(float x1, float y1, float width, float height);
+    void Set_flags(int flags);
 
     void I_added_new_widgets();
+    void Update_theme(Theme *thm);
 };
 
 class InputField : public Widget
@@ -400,15 +391,17 @@ public:
     bool CTRL_A = false;
     int lenght_limit = 500;
 
-    InputField(float x, float y, float width, float height, std::string font_file, Theme *thm, float FPS, bool bitmap_only);
+    InputField(float x, float y, float width, float height, std::string font_file, Theme *thm, float FPS);
     InputField(float x, float y, float width, float height, std::string init_text,
-               std::string font_file, Theme *thm, float FPS, bool bitmap_only);
+               std::string font_file, Theme *thm, float FPS);
     ~InputField();
 
-    virtual int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
+    virtual int Input();
+    virtual int Specific_Input(ALLEGRO_EVENT& ev);
     virtual void Print();
     void Set_text(std::string t);
     std::string Get_text();
+    void Update_theme(Theme *thm);
 
     /*void Change_coords(float x1, float y1, float width, float height);
     void Change_coords_r(float &x1, float &y1, float &width, float &height);*/
@@ -419,59 +412,14 @@ class SingleKeyInputField : public InputField
 public:
     int al_key;
 
-    SingleKeyInputField(float x, float y, float width, float height, std::string font_file, Theme *thm, bool bitmap_only);
+    SingleKeyInputField(float x, float y, float width, float height, std::string font_file, Theme *thm);
     SingleKeyInputField(float x, float y, float width, float height, int init_key, std::string font_file,
-                        Theme *thm, bool bitmap_only);
+                        Theme *thm);
     ~SingleKeyInputField();
 
-    int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
+    int Specific_Input(ALLEGRO_EVENT& ev);
+    int Input();
     void Print();
-};
-
-class [[deprecated("use TextBox instead")]] Label : public Widget
-{
-private:
-    ALLEGRO_FONT *font = nullptr;
-    bool delete_font = true, recal_f_w = false;
-    void recalsulate_text_flag_poz();
-    void recalculate_text();
-    std::string font_file;
-    int print_flag;
-public:
-    float text_x, text_y, text_height, text_width;
-    bool multiline = false;
-    std::string text;
-
-    //Single line
-    Label(float x1, float y1, float width, float height, std::string texts,
-          std::string font_file, int allegro_text_flag,Theme *thm, bool bitmap_only);
-    Label(float x1, float y1, float width, std::string texts,
-          ALLEGRO_FONT *font, int allegro_text_flag,Theme *thm, bool bitmap_only);
-    Label(float x1, float y1, float width, float height, std::string texts,
-          ALLEGRO_FONT *font, int allegro_text_flag,Theme *thm, bool bitmap_only);
-    //Multiline
-    Label(float x1, float y1, float width, float height, std::string texts,
-          std::string font_file, float font_height,int allegro_text_flag,Theme *thm, bool bitmap_only, bool multiline);
-    Label(float x1, float y1, float width, float height, std::string texts,
-          ALLEGRO_FONT *font, int allegro_text_flag,Theme *thm, bool bitmap_only, bool multiline);
-
-    /*//bitflags
-    Label(float x, float y, float width, float height, std::string texts,
-          std::string font_file, float font_height, Theme *thm, int bitflags);
-    Label(float x, float y, float width, float height, std::string texts,
-          ALLEGRO_FONT *font,Theme *thm, int bitflags);*/
-
-    ~Label();
-
-    int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
-    void Print();
-
-    void Change_coords(float x1, float y1, float width, float height);
-    void Change_coords_r(float &x1, float &y1, float &width, float &height);
-    void Change_print_coords(float x1, float y1, float width, float height);
-    void Change_print_coords_r(float &x1, float &y1, float &width, float &height);
-    virtual void Set_Print_flag(int flag);
-    int Get_Print_flag();
 };
 
 class ProgressBar : public Widget
@@ -480,10 +428,9 @@ private:
 public:
     int value = 0;
 
-    ProgressBar(float x, float y, float width, float height, int initial_val_from_0_to_100, Theme *thm, bool bitmaponly);
+    ProgressBar(float x, float y, float width, float height, int initial_val_from_0_to_100, Theme *thm);
     ~ProgressBar();
 
-    int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
     void Print();
 
     void Set_value(int val);
@@ -498,7 +445,6 @@ private:
     std::string font_file;
     int print_flag;
     float multiline_height = 0, multiline_longest_text = 0;
-    int cr_x, cr_y, cr_w, cr_h;
 public:
     float text_x, text_y, text_height, text_width;
     std::string text; //if you want to set text use Set_text(std::string t)
@@ -517,7 +463,6 @@ public:
 
     ~TextBox();
 
-    int Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley);
     void Print();
 
     void Change_coords(float x1, float y1, float width, float height);
@@ -528,6 +473,7 @@ public:
     int  Get_flags();
     void Set_text(std::string t);
     std::string Get_text();
+    void Update_theme(Theme *thm);
 };
 
 

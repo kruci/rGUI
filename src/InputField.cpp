@@ -2,8 +2,8 @@
 
 namespace rGUI //InputField
 {
-    InputField::InputField(float x, float y, float width, float height, std::string font_file, Theme *thm, float FPS, bool bitmap_only)
-    : Widget(x,y,width, height, thm, false), font_file(font_file), if_FPS(FPS), bmp_only(bitmap_only)
+    InputField::InputField(float x, float y, float width, float height, std::string font_file, Theme *thm, float FPS)
+    : Widget(x,y,width, height, thm), font_file(font_file), if_FPS(FPS)
     {
         wd_extented_input = true;
         wd_type = wt_INPUTFIELD;
@@ -23,14 +23,13 @@ namespace rGUI //InputField
         text_y = (wd_height - font_height)/2.0f;
         texty_shift = 0;
 
-        wd_bitmap_only = true;
-        wd_bmp = al_create_bitmap(wd_width, wd_height);
+        //wd_bmp = al_create_bitmap(wd_width, wd_height);
         if_help_ustr = al_ustr_new("");
     }
 
     InputField::InputField(float x, float y, float width, float height, std::string init_text,
-                            std::string font_file, Theme *thm, float FPS, bool bitmap_only)
-    : Widget(x,y,width, height, thm, false), font_file(font_file), if_FPS(FPS), bmp_only(bitmap_only), text(init_text)
+                            std::string font_file, Theme *thm, float FPS)
+    : Widget(x,y,width, height, thm), font_file(font_file), if_FPS(FPS), text(init_text)
     {
         wd_extented_input = true;
         wd_type = wt_INPUTFIELD;
@@ -51,8 +50,7 @@ namespace rGUI //InputField
         text_y = (wd_height - font_height)/2.0f;
         texty_shift = 0;
 
-        wd_bitmap_only = true;
-        wd_bmp = al_create_bitmap(wd_width, wd_height);
+        //wd_bmp = al_create_bitmap(wd_width, wd_height);
         if_help_ustr = al_ustr_new("");
     }
 
@@ -85,12 +83,17 @@ namespace rGUI //InputField
             al_ustr_free(if_help_ustr);
     }
 
-    int InputField::Input(ALLEGRO_EVENT &ev, float &scalex, float &scaley)
+    int InputField::Input()
     {
-        wd_md->Input(ev, scalex, scaley);
+        return Specific_Input(event);
+    }
+
+    int InputField::Specific_Input(ALLEGRO_EVENT &ev)
+    {
+        wd_md->Specific_Input(ev);
 
         if( (wd_md->md_clicked == true && wd_md->md_mouse_on_it == false &&
-             ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN && ev.mouse.button == wd_mouse_button) ||
+             ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN && ev.mouse.button == wd_md->md_mouse_button) ||
             (al_key_down(keyboard_state, ALLEGRO_KEY_ENTER)) || (al_key_down(keyboard_state, ALLEGRO_KEY_ESCAPE)) )
         {
             wd_md->md_clicked = false;
@@ -186,23 +189,40 @@ namespace rGUI //InputField
 
         wd_PrintBegin();
 
-        al_draw_filled_rounded_rectangle(0 + wd_theme.thickness/2.0f, 0 + wd_theme.thickness/2.0f,
-                                         wd_width- wd_theme.thickness/2.0f, wd_height- wd_theme.thickness/2.0f,
-                                         wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
+         al_draw_filled_rounded_rectangle( wd_theme.added_thickness/2,
+                                          wd_theme.added_thickness/2,
+                                          wd_width + wd_theme.added_thickness/2,
+                                          wd_height + wd_theme.added_thickness/2,
+                                          wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
 
-        al_draw_ustr(font, wd_theme.c_text, text_x - texty_shift, text_y,0, al_text);
+        al_set_clipping_rectangle(wd_theme.added_thickness/2,wd_theme.added_thickness/2,
+                                  wd_width + wd_theme.added_thickness/2, wd_height + wd_theme.added_thickness/2);
+
+        al_draw_ustr(font, wd_theme.c_text, wd_theme.added_thickness/2 + text_x - texty_shift, wd_theme.added_thickness/2 +text_y,0, al_text);
+
+        al_set_clipping_rectangle(0,0,
+                                  wd_width + wd_theme.added_thickness, wd_height + wd_theme.added_thickness);
+
+        al_draw_rounded_rectangle(wd_theme.added_thickness/2+ wd_theme.thickness/2,
+                                  wd_theme.added_thickness/2+ wd_theme.thickness/2,
+                                  wd_width + wd_theme.added_thickness/2 - wd_theme.thickness/2,
+                                  wd_height + wd_theme.added_thickness/2 - wd_theme.thickness/2,
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
+
         if(wd_md->md_clicked == true)
         {
-            al_draw_rounded_rectangle(0 + wd_theme.thickness/2.0f + wd_theme.added_thickness/2.0f + 1,
-            0 + wd_theme.thickness/2.0f + wd_theme.added_thickness/2.0f,
-            wd_width - wd_theme.thickness/2.0f - wd_theme.added_thickness/2.0f,
-            wd_height- wd_theme.thickness/2.0f - wd_theme.added_thickness/2.0f -1,
-            wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
+            al_draw_rounded_rectangle(wd_theme.added_thickness/2+ wd_theme.thickness/2,
+                                  wd_theme.added_thickness/2+ wd_theme.thickness/2,
+                                  wd_width + wd_theme.added_thickness/2 - wd_theme.thickness/2,
+                                  wd_height + wd_theme.added_thickness/2 - wd_theme.thickness/2,
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.added_thickness);
 
             if(if_a <= if_FPS)
             {
-                al_draw_filled_rectangle(bar_x - texty_shift, text_y, bar_x - texty_shift + bar_width,
-                text_y + font_height, wd_theme.c_text);
+                al_draw_filled_rectangle(wd_theme.added_thickness/2 + bar_x - texty_shift,
+                                         wd_theme.added_thickness/2 + text_y,
+                                         wd_theme.added_thickness/2 + bar_x - texty_shift + bar_width,
+                                         wd_theme.added_thickness/2 + text_y + font_height, wd_theme.c_text);
             }
             if(if_a > if_FPS*2.0f)
             {
@@ -211,15 +231,7 @@ namespace rGUI //InputField
             if_a++;
         }
 
-        al_draw_rounded_rectangle(0 + wd_theme.thickness/2.0f, 0 + wd_theme.thickness/2.0f,
-                                  wd_width- wd_theme.thickness/2.0f, wd_height- wd_theme.thickness/2.0f,
-                                  wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
-
         wd_PrintEnd();
-        if(bmp_only == false)
-        {
-            al_draw_bitmap(wd_bmp , wd_x1, wd_y1, 0);
-        }
     }
 
     void InputField::Set_text(std::string t)
@@ -235,4 +247,9 @@ namespace rGUI //InputField
         return s;
     }
 
+    void InputField::Update_theme(Theme *thm)
+    {
+        wd_Update_theme(thm);
+        recalculate_text();
+    }
 }
