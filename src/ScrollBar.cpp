@@ -204,32 +204,32 @@ namespace rGUI //ScrollBar
         al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
                                 wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);*/
 
-        al_draw_filled_rounded_rectangle( wd_theme.added_thickness/2,
+        al_draw_filled_rounded_rectangle( wd_theme.added_thickness/2+1,
                                           wd_theme.added_thickness/2,
                                           wd_width + wd_theme.added_thickness/2,
-                                          wd_height + wd_theme.added_thickness/2,
+                                          wd_height + wd_theme.added_thickness/2-1,
                                           wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
-        al_draw_rounded_rectangle(wd_theme.added_thickness/2+ wd_theme.thickness/2,
+        al_draw_rounded_rectangle(wd_theme.added_thickness/2+ wd_theme.thickness/2+1,
                                   wd_theme.added_thickness/2+ wd_theme.thickness/2,
                                   wd_width + wd_theme.added_thickness/2 - wd_theme.thickness/2,
-                                  wd_height + wd_theme.added_thickness/2 - wd_theme.thickness/2,
+                                  wd_height + wd_theme.added_thickness/2 - wd_theme.thickness/2-1,
                                 wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
 
 
-        al_draw_filled_rounded_rectangle(sroller_x1, sroller_y1, sroller_x2, sroller_y2,
+        al_draw_filled_rounded_rectangle(sroller_x1+1, sroller_y1, sroller_x2, sroller_y2-1,
                                 wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
-        al_draw_rounded_rectangle(sroller_x1, sroller_y1, sroller_x2, sroller_y2,
+        al_draw_rounded_rectangle(sroller_x1+1, sroller_y1, sroller_x2, sroller_y2-1,
                                 wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, 1);
 
         if(wd_md->md_clicking == true || wd_md->md_clicked == true)
         {
-            al_draw_filled_rounded_rectangle(sroller_x1, sroller_y1, sroller_x2, sroller_y2,
+            al_draw_filled_rounded_rectangle(sroller_x1+1, sroller_y1, sroller_x2, sroller_y2-1,
                                 wd_theme.roundx, wd_theme.roundy, wd_theme.c_clicking);
         }
         else if(wd_md->md_mouse_on_it == true)
         {
-            al_draw_rounded_rectangle(sroller_x1+wd_theme.added_thickness/2.0, sroller_y1+wd_theme.added_thickness/2.0,
-                                      sroller_x2-wd_theme.added_thickness/2.0, sroller_y2-wd_theme.added_thickness/2.0,
+            al_draw_rounded_rectangle(sroller_x1+wd_theme.added_thickness/2.0+1, sroller_y1+wd_theme.added_thickness/2.0,
+                                      sroller_x2-wd_theme.added_thickness/2.0, sroller_y2-wd_theme.added_thickness/2.0-1,
                                 wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness + wd_theme.added_thickness);
         }
 

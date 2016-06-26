@@ -37,6 +37,8 @@ int main(int argc, char **argv)
 
     display = al_create_display(SCREEN_W, SCREEN_H);
     //display = al_create_display(newsw, newsh);
+
+    al_set_new_bitmap_flags(ALLEGRO_MIN_LINEAR | ALLEGRO_MAG_LINEAR);
     if(!display)
     {
         fprintf(stderr, "failed to create display!\n");

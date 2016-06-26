@@ -34,15 +34,15 @@ namespace rGUI //CheckBox
     {
         wd_PrintBegin();
 
-        al_draw_filled_rounded_rectangle( wd_theme.added_thickness/2,
+        al_draw_filled_rounded_rectangle( wd_theme.added_thickness/2+1,
                                           wd_theme.added_thickness/2,
                                           wd_width + wd_theme.added_thickness/2,
-                                          wd_height + wd_theme.added_thickness/2,
+                                          wd_height + wd_theme.added_thickness/2-1,
                                           wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
-        al_draw_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness/2,
+        al_draw_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness/2+1,
                                   wd_theme.added_thickness/2 + wd_theme.thickness/2,
                                   wd_width + wd_theme.added_thickness/2 - wd_theme.thickness/2,
-                                  wd_height +wd_theme.added_thickness/2 - wd_theme.thickness/2,
+                                  wd_height +wd_theme.added_thickness/2 - wd_theme.thickness/2-1,
                                 wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
         if(selected == true)
         {
@@ -52,17 +52,17 @@ namespace rGUI //CheckBox
 
         if(wd_md->md_mouse_on_it == true)
         {
-            al_draw_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness/2,
+            al_draw_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness/2+1,
                                   wd_theme.added_thickness/2 + wd_theme.thickness/2,
                                   wd_width + wd_theme.added_thickness/2 - wd_theme.thickness/2,
-                                  wd_height +wd_theme.added_thickness/2 - wd_theme.thickness/2,
+                                  wd_height +wd_theme.added_thickness/2 - wd_theme.thickness/2-1,
                                 wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness + wd_theme.added_thickness);
             if(wd_md->md_clicking == true)
             {
-                al_draw_filled_rounded_rectangle(wd_theme.added_thickness/2,
+                al_draw_filled_rounded_rectangle(wd_theme.added_thickness/2+1,
                                           wd_theme.added_thickness/2,
                                           wd_width + wd_theme.added_thickness/2,
-                                          wd_height + wd_theme.added_thickness/2,
+                                          wd_height + wd_theme.added_thickness/2-1,
                                 wd_theme.roundx, wd_theme.roundy, wd_theme.c_clicking);
             }
         }

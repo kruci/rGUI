@@ -26,21 +26,23 @@ namespace rGUI //ProgressBar
             value = 100;
         }
 
-        al_draw_filled_rounded_rectangle( wd_theme.added_thickness/2,
+        al_draw_filled_rounded_rectangle( wd_theme.added_thickness/2+1,
                                           wd_theme.added_thickness/2,
                                           wd_width + wd_theme.added_thickness/2,
-                                          wd_height + wd_theme.added_thickness/2,
+                                          wd_height + wd_theme.added_thickness/2-1,
                                           wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
-        al_draw_rounded_rectangle(wd_theme.added_thickness/2+ wd_theme.thickness/2,
+        al_draw_rounded_rectangle(wd_theme.added_thickness/2+ wd_theme.thickness/2+1,
                                   wd_theme.added_thickness/2+ wd_theme.thickness/2,
                                   wd_width + wd_theme.added_thickness/2 - wd_theme.thickness/2,
-                                  wd_height + wd_theme.added_thickness/2 - wd_theme.thickness/2,
+                                  wd_height + wd_theme.added_thickness/2 - wd_theme.thickness/2-1,
                                 wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
         if(value > 0)
         {
-             al_draw_filled_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness +1, wd_theme.added_thickness/2 + wd_theme.thickness +1,
+             al_draw_filled_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness +1,
+                                              wd_theme.added_thickness/2 + wd_theme.thickness +1,
                             (wd_theme.added_thickness/2 + wd_theme.thickness +1.0f)+ ((wd_theme.added_thickness/2 + wd_width - wd_theme.thickness -1.0f)-(wd_theme.added_thickness/2 + wd_theme.thickness +1))*((float)value/100.0f),
-                            wd_theme.added_thickness/2 + wd_height - wd_theme.thickness -1, wd_theme.roundx, wd_theme.roundy, wd_theme.c_text);
+                            wd_theme.added_thickness/2 + wd_height - wd_theme.thickness -1 -1,
+                            wd_theme.roundx, wd_theme.roundy, wd_theme.c_text);
         }
 
         wd_PrintEnd();
