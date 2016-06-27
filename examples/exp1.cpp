@@ -10,6 +10,19 @@ const int SCREEN_H = 700;
 const int BOUNCER_SIZE = 32;
 
 std::vector<rGUI::Widget*>widgets;
+rGUI::Theme tmh;
+
+void thmreset()
+{
+    tmh.c_text = al_map_rgba(255,255,255,0);
+    tmh.c_outline = al_map_rgba(0,200,0,255);
+    tmh.c_background = al_map_rgba(255,0,0,255);
+    tmh.c_clicking = al_map_rgba(0,0,0,125);
+    tmh.thickness = 2;
+    tmh.added_thickness = 2;
+    tmh.roundx = 2;
+    tmh.roundy = 2;
+}
 
 int main(int argc, char **argv)
 {
@@ -87,12 +100,16 @@ int main(int argc, char **argv)
 
     al_start_timer(timer);
 
-    rGUI::Theme tmh;
+    /*tmh.c_outline = al_map_rgb(255,255,255),
+    tmh.c_background = al_map_rgba(0,0,66,100),
+    tmh.c_text = al_map_rgb(255,255,255),
+    tmh.c_clicking = al_map_rgba(0,0,0,150);*/
+
     tmh.c_text = al_map_rgba(255,255,255,0);
     tmh.c_outline = al_map_rgba(0,200,0,255);
-    tmh.thickness = 1;
     tmh.c_background = al_map_rgba(255,0,0,255);
     tmh.c_clicking = al_map_rgba(0,0,0,125);
+    tmh.thickness = 2;
     tmh.added_thickness = 2;
     tmh.roundx = 0;
     tmh.roundy = 0;
@@ -136,13 +153,19 @@ int main(int argc, char **argv)
     widgets.push_back(new rGUI::SlideBar(800,55,100,30,0,10,&tmh, (rGUI::bf_HORIZONTAL)));
 
     //Added thickness
-    widgets.push_back(new rGUI::TextBox(680,95,300,40, "Added Thickness",  "Calibri.ttf",15, &tmh, (rGUI::bf_HAS_FRAME)));
+    widgets.push_back(new rGUI::TextBox(680,95,300,40, "Added Thickness",  "Calibri.ttf",10, &tmh, (rGUI::bf_HAS_FRAME)));
     int poz_addedthickness = widgets.size();
     widgets.push_back(new rGUI::SlideBar(800,100,100,30,0,10,&tmh, (rGUI::bf_HORIZONTAL)));
 
     //Update Button
     int poz_updatebutton = widgets.size();
-    widgets.push_back(new rGUI::Button(700,140,180,40,"Update Theme","Calibri.ttf", &tmh));
+    widgets.push_back(new rGUI::Button(680,140,180,40,"Update Theme","Calibri.ttf", &tmh));
+
+    //Reset Button
+    int poz_rb = widgets.size();
+    widgets.push_back(new rGUI::TextBox(862,140,36,40,"Reset theme","Calibri.ttf", 12, &tmh,
+                                        (rGUI::bf_AS_BUTTON | rGUI::bf_HAS_FRAME | rGUI::bf_MULTILINE)));
+    //widgets.push_back(new rGUI::Button(865,140,30,40,"Reset colors","Calibri.ttf", &tmh));
 
     //Color selector
     int poz_colscba = widgets.size();
@@ -218,12 +241,18 @@ int main(int argc, char **argv)
             widgets[a]->Input();
         }
 
-        if(widgets[poz_updatebutton]->wd_md->md_clicked == true)
+        if(widgets[poz_updatebutton]->wd_md->md_clicked == true || widgets[poz_rb]->wd_md->md_clicked == true)
         {
             widgets[poz_updatebutton]->wd_md->md_clicked = false;
             tmh.thickness = ((rGUI::SlideBar*)widgets[poz_thickness])->value;
             tmh.added_thickness = ((rGUI::SlideBar*)widgets[poz_addedthickness])->value;
             tmh.roundx = tmh.roundy = ((rGUI::SlideBar*)widgets[poz_roundXY])->value;
+
+            if(widgets[poz_rb]->wd_md->md_clicked == true)
+            {
+                widgets[poz_rb]->wd_md->md_clicked = false;
+                thmreset();
+            }
 
             for(int a = 0;a < (int)widgets.size();a++)
             {

@@ -58,7 +58,7 @@ namespace rGUI //TextBox
         if(!(wd_bf & bf_RESIZE_CONTENT))
         {
             al_set_clipping_rectangle(wd_theme.added_thickness/2, wd_theme.added_thickness/2,
-                                      wd_width + wd_theme.added_thickness/2, wd_height + wd_theme.added_thickness/2);
+                                      wd_width + wd_theme.added_thickness/2 - wd_theme.thickness, wd_height + wd_theme.added_thickness/2);
         }
 
         if((wd_bf & bf_CUSTOM_TEXT_DRAW) && (textdrawcallback != nullptr))
