@@ -9,6 +9,8 @@ const int SCREEN_W = 900;
 const int SCREEN_H = 700;
 const int BOUNCER_SIZE = 32;
 
+std::vector<rGUI::Widget*>widgets;
+
 int main(int argc, char **argv)
 {
     int newsw = 771 , newsh = 600;
@@ -96,7 +98,7 @@ int main(int argc, char **argv)
     tmh.roundy = 0;
     ALLEGRO_FONT *fnt = al_load_ttf_font("Calibri.ttf",30,0);
 
-    std::vector<rGUI::Widget*>widgets;
+
 
     widgets.push_back(new rGUI::Button(10,40,100,50,"wwwLong text", "Calibri.ttf",&tmh));
     tmh.roundx = 3;
@@ -141,6 +143,41 @@ int main(int argc, char **argv)
     //Update Button
     int poz_updatebutton = widgets.size();
     widgets.push_back(new rGUI::Button(700,140,180,40,"Update Theme","Calibri.ttf", &tmh));
+
+    //Color selector
+    int poz_colscba = widgets.size();
+    widgets.push_back(new rGUI::ScrollableArea(400,5,275,180,2000,2000,&tmh,20,0));
+        //red
+        int poz_colsba_R =  widgets[poz_colscba]->widgets.size();
+        widgets[poz_colscba]->widgets.push_back(new rGUI::SlideBar(5,5,30,140,0,255,&tmh, rGUI::bf_VERTICAL));
+        //Green
+        int poz_colsba_G =  widgets[poz_colscba]->widgets.size();
+        widgets[poz_colscba]->widgets.push_back(new rGUI::SlideBar(40,5,30,140,0,255,&tmh, rGUI::bf_VERTICAL));
+        //Blue
+        int poz_colsba_B =  widgets[poz_colscba]->widgets.size();
+        widgets[poz_colscba]->widgets.push_back(new rGUI::SlideBar(75,5,30,140,0,255,&tmh, rGUI::bf_VERTICAL));
+        //Alpha
+        int poz_colsba_A =  widgets[poz_colscba]->widgets.size();
+        widgets[poz_colscba]->widgets.push_back(new rGUI::SlideBar(110,5,30,140,0,255,&tmh, rGUI::bf_VERTICAL));
+        //cols
+        int poz_colsba_cols =  widgets[poz_colscba]->widgets.size();
+        widgets[poz_colscba]->widgets.push_back(new rGUI::TextBox(15,150,120,20, "R    G     B     A", "Calibri.ttf", 20, &tmh, rGUI::bf_HAS_FRAME));
+
+        //TextC
+        int poz_colsba_c_T =  widgets[poz_colscba]->widgets.size();
+        widgets[poz_colscba]->widgets.push_back(new rGUI::Button(150,5,120,30, "Text color", "Calibri.ttf", &tmh));
+        //BackgroundC
+        int poz_colsba_c_B =  widgets[poz_colscba]->widgets.size();
+        widgets[poz_colscba]->widgets.push_back(new rGUI::Button(150,40,120,30, "Background color", "Calibri.ttf", &tmh));
+        //OutlineC
+        int poz_colsba_c_O =  widgets[poz_colscba]->widgets.size();
+        widgets[poz_colscba]->widgets.push_back(new rGUI::Button(150,75,120,30, "Outline color", "Calibri.ttf", &tmh));
+        //ClickingC
+        int poz_colsba_c_C =  widgets[poz_colscba]->widgets.size();
+        widgets[poz_colscba]->widgets.push_back(new rGUI::Button(150,110,120,30, "Clicking color", "Calibri.ttf", &tmh));
+
+    ((rGUI::ScrollableArea*)widgets[poz_colscba])->I_added_new_widgets();
+
 
     ALLEGRO_TRANSFORM trans;
     al_identity_transform(&trans);
@@ -192,6 +229,42 @@ int main(int argc, char **argv)
             {
                 widgets[a]->Update_theme(&tmh);
             }
+            widgets[poz_colscba]->widgets[poz_colsba_cols]->wd_theme.c_background =
+                al_premul_rgba(((rGUI::SlideBar*)widgets[poz_colscba]->widgets[poz_colsba_R])->Get_value(),
+                            ((rGUI::SlideBar*)widgets[poz_colscba]->widgets[poz_colsba_G])->Get_value(),
+                            ((rGUI::SlideBar*)widgets[poz_colscba]->widgets[poz_colsba_B])->Get_value(),
+                            ((rGUI::SlideBar*)widgets[poz_colscba]->widgets[poz_colsba_A])->Get_value());
+        }
+        else if(widgets[poz_colscba]->widgets[poz_colsba_R]->wd_md->md_mouse_on_it == true ||
+                widgets[poz_colscba]->widgets[poz_colsba_G]->wd_md->md_mouse_on_it == true ||
+                widgets[poz_colscba]->widgets[poz_colsba_B]->wd_md->md_mouse_on_it == true ||
+                widgets[poz_colscba]->widgets[poz_colsba_A]->wd_md->md_mouse_on_it == true)
+        {
+            widgets[poz_colscba]->widgets[poz_colsba_cols]->wd_theme.c_background =
+                al_premul_rgba(((rGUI::SlideBar*)widgets[poz_colscba]->widgets[poz_colsba_R])->Get_value(),
+                            ((rGUI::SlideBar*)widgets[poz_colscba]->widgets[poz_colsba_G])->Get_value(),
+                            ((rGUI::SlideBar*)widgets[poz_colscba]->widgets[poz_colsba_B])->Get_value(),
+                            ((rGUI::SlideBar*)widgets[poz_colscba]->widgets[poz_colsba_A])->Get_value());
+        }
+        else if(widgets[poz_colscba]->widgets[poz_colsba_c_T]->wd_md->md_clicked == true)
+        {
+            tmh.c_text = widgets[poz_colscba]->widgets[poz_colsba_cols]->wd_theme.c_background;
+            widgets[poz_colscba]->widgets[poz_colsba_c_T]->wd_md->md_clicked = false;
+        }
+        else if(widgets[poz_colscba]->widgets[poz_colsba_c_O]->wd_md->md_clicked == true)
+        {
+            tmh.c_outline = widgets[poz_colscba]->widgets[poz_colsba_cols]->wd_theme.c_background;
+            widgets[poz_colscba]->widgets[poz_colsba_c_O]->wd_md->md_clicked = false;
+        }
+        else if(widgets[poz_colscba]->widgets[poz_colsba_c_B]->wd_md->md_clicked == true)
+        {
+            tmh.c_background = widgets[poz_colscba]->widgets[poz_colsba_cols]->wd_theme.c_background;
+            widgets[poz_colscba]->widgets[poz_colsba_c_B]->wd_md->md_clicked = false;
+        }
+        else if(widgets[poz_colscba]->widgets[poz_colsba_c_C]->wd_md->md_clicked == true)
+        {
+            tmh.c_clicking = widgets[poz_colscba]->widgets[poz_colsba_cols]->wd_theme.c_background;
+            widgets[poz_colscba]->widgets[poz_colsba_c_C]->wd_md->md_clicked = false;
         }
 
         if(redraw && al_is_event_queue_empty(event_queue))

@@ -244,7 +244,7 @@ namespace rGUI //Widget
         orig_y1 = y1;
         orig_y2 = y2;
 
-        wd_theme.roundx = thm->roundx;
+        /*wd_theme.roundx = thm->roundx;
         wd_theme.roundy = thm->roundy;
         wd_theme.thickness = thm->thickness;
         wd_theme.c_outline = thm->c_outline;
@@ -253,7 +253,8 @@ namespace rGUI //Widget
         wd_theme.c_clicking = thm->c_clicking;
         wd_theme.added_thickness = thm->added_thickness;
 
-        wd_CreateBitmap(wd_width,wd_height);
+        wd_CreateBitmap(wd_width,wd_height);*/
+        wd_Update_theme(thm);
 
         wd_md = new MouseDetector(x1,y1, wd_width, wd_height);
 
@@ -269,7 +270,7 @@ namespace rGUI //Widget
         orig_y1 = wd_y1;
         orig_y2 = wd_y2;
 
-        wd_theme.roundx = thm->roundx;
+        /*wd_theme.roundx = thm->roundx;
         wd_theme.roundy = thm->roundy;
         wd_theme.thickness = thm->thickness;
         wd_theme.c_outline = thm->c_outline;
@@ -278,7 +279,8 @@ namespace rGUI //Widget
         wd_theme.c_clicking = thm->c_clicking;
         wd_theme.added_thickness = thm->added_thickness;
 
-        wd_CreateBitmap(wd_width,wd_height);
+        wd_CreateBitmap(wd_width,wd_height);*/
+        wd_Update_theme(thm);
 
         wd_md = new MouseDetector(x,y, wd_width, wd_height);
 
@@ -404,17 +406,7 @@ namespace rGUI //Widget
 
     void Widget::Update_theme(Theme *thm)
     {
-        wd_theme.roundx = thm->roundx;
-        wd_theme.roundy = thm->roundy;
-        wd_theme.thickness = thm->thickness;
-        wd_theme.c_outline = thm->c_outline;
-        wd_theme.c_background = thm->c_background;
-        wd_theme.c_text = thm->c_text;
-        wd_theme.c_clicking = thm->c_clicking;
-        wd_theme.added_thickness = thm->added_thickness;
-
-        wd_CreateBitmap(wd_width,wd_height);
-
+        wd_Update_theme(thm);
     }
 
     void Widget::Change_coords(float x1, float y1, float width, float height)
@@ -473,12 +465,22 @@ namespace rGUI //Widget
     {
         wd_theme.roundx = thm->roundx;
         wd_theme.roundy = thm->roundy;
-        wd_theme.thickness = thm->thickness;
         wd_theme.c_outline = thm->c_outline;
         wd_theme.c_background = thm->c_background;
         wd_theme.c_text = thm->c_text;
         wd_theme.c_clicking = thm->c_clicking;
-        wd_theme.added_thickness = thm->added_thickness;
+        //wd_theme.thickness = round(thm->thickness);
+        wd_theme.thickness = thm->thickness;
+        wd_theme.added_thickness = round(thm->added_thickness);
+
+        if( (int)wd_theme.added_thickness % 2 != 0)
+        {
+            wd_theme.added_thickness++;
+        }
+        /*if( (int)wd_theme.thickness % 2 != 0)
+        {
+            wd_theme.thickness++;
+        }*/
 
         wd_CreateBitmap(wd_width,wd_height);
     }

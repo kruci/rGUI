@@ -61,7 +61,7 @@ namespace rGUI //SingleKeyInputField
     void SingleKeyInputField::Print()
     {
         text_width = al_get_text_width(font, text.c_str());
-        texty_shift = text_width - wd_width + bar_width + wd_theme.thickness + wd_theme.added_thickness + 6;
+        texty_shift = text_width - wd_width + bar_width + wd_theme.thickness + 6;
         texty_shift = (texty_shift > 0 ? texty_shift : 0);
 
         wd_PrintBegin();

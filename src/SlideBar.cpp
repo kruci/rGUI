@@ -295,5 +295,8 @@ namespace rGUI //SlideBars
         sb_calculate_line_poz();
         sb_calculate_slide_poz();
     }
-
+    int SlideBar::Get_value()
+    {
+        return value;
+    }
 }

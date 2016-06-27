@@ -325,4 +325,8 @@ namespace rGUI //ScrollBar
         scb_recalculate_rb_ratio();
         scb_recalculate_scroller_poz();
     }
+    float ScrollBar::Get_change()
+    {
+        return change;
+    }
 }

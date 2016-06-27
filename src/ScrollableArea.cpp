@@ -8,7 +8,6 @@ namespace rGUI //ScrollableArea
     r_size_w(real_width), r_size_h(real_height), scb_thickness(scrollbars_thickness)
     {
         wd_type = wt_SCROLLABLEAREA;
-        wd_bf = bitflags;
         scb_vertical = new   ScrollBar(wd_theme.added_thickness/2 + wd_width - scb_thickness,wd_theme.added_thickness/2,scb_thickness,
                                        wd_theme.added_thickness/2 + wd_height- scb_thickness, real_height, thm, bf_VERTICAL);
 
@@ -21,8 +20,10 @@ namespace rGUI //ScrollableArea
         scb_horizontal->wd_md->Change_coords(wd_x1, wd_y2 - scb_thickness, wd_width - scb_thickness,
                                        scb_thickness);
 
-        wd_bmp = al_create_bitmap(wd_width, wd_height);
+        //wd_bmp = al_create_bitmap(wd_width, wd_height);
         wd_md->Change_coords(wd_x1, wd_y1, wd_width - scb_thickness, wd_height - scb_thickness);
+
+        Set_flags(bitflags);
     }
 
     ScrollableArea::ScrollableArea(float x1, float y1, float x2, float y2, float real_width, float real_height,
@@ -31,7 +32,6 @@ namespace rGUI //ScrollableArea
     r_size_w(real_width), r_size_h(real_height), scb_thickness(scrollbars_thickness)
     {
         wd_type = wt_SCROLLABLEAREA;
-        wd_bf = bitflags;
         scb_vertical = new   ScrollBar(wd_theme.added_thickness/2 + wd_width - scb_thickness,wd_theme.added_thickness/2,scb_thickness,
                                        wd_theme.added_thickness/2 + wd_height- scb_thickness, real_height, thm, bf_VERTICAL);
 
@@ -44,8 +44,9 @@ namespace rGUI //ScrollableArea
         scb_horizontal->wd_md->Change_coords(wd_x1, wd_y2 - scb_thickness, wd_width - scb_thickness,
                                        scb_thickness);
 
-        wd_bmp = al_create_bitmap(wd_width, wd_height);
+        //wd_bmp = al_create_bitmap(wd_width, wd_height);
         wd_md->Change_coords(wd_x1, wd_y1, wd_width - scb_thickness, wd_height - scb_thickness);
+        Set_flags(bitflags);
     }
 
     ScrollableArea::~ScrollableArea()
@@ -317,11 +318,12 @@ namespace rGUI //ScrollableArea
             scb_vertical->wd_print_active = true;
             scb_vertical->wd_md->md_active = true;
             wd_height = wd_height + scb_thickness;
-            if(wd_bmp != nullptr)
+            /*if(wd_bmp != nullptr)
             {
                 al_destroy_bitmap(wd_bmp);
             }
-            wd_bmp = al_create_bitmap(wd_width, wd_height);
+            wd_bmp = al_create_bitmap(wd_width, wd_height);*/
+            wd_CreateBitmap(wd_width, wd_height);
         }
         else if(enabled == false && scb_vertical_active == true)
         {
@@ -330,11 +332,12 @@ namespace rGUI //ScrollableArea
             scb_vertical->wd_print_active = false;
             scb_vertical->wd_md->md_active = false;
             wd_height = wd_height - scb_thickness;
-            if(wd_bmp != nullptr)
+            /*if(wd_bmp != nullptr)
             {
                 al_destroy_bitmap(wd_bmp);
             }
-            wd_bmp = al_create_bitmap(wd_width, wd_height);
+            wd_bmp = al_create_bitmap(wd_width, wd_height);*/
+            wd_CreateBitmap(wd_width, wd_height);
         }
     }
 
@@ -347,11 +350,12 @@ namespace rGUI //ScrollableArea
             scb_horizontal->wd_print_active = true;
             scb_horizontal->wd_md->md_active = true;
             wd_width = wd_width + scb_thickness;
-            if(wd_bmp != nullptr)
+            /*if(wd_bmp != nullptr)
             {
                 al_destroy_bitmap(wd_bmp);
             }
-            wd_bmp = al_create_bitmap(wd_width, wd_height);
+            wd_bmp = al_create_bitmap(wd_width, wd_height);*/
+            wd_CreateBitmap(wd_width, wd_height);
         }
         else if(enabled == false && scb_horizontal_active == true)
         {
@@ -360,11 +364,12 @@ namespace rGUI //ScrollableArea
             scb_horizontal->wd_print_active = false;
             scb_horizontal->wd_md->md_active = false;
             wd_width = wd_width - scb_thickness;
-            if(wd_bmp != nullptr)
+            /*if(wd_bmp != nullptr)
             {
                 al_destroy_bitmap(wd_bmp);
             }
-            wd_bmp = al_create_bitmap(wd_width, wd_height);
+            wd_bmp = al_create_bitmap(wd_width, wd_height);*/
+            wd_CreateBitmap(wd_width, wd_height);
         }
     }
 

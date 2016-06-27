@@ -19,7 +19,7 @@ namespace rGUI //InputField
 
         al_text = al_ustr_new("");
         al_selected = al_ustr_new("");
-        text_x = wd_theme.thickness + wd_theme.added_thickness + 2;
+        text_x = wd_theme.thickness + 2;
         text_y = (wd_height - font_height)/2.0f;
         texty_shift = 0;
 
@@ -46,7 +46,7 @@ namespace rGUI //InputField
         al_text = al_ustr_new(init_text.c_str());
         al_selected = al_ustr_new("");
         bar_char_poz = text.size()-1;
-        text_x = wd_theme.thickness + wd_theme.added_thickness + 2;
+        text_x = wd_theme.thickness + 2;
         text_y = (wd_height - font_height)/2.0f;
         texty_shift = 0;
 
@@ -181,11 +181,11 @@ namespace rGUI //InputField
         al_ustr_truncate(if_help_ustr,0);
         if_help_ustr = al_ustr_dup_substr(al_text, 0, bar_char_poz);
         text_width = al_get_ustr_width(font, al_text);
-        texty_shift = text_width - wd_width + bar_width + wd_theme.thickness + wd_theme.added_thickness + 6;
+        texty_shift = text_width - wd_width + bar_width + wd_theme.thickness + 6;
         texty_shift = (texty_shift > 0 ? texty_shift : 0);
         bar_x = (al_ustr_size(al_text) > 0 ? text_x + al_get_ustr_width(font, if_help_ustr) : text_x);
         texty_shift = (bar_x - texty_shift < 0 ?
-                       bar_x - wd_theme.thickness - wd_theme.added_thickness - text_x: texty_shift);
+                       bar_x - wd_theme.thickness - text_x: texty_shift);
 
         wd_PrintBegin();
 

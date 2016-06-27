@@ -242,6 +242,7 @@ public:
     void Change_print_coords(float x1, float y1, float width, float height);
     void Change_print_coords_r(float &x1, float &y1, float &width, float &height);
     void Set_value(int val);
+    int  Get_value();
     void Set_flags(int flags);
     void Update_theme(Theme *thm);
 };
@@ -324,6 +325,7 @@ public:
     void Change_real_size_r(float &s);
     void Scrolling_input();
     void Set_change(float chan);
+    float Get_change();
     void Set_flags(int flags);
     void Update_theme(Theme *thm);
 };
