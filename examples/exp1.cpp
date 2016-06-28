@@ -12,6 +12,15 @@ const int BOUNCER_SIZE = 32;
 std::vector<rGUI::Widget*>widgets;
 rGUI::Theme tmh;
 
+void pbar_callback(void *a)
+{
+    rGUI::ProgressBar *pb = (rGUI::ProgressBar*)a;
+    pb->Set_value(0);
+    pb->wd_theme.c_background.b += 0.1;
+    pb->wd_theme.c_background.r -= 0.1;
+    pb->wd_md->md_clicked = false;
+}
+
 void thmreset()
 {
     tmh.c_text = al_map_rgba(255,255,255,0);
@@ -122,15 +131,18 @@ int main(int argc, char **argv)
     tmh.roundy = 3;
     widgets.push_back(new rGUI::CheckBox(160, 40, 50,50,&tmh, false));
     widgets.push_back(new rGUI::SlideBar(10,100,100,30,0,300,&tmh, (rGUI::bf_HORIZONTAL | rGUI::bf_HAS_FRAME) ));
-    widgets.push_back(new rGUI::SlideBar(115,40,30,50,0,300,&tmh, (rGUI::bf_VERTICAL | rGUI::bf_HAS_FRAME) ));
+    widgets.push_back(new rGUI::SlideBar(115,40,30,50,0,50,&tmh, (rGUI::bf_VERTICAL | rGUI::bf_HAS_FRAME) ));
     widgets.push_back(new rGUI::BitmapButton(10,140,100,45, "button.png",&tmh, (rGUI::bf_HAS_FRAME)));
     widgets.push_back(new rGUI::ScrollBar(220, 5, 30, 185, 800, &tmh, (rGUI::bf_VERTICAL)));
     widgets.push_back(new rGUI::ScrollBar(10, 195, 240, 30, 800, &tmh, (rGUI::bf_HORIZONTAL)));
     widgets.push_back(new rGUI::InputField(115,100,95,40, "Calibri.ttf",&tmh, FPS));
     widgets.push_back(new rGUI::SingleKeyInputField(115,145,95,40, ALLEGRO_KEY_BACKQUOTE, "Calibri.ttf",&tmh));
+
+    //Callback example
     int progressbar = widgets.size();
     widgets.push_back(new rGUI::ProgressBar(10,5,200,30,0,&tmh));
-
+    widgets[progressbar]->wd_md->md_callback_data = widgets[progressbar];
+    widgets[progressbar]->wd_md->Just_clicked_callback = pbar_callback;
 
 
     widgets.push_back(new rGUI::ScrollableArea(10,240,220,200,2000,2000,&tmh,20, (rGUI::bf_VERTICAL | rGUI::bf_HORIZONTAL | rGUI::bf_ZOOMABLE)));
@@ -141,6 +153,8 @@ int main(int argc, char **argv)
     widgets[scbapoz]->widgets.push_back(new rGUI::SlideBar(10,100,120,30,0,300,&tmh, (rGUI::bf_HORIZONTAL | rGUI::bf_HAS_FRAME) ));
     widgets[scbapoz]->widgets.push_back(new rGUI::ScrollBar(10, 160, 120, 30, 800, &tmh, (rGUI::bf_HORIZONTAL)));
     widgets[scbapoz]->widgets.push_back(new rGUI::InputField(10,2000,100,40, "Calibri.ttf",&tmh, FPS));
+    widgets[scbapoz]->widgets.push_back(new rGUI::TextBox(2000,1200,300,120, "Big box", "Calibri.ttf", 200,&tmh,
+                                                          (rGUI::bf_HAS_FRAME | rGUI::bf_RESIZE_CONTENT)));
     ((rGUI::ScrollableArea*)widgets[scbapoz])->I_added_new_widgets();
 
     //roundXY
@@ -207,7 +221,7 @@ int main(int argc, char **argv)
     al_scale_transform(&trans, _sx, _sy);
     al_translate_transform(&trans, _offx, _offy);
     //al_use_transform(&trans);
-    float progresval = 0, progressadd = 0.1;
+    int progresval = 0, progressadd = 1;
 
     float scale = 1.0f;
     while(1)
@@ -219,9 +233,15 @@ int main(int argc, char **argv)
 
         if(ev.type == ALLEGRO_EVENT_TIMER)
         {
+            progresval++;
             redraw = true;
-            progresval += progressadd;
-            ((rGUI::ProgressBar*)widgets[progressbar])->Set_value(progresval);
+            if(progresval >= 3)
+            {
+                progresval = 0;
+                ((rGUI::ProgressBar*)widgets[progressbar])->Set_value(
+                ((rGUI::ProgressBar*)widgets[progressbar])->Get_value() + progressadd);
+            }
+
         }
         else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
         {

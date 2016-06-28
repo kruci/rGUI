@@ -7,7 +7,7 @@ namespace rGUI //mousestate
     ALLEGRO_EVENT event;
     float scale_x = 1, scale_y = 1, offset_x = 0, offset_y = 0, trans_mouse_x, trans_mouse_y;
 
-    void no_null(){};
+    void no_null(void *_dat_){};
 
     int error_message(std::string error_string)
     {
@@ -154,24 +154,24 @@ namespace rGUI //Mouse detector
                 if(md_clicked == true)
                 {
                     md_clicked_again = true;
-                    Clicked_again_callback();
+                    Clicked_again_callback(md_callback_data);
                 }
                 md_clicking = false;
                 md_clicked = true;
                 md_just_clicked = true;
-                Just_clicked_callback();
+                Just_clicked_callback(md_callback_data);
                 return 2;
             }
             else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN && ev.mouse.button == md_mouse_button || md_clicking == true)
             {
                 md_clicking = true;
-                Clicking_callback();
+                Clicking_callback(md_callback_data);
                 return 1;
             }
             else
             {
                 md_mouse_on_it = true;
-                Mouse_on_it_callback();
+                Mouse_on_it_callback(md_callback_data);
                 md_clicking = false;
                 return 0;
             }
@@ -404,6 +404,42 @@ namespace rGUI //Widget
         }
     }
 
+    void Widget::wd_Print_Frame()
+    {
+        al_draw_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness/2+1,
+                                  wd_theme.added_thickness/2 + wd_theme.thickness/2,
+                                  wd_width + wd_theme.added_thickness/2 -  wd_theme.thickness/2,
+                                  wd_height + wd_theme.added_thickness/2-  wd_theme.thickness/2-1,
+                                  wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
+    }
+
+    void Widget::wd_Print_Background()
+    {
+         al_draw_filled_rounded_rectangle( wd_theme.added_thickness/2+1 ,
+                                          wd_theme.added_thickness/2,
+                                          wd_width + wd_theme.added_thickness/2 ,
+                                          wd_height + wd_theme.added_thickness/2-1,
+                                          wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
+    }
+
+    void Widget::wd_Print_ClickingShadow()
+    {
+        al_draw_filled_rounded_rectangle(wd_theme.added_thickness/2+1,
+                                          wd_theme.added_thickness/2,
+                                          wd_width + wd_theme.added_thickness/2,
+                                          wd_height + wd_theme.added_thickness/2-1,
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_clicking);
+    }
+
+    void Widget::wd_Print_AddedThickness()
+    {
+        al_draw_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness/2+1,
+                                  wd_theme.added_thickness/2 + wd_theme.thickness/2,
+                                  wd_width + wd_theme.added_thickness/2 -  wd_theme.thickness/2,
+                                  wd_height + wd_theme.added_thickness/2-  wd_theme.thickness/2-1,
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness + wd_theme.added_thickness);
+    }
+
     void Widget::Update_theme(Theme *thm)
     {
         wd_Update_theme(thm);
@@ -477,10 +513,10 @@ namespace rGUI //Widget
         {
             wd_theme.added_thickness++;
         }
-        /*if( (int)wd_theme.thickness % 2 != 0)
+        if( (int)wd_theme.thickness <= 0)
         {
-            wd_theme.thickness++;
-        }*/
+            wd_theme.thickness = 1;
+        }
 
         wd_CreateBitmap(wd_width,wd_height);
     }

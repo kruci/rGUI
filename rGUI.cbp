@@ -34,7 +34,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
-				<Option host_application="bin/examples/example1" />
+				<Option host_application="examples/exp1.cpp" />
 				<Option run_host_application_in_terminal="1" />
 				<Option createDefFile="1" />
 				<Compiler>

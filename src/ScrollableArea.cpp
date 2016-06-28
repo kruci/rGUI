@@ -8,12 +8,15 @@ namespace rGUI //ScrollableArea
     r_size_w(real_width), r_size_h(real_height), scb_thickness(scrollbars_thickness)
     {
         wd_type = wt_SCROLLABLEAREA;
-        scb_vertical = new   ScrollBar(wd_theme.added_thickness/2 + wd_width - scb_thickness,wd_theme.added_thickness/2,scb_thickness,
-                                       wd_theme.added_thickness/2 + wd_height- scb_thickness, real_height, thm, bf_VERTICAL);
+        scb_vertical = new   ScrollBar(wd_theme.added_thickness/2 + wd_width - scb_thickness,
+                                       wd_theme.added_thickness/2 -1,
+                                       scb_thickness-1,
+                                       wd_theme.added_thickness/2 + wd_height- scb_thickness +2, real_height, thm, bf_VERTICAL);
 
-        scb_horizontal = new ScrollBar(wd_theme.added_thickness/2, wd_theme.added_thickness/2 + wd_height - scb_thickness,
-                                       wd_theme.added_thickness/2 + wd_width - scb_thickness,
-                                       scb_thickness,real_width, thm, bf_HORIZONTAL);
+        scb_horizontal = new ScrollBar(wd_theme.added_thickness/2-1,
+                                       wd_theme.added_thickness/2 + wd_height - scb_thickness,
+                                       wd_theme.added_thickness/2 + wd_width - scb_thickness +2,
+                                       scb_thickness-1,real_width, thm, bf_HORIZONTAL);
 
         scb_vertical->wd_md->Change_coords(wd_x2 - scb_thickness, wd_y1, scb_thickness,
                                        wd_height- scb_thickness);
@@ -32,12 +35,15 @@ namespace rGUI //ScrollableArea
     r_size_w(real_width), r_size_h(real_height), scb_thickness(scrollbars_thickness)
     {
         wd_type = wt_SCROLLABLEAREA;
-        scb_vertical = new   ScrollBar(wd_theme.added_thickness/2 + wd_width - scb_thickness,wd_theme.added_thickness/2,scb_thickness,
-                                       wd_theme.added_thickness/2 + wd_height- scb_thickness, real_height, thm, bf_VERTICAL);
+        scb_vertical = new   ScrollBar(wd_theme.added_thickness/2 + wd_width - scb_thickness,
+                                       wd_theme.added_thickness/2 -1,
+                                       scb_thickness-1,
+                                       wd_theme.added_thickness/2 + wd_height- scb_thickness +2, real_height, thm, bf_VERTICAL);
 
-        scb_horizontal = new ScrollBar(wd_theme.added_thickness/2, wd_theme.added_thickness/2 + wd_height - scb_thickness,
-                                       wd_theme.added_thickness/2 + wd_width - scb_thickness,
-                                       scb_thickness,real_width, thm, bf_HORIZONTAL);
+        scb_horizontal = new ScrollBar(wd_theme.added_thickness/2-1,
+                                       wd_theme.added_thickness/2 + wd_height - scb_thickness,
+                                       wd_theme.added_thickness/2 + wd_width - scb_thickness +2,
+                                       scb_thickness-1,real_width, thm, bf_HORIZONTAL);
 
         scb_vertical->wd_md->Change_coords(wd_x2 - scb_thickness, wd_y1, scb_thickness,
                                        wd_height- scb_thickness);
@@ -172,11 +178,12 @@ namespace rGUI //ScrollableArea
         al_clear_to_color(al_map_rgba(0,0,0,0));*/
         /*al_draw_filled_rounded_rectangle(0, 0, wd_width, wd_height,
                                 wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);*/
-        al_draw_filled_rounded_rectangle( wd_theme.added_thickness/2+1,
+        /*al_draw_filled_rounded_rectangle( wd_theme.added_thickness/2+1,
                                           wd_theme.added_thickness/2,
                                           wd_width + wd_theme.added_thickness/2,
                                           wd_height + wd_theme.added_thickness/2-1,
-                                          wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
+                                          wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);*/
+        wd_Print_Background();
 
         al_identity_transform(&rest);
         if((wd_bf & bf_ZOOMABLE))
@@ -185,8 +192,10 @@ namespace rGUI //ScrollableArea
         }
         al_translate_transform(&rest, wd_theme.added_thickness/2, wd_theme.added_thickness/2);
         al_use_transform(&rest);
-        al_set_clipping_rectangle(wd_theme.added_thickness/2,wd_theme.added_thickness/2,
-                                  wd_width + wd_theme.added_thickness/2, wd_height + wd_theme.added_thickness/2);
+        al_set_clipping_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness,
+                                  wd_theme.added_thickness/2 + wd_theme.thickness,
+                                  wd_theme.added_thickness/2 + wd_width - scb_thickness,
+                                  wd_theme.added_thickness/2 + wd_height - scb_thickness);
         //al_hold_bitmap_drawing(true);
         for(int a = 0; a < (int)widgets.size();a++)
         {
@@ -242,11 +251,12 @@ namespace rGUI //ScrollableArea
                                   wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);*/
         al_identity_transform(&rest);
         al_use_transform(&rest);
-        al_draw_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness/2+1,
+        wd_Print_Frame();
+        /*al_draw_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness/2+1,
                                   wd_theme.added_thickness/2 + wd_theme.thickness/2,
                                   wd_width + wd_theme.added_thickness/2 -  wd_theme.thickness/2,
                                   wd_height + wd_theme.added_thickness/2-  wd_theme.thickness/2-1,
-                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);*/
 
 
         /*al_set_target_bitmap(wd_ref_bmp);

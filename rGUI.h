@@ -34,7 +34,7 @@ namespace rGUI
 
 
     extern int error_message(std::string error_string);
-    extern void no_null(); //blank function for function pointer
+    extern void no_null(void* _dat_); //blank function for function pointer
     extern bool _multilinecb(int _line_num, const char *_line, int _sizes, void *_extra); //calculate TextBox multiline dimensions
     struct ml_data{ //used by TextBox for multiline dimensions and custom text draw
         ALLEGRO_FONT *font = nullptr;
@@ -117,10 +117,11 @@ public:
     void Change_coords_r(float &x1, float &y1, float &x2, float &y2, float);
     void Change_coords_r(float &x1, float &y1, float &width, float &height);
 
-    void (*Mouse_on_it_callback)() = &no_null;
-    void (*Clicking_callback)() = &no_null;
-    void (*Just_clicked_callback)() = &no_null;
-    void (*Clicked_again_callback)() = &no_null;
+    void (*Mouse_on_it_callback)(void*) = &no_null;
+    void (*Clicking_callback)(void*) = &no_null;
+    void (*Just_clicked_callback)(void*) = &no_null;
+    void (*Clicked_again_callback)(void*) = &no_null;
+    void *md_callback_data = nullptr;
 };
 
 
@@ -130,8 +131,7 @@ protected:
     ALLEGRO_BITMAP *wd_ref_bmp;
     bool Is_changed(float a, float b);
     bool Is_changed_r(float &a, float &b);
-    void wd_PrintBegin();
-    void wd_PrintEnd();
+
     void wd_CreateBitmap(float w, float h);
 
     void wd_Change_coords(float x1, float y1, float x2, float y2, float);
@@ -140,6 +140,13 @@ protected:
     void wd_Change_coords_r(float &x1, float &y1, float &width, float &height);
 
     void wd_Update_theme(Theme *thm);
+
+    void wd_PrintBegin();
+    void wd_PrintEnd();
+    void wd_Print_Frame();
+    void wd_Print_Background();
+    void wd_Print_ClickingShadow();
+    void wd_Print_AddedThickness();
 public:
     int wd_type;
     int wd_bf = 0;
