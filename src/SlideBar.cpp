@@ -55,7 +55,7 @@ namespace rGUI //SlideBars
     {
         if((wd_bf & bf_HORIZONTAL))
         {
-            poz = line_x1 + (line_width/(float)values)* (float)(value - val_min);
+            poz = line_x1 + (line_width/(float)(values-1))* ((float)(value - val_min));
             slide_x1 = poz - slide_width/2.0f;
             slide_x2 = poz + slide_width/2.0f;
             slide_y1 = line_y1 + line_thickness/2.0f - slide_height/2.0f;
@@ -63,7 +63,7 @@ namespace rGUI //SlideBars
         }
         else
         {
-            poz = line_y1 + (line_height/(float)values) * (float)(value - val_min);
+            poz = line_y1 + (line_height/(float)(values-1)) * ((float)(value - val_min));
             slide_x1 = wd_theme.added_thickness/2;
             slide_x2 = wd_width + wd_theme.added_thickness/2;
             slide_y1 = poz - slide_height/2.0f;

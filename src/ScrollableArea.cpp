@@ -194,8 +194,8 @@ namespace rGUI //ScrollableArea
         al_use_transform(&rest);
         al_set_clipping_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness,
                                   wd_theme.added_thickness/2 + wd_theme.thickness,
-                                  wd_theme.added_thickness/2 + wd_width - scb_thickness,
-                                  wd_theme.added_thickness/2 + wd_height - scb_thickness);
+                                  wd_theme.added_thickness/2 + wd_width - (scb_horizontal_active == true ? scb_thickness:0),
+                                  wd_theme.added_thickness/2 + wd_height - (scb_vertical_active == true ? scb_thickness:0) );
         //al_hold_bitmap_drawing(true);
         for(int a = 0; a < (int)widgets.size();a++)
         {

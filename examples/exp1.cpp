@@ -130,8 +130,8 @@ int main(int argc, char **argv)
     tmh.roundx = 3;
     tmh.roundy = 3;
     widgets.push_back(new rGUI::CheckBox(160, 40, 50,50,&tmh, false));
-    widgets.push_back(new rGUI::SlideBar(10,100,100,30,0,300,&tmh, (rGUI::bf_HORIZONTAL | rGUI::bf_HAS_FRAME) ));
-    widgets.push_back(new rGUI::SlideBar(115,40,30,50,0,50,&tmh, (rGUI::bf_VERTICAL | rGUI::bf_HAS_FRAME) ));
+    widgets.push_back(new rGUI::SlideBar(10,100,100,30,0,1,&tmh, (rGUI::bf_HORIZONTAL | rGUI::bf_HAS_FRAME) ));
+    widgets.push_back(new rGUI::SlideBar(115,40,30,50,0,5, &tmh, (rGUI::bf_VERTICAL | rGUI::bf_HAS_FRAME) ));
     widgets.push_back(new rGUI::BitmapButton(10,140,100,45, "button.png",&tmh, (rGUI::bf_HAS_FRAME)));
     widgets.push_back(new rGUI::ScrollBar(220, 5, 30, 185, 800, &tmh, (rGUI::bf_VERTICAL)));
     widgets.push_back(new rGUI::ScrollBar(10, 195, 240, 30, 800, &tmh, (rGUI::bf_HORIZONTAL)));
