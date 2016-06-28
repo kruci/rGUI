@@ -145,7 +145,7 @@ int main(int argc, char **argv)
     widgets[progressbar]->wd_md->Just_clicked_callback = pbar_callback;
 
 
-    widgets.push_back(new rGUI::ScrollableArea(10,240,220,200,2000,2000,&tmh,20, (rGUI::bf_VERTICAL | rGUI::bf_HORIZONTAL | rGUI::bf_ZOOMABLE)));
+    widgets.push_back(new rGUI::ScrollableArea(10,240,440,440,2000,2000,&tmh,20, (rGUI::bf_VERTICAL | rGUI::bf_HORIZONTAL | rGUI::bf_ZOOMABLE)));
     int scbapoz = widgets.size()-1;
     widgets[scbapoz]->widgets.push_back(new rGUI::Button(10,10,100,30, "Text", "Calibri.ttf", &tmh));
     widgets[scbapoz]->widgets.push_back(new rGUI::BitmapButton(10,50,100,45, "button.png",&tmh, (rGUI::bf_HAS_FRAME)));
@@ -155,6 +155,7 @@ int main(int argc, char **argv)
     widgets[scbapoz]->widgets.push_back(new rGUI::InputField(10,2000,100,40, "Calibri.ttf",&tmh, FPS));
     widgets[scbapoz]->widgets.push_back(new rGUI::TextBox(2000,1200,300,120, "Big box", "Calibri.ttf", 200,&tmh,
                                                           (rGUI::bf_HAS_FRAME | rGUI::bf_RESIZE_CONTENT)));
+    widgets[scbapoz]->widgets.push_back(new rGUI::SlideBar(1000,100,200,40,0,20,&tmh, (rGUI::bf_HORIZONTAL | rGUI::bf_HAS_FRAME) ));
     ((rGUI::ScrollableArea*)widgets[scbapoz])->I_added_new_widgets();
 
     //roundXY

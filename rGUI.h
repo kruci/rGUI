@@ -306,6 +306,7 @@ private:
     bool scb_dorecalculate_scroller_poz = false;
     float rb_ratio;
     float cx = 0, cy = 0;
+    float md_D_wd_x = 1, md_D_wd_y = 1;
 
     void scb_recalculate_scroller_poz();
     void scb_recalculate_rb_ratio();

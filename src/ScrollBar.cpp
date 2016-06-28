@@ -61,6 +61,8 @@ namespace rGUI //ScrollBar
             sroller_y2 = wd_theme.added_thickness/2 + wd_height - ceil(wd_theme.thickness/2.0f);
         }
 
+        /*md_D_wd_x = wd_md->md_width / wd_width;
+        md_D_wd_y = wd_md->md_height / wd_height;*/
     }
 
     int ScrollBar::Input()
@@ -81,13 +83,15 @@ namespace rGUI //ScrollBar
                    && scalex*rGUI::mouse_state->x >= wd_md->md_x1 + sroller_x1 - wd_x1  &&
                    scaley*rGUI::mouse_state->y <= wd_md->md_y2 + sroller_y2 - wd_y2
                    && scaley*rGUI::mouse_state->y >= wd_md->md_y1 + sroller_y1 - wd_y1)*/
-                if(trans_mouse_x - wd_md->md_x1 <= sroller_x2
-                   && trans_mouse_x - wd_md->md_x1 >= sroller_x1  &&
-                   trans_mouse_y - wd_md->md_y1 <= sroller_y2
-                   && trans_mouse_y - wd_md->md_y1 >= sroller_y1)
+                md_D_wd_x = wd_md->md_width / wd_width;
+                md_D_wd_y = wd_md->md_height / wd_height;
+                if(trans_mouse_x - wd_md->md_x1 <= sroller_x2 *md_D_wd_x
+                   && trans_mouse_x - wd_md->md_x1 >= sroller_x1 *md_D_wd_x &&
+                   trans_mouse_y - wd_md->md_y1 <= sroller_y2 *md_D_wd_y
+                   && trans_mouse_y - wd_md->md_y1 >= sroller_y1 *md_D_wd_y)
                 {
-                    cx = (sroller_x2 - trans_mouse_x + wd_md->md_x1)- 1 - ceil(wd_theme.thickness/2.0f);// - rb_ratio;
-                    cy = (sroller_y2 - trans_mouse_y + wd_md->md_y1)- 1 - ceil(wd_theme.thickness/2.0f);// - rb_ratio;
+                    cx = (sroller_x2 *md_D_wd_x - trans_mouse_x + wd_md->md_x1) - ceil(wd_theme.thickness/2)*md_D_wd_x - ceil(wd_theme.added_thickness/2)*md_D_wd_x;// - rb_ratio;
+                    cy = (sroller_y2 *md_D_wd_y - trans_mouse_y + wd_md->md_y1) - ceil(wd_theme.thickness/2)*md_D_wd_y - ceil(wd_theme.added_thickness/2)*md_D_wd_y;// - rb_ratio;
                 }
                 else
                 {
@@ -103,14 +107,16 @@ namespace rGUI //ScrollBar
                 //change = (scalex*rGUI::mouse_state->x - abs(wd_md->md_x1 + sroller_x2 - sroller_x1))*rb_ratio;
                 //change = (scalex*(float)rGUI::mouse_state->x - abs(wd_md->md_x1 + sroller_x2 - sroller_x1) + cx)*rb_ratio;// + cx*rb_ratio;
                 //change = (scalex*(float)rGUI::mouse_state->x - abs(wd_md->md_x1 + sroller_x2 - sroller_x1 - cx))*rb_ratio;
-                change = (trans_mouse_x - abs(wd_md->md_x1 + sroller_x2 - sroller_x1 - cx))*rb_ratio;
+                //change = (trans_mouse_x - abs(wd_md->md_x1 + sroller_x2 - sroller_x1 - cx))*rb_ratio;
+                change = (trans_mouse_x - abs(wd_md->md_x1 + sroller_x2*md_D_wd_x - sroller_x1*md_D_wd_x - cx))*(r_size/(wd_width*md_D_wd_x));
             }
             else
             {
                 //change = (scaley*rGUI::mouse_state->y - abs(wd_md->md_y1 + sroller_y2 - sroller_y1))*rb_ratio;
                 //change = (scaley*(float)rGUI::mouse_state->y - abs(wd_md->md_y1 + sroller_y2 - sroller_y1) +cy)*rb_ratio;// + cy*rb_ratio;
                 //change = (scaley*(float)rGUI::mouse_state->y - abs(wd_md->md_y1 + sroller_y2 - sroller_y1 - cy))*rb_ratio;
-                change = (trans_mouse_y - abs(wd_md->md_y1 + sroller_y2 - sroller_y1 - cy))*rb_ratio;
+                //change = (trans_mouse_y - abs(wd_md->md_y1 + sroller_y2 - sroller_y1 - cy))*rb_ratio;
+                change = (trans_mouse_y - abs(wd_md->md_y1 + sroller_y2*md_D_wd_y - sroller_y1*md_D_wd_y - cy))*(r_size/(wd_height*md_D_wd_y));
             }
 
             if(change > r_size-((wd_bf & bf_HORIZONTAL) ? wd_width : wd_height))
