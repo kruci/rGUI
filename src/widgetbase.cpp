@@ -14,6 +14,39 @@ namespace rGUI //mousestate
         return al_show_native_message_box(al_get_current_display(), "ERROR", "", error_string.c_str(), nullptr, ALLEGRO_MESSAGEBOX_ERROR);
     }
 
+    void Copy_DropBox_item(DropBox_Item *dpi, DropBox_Item *db_item) //sourc, dest
+    {
+        if(dpi == nullptr)
+        {
+            if(db_item != nullptr)
+            {
+                delete db_item;
+            }
+            db_item = nullptr;
+            return;
+        }
+
+        if(db_item != nullptr)
+        {
+            delete db_item;
+        }
+        db_item = new DropBox_Item;
+        db_item->bmp_str = dpi->bmp_str;
+        db_item->load_bmp_fom_file = dpi->load_bmp_fom_file;
+        if(dpi->bmp != nullptr)
+        {
+            db_item->bmp = al_clone_bitmap(dpi->bmp);
+        }
+        db_item->print_x = dpi->print_x;
+        db_item->print_y = dpi->print_y;
+        db_item->print_w = dpi->print_w;
+        db_item->print_h= dpi->print_h;
+        if(dpi->data != nullptr)
+        {
+            db_item->data = dpi->data;
+        }
+    }
+
     bool _multilinecb(int _line_num, const char *_line, int _sizes, void *_extra)
     {
         ((ml_data*)_extra)->lines = _line_num + 1;
@@ -409,7 +442,7 @@ namespace rGUI //Widget
         al_draw_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness/2+1,
                                   wd_theme.added_thickness/2 + wd_theme.thickness/2,
                                   wd_width + wd_theme.added_thickness/2 -  wd_theme.thickness/2,
-                                  wd_height + wd_theme.added_thickness/2-  wd_theme.thickness/2-1,
+                                  wd_height + wd_theme.added_thickness/2-  wd_theme.thickness/2,
                                   wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
     }
 

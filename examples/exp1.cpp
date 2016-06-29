@@ -216,6 +216,30 @@ int main(int argc, char **argv)
 
     ((rGUI::ScrollableArea*)widgets[poz_colscba])->I_added_new_widgets();
 
+    //Drag&drop
+    rGUI::DropBox_Item dpi, blankdpi;
+    dpi.load_bmp_fom_file = true;
+    dpi.bmp_str = "button.png";
+    dpi.print_x = 10;
+    dpi.print_y = 10;
+    dpi.print_w = 30;
+    dpi.print_h = 30;
+
+    int poz_dbm = widgets.size();
+    widgets.push_back(new rGUI::DropBoxManager());
+    widgets.push_back(new rGUI::DropBox(600,400,50,50,&tmh, (rGUI::DropBoxManager*)widgets[poz_dbm],&dpi));
+
+    for(int a = 0;a < 5;a++)
+    {
+        for(int b = 0;b < 5;b++)
+        {
+            if(a == 0 && b == 0)
+            {
+                continue;
+            }
+            widgets.push_back(new rGUI::DropBox(600 + a*55,400 + b*55,50,50,&tmh, (rGUI::DropBoxManager*)widgets[poz_dbm], nullptr/*&blankdpi*/));
+        }
+    }
 
     ALLEGRO_TRANSFORM trans;
     al_identity_transform(&trans);
@@ -332,6 +356,7 @@ int main(int argc, char **argv)
                 /*if(widgets[a]->wd_type == rGUI::wt_SCROLLABLEAREA)
                     TIME_E*/
             }
+            widgets[poz_dbm]->Print();
             //al_draw_rectangle(160,40,210,90, al_map_rgb(0,0,255),0);
             /*al_draw_rectangle(200,200,220,220, al_map_rgb(0,0,0),10);
             al_draw_rectangle(200,200,220,220, al_map_rgb(0,255,0),0);

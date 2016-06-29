@@ -49,29 +49,31 @@ namespace rGUI //BitmpaButton
     {
         wd_PrintBegin();
         al_draw_scaled_bitmap(bmp, 0, 0, bb_orig_width, bb_orig_height,
-                              wd_theme.added_thickness/2, wd_theme.added_thickness/2, wd_width, wd_height, 0);
+                              wd_theme.added_thickness/2+1, wd_theme.added_thickness/2, wd_width-1, wd_height, 0);
 
         if(wd_bf & bf_HAS_FRAME)
         {
-            al_draw_rounded_rectangle(wd_theme.added_thickness/2, wd_theme.added_thickness/2,
+            /*al_draw_rounded_rectangle(wd_theme.added_thickness/2, wd_theme.added_thickness/2,
                                 wd_width+wd_theme.added_thickness/2, wd_height+wd_theme.added_thickness/2,
-                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);*/
+            wd_Print_Frame();
         }
 
         if(wd_md->md_mouse_on_it == true)
         {
             if(wd_bf & bf_HAS_FRAME)
             {
-                al_draw_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness/2,
+                wd_Print_AddedThickness();
+                /*al_draw_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness/2,
                                   wd_theme.added_thickness/2 + wd_theme.thickness/2,
                                   wd_width + wd_theme.added_thickness/2 -  wd_theme.thickness/2,
                                   wd_height + wd_theme.added_thickness/2-  wd_theme.thickness/2,
-                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness + wd_theme.added_thickness);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness + wd_theme.added_thickness);*/
             }
             if(wd_md->md_clicking == true)
             {
                 al_draw_tinted_scaled_bitmap(bmp, wd_theme.c_clicking, 0, 0, bb_orig_width, bb_orig_height,
-                              wd_theme.added_thickness/2, wd_theme.added_thickness/2, wd_width, wd_height, 0);
+                              wd_theme.added_thickness/2 +1, wd_theme.added_thickness/2, wd_width-1, wd_height-1, 0);
             }
         }
 

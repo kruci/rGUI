@@ -4,6 +4,7 @@
 //Other
 #include <iostream>
 #include <vector>
+#include <list>
 #include <cmath>
 #include <string>
 
@@ -77,6 +78,8 @@ namespace rGUI
     class SingleKeyInputField;
     class ProgressBar;
     class TextBox;
+    class DropBoxManager;
+    class DropBox;
 
 struct Theme{
     float roundx = 0;
@@ -90,6 +93,45 @@ struct Theme{
         c_text = al_map_rgb(255,255,255),
         c_clicking = al_map_rgba(0,0,0,150);
 };
+
+struct DropBox_Item{
+    std::string bmp_str = "";
+    bool load_bmp_fom_file = false; //set this to false so *bmp would be used
+    ALLEGRO_BITMAP *bmp = nullptr;
+    float print_x = 0, print_y = 0, print_w = 0, print_h = 0;
+    void *data = nullptr;
+
+    void Copy_this_DropBox_item(DropBox_Item *destination)
+    {
+        if(destination != nullptr)
+        {
+            delete destination;
+        }
+        destination = new DropBox_Item;
+        destination->bmp_str = bmp_str;
+        destination->load_bmp_fom_file = load_bmp_fom_file;
+        if(bmp != nullptr)
+        {
+            destination->bmp = al_clone_bitmap(bmp);
+        }
+        destination->print_x = print_x;
+        destination->print_y = print_y;
+        destination->print_w = print_w;
+        destination->print_h= print_h;
+        if(data != nullptr)
+        {
+            destination->data = data;
+        }
+    }
+
+    ~DropBox_Item()
+    {
+        if(bmp != nullptr)
+            al_destroy_bitmap(bmp);
+    }
+};
+extern void Copy_DropBox_item(DropBox_Item *source, DropBox_Item *destination);
+
 
 class MouseDetector
 {
@@ -486,8 +528,45 @@ public:
     void Update_theme(Theme *thm);
 };
 
+class DropBoxManager : public Widget
+{
+private:
+    DropBox_Item *temp_dpi = nullptr;
+public:
+    bool dbm_w8 = false;
+    bool dbm_block_dps = false;
+    DropBox *dbm_dragging_DB = nullptr;
+    std::list<DropBox*> dbm_dropboxes;
+    float dbm_offset_x = 0, dbm_offset_y = 0;
 
 
+    DropBoxManager();
+    ~DropBoxManager();
+
+    void Print();
+    int Specific_Input(ALLEGRO_EVENT& ev);
+    int Input();
+
+};
+
+class DropBox : public Widget
+{
+public:
+    bool db_dragging = false;
+    int id = 0;
+
+    DropBox_Item *db_item = nullptr;
+    DropBoxManager *db_dbm = nullptr;
+
+    DropBox(float x, float y, float width, float height, Theme *thm, DropBoxManager *dpm, DropBox_Item *dpi);
+    ~DropBox();
+
+    void Print();
+    int Specific_Input(ALLEGRO_EVENT& ev);
+    int Input();
+
+    void Set_new_DrobBoxItem(DropBox_Item *dpi);
+};
 
 }
 #endif // _RGUI_H__
