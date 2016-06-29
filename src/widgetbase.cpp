@@ -14,37 +14,52 @@ namespace rGUI //mousestate
         return al_show_native_message_box(al_get_current_display(), "ERROR", "", error_string.c_str(), nullptr, ALLEGRO_MESSAGEBOX_ERROR);
     }
 
-    void Copy_DropBox_item(DropBox_Item *dpi, DropBox_Item *db_item) //sourc, dest
+    void Copy_DropBox_item(DropBox_Item *dbi_source, DropBox_Item *dbi_dest) //sourc, dest
     {
-        if(dpi == nullptr)
+        if(dbi_source == nullptr)
         {
-            if(db_item != nullptr)
+            if(dbi_dest != nullptr)
             {
-                delete db_item;
+                delete dbi_dest;
             }
-            db_item = nullptr;
+            dbi_dest = nullptr;
             return;
         }
 
-        if(db_item != nullptr)
+        if(dbi_dest != nullptr)
         {
-            delete db_item;
+            delete dbi_dest;
         }
-        db_item = new DropBox_Item;
-        db_item->bmp_str = dpi->bmp_str;
-        db_item->load_bmp_fom_file = dpi->load_bmp_fom_file;
-        if(dpi->bmp != nullptr)
+        dbi_dest = new DropBox_Item;
+        dbi_dest->bmp_str = dbi_source->bmp_str;
+        dbi_dest->load_bmp_fom_file = dbi_source->load_bmp_fom_file;
+        if(dbi_source->bmp != nullptr)
         {
-            db_item->bmp = al_clone_bitmap(dpi->bmp);
+            dbi_dest->bmp = al_clone_bitmap(dbi_source->bmp);
         }
-        db_item->print_x = dpi->print_x;
-        db_item->print_y = dpi->print_y;
-        db_item->print_w = dpi->print_w;
-        db_item->print_h= dpi->print_h;
-        if(dpi->data != nullptr)
+        dbi_dest->print_x = dbi_source->print_x;
+        dbi_dest->print_y = dbi_source->print_y;
+        dbi_dest->print_w = dbi_source->print_w;
+        dbi_dest->print_h= dbi_source->print_h;
+        if(dbi_source->data != nullptr)
         {
-            db_item->data = dpi->data;
+            dbi_dest->data = dbi_source->data;
         }
+
+        if(dbi_dest->load_bmp_fom_file == true)
+        {
+            if(dbi_dest->bmp != nullptr)
+            {
+                al_destroy_bitmap(dbi_dest->bmp);
+            }
+
+            dbi_dest->bmp = al_load_bitmap(dbi_dest->bmp_str.c_str());
+            if(dbi_dest == nullptr)
+            {
+                error_message("Failed to laod Image " + dbi_dest->bmp_str);
+            }
+        }
+
     }
 
     bool _multilinecb(int _line_num, const char *_line, int _sizes, void *_extra)

@@ -532,6 +532,7 @@ class DropBoxManager : public Widget
 {
 private:
     DropBox_Item *temp_dpi = nullptr;
+    void Set_new_DrobBoxItem(DropBox_Item *dpi);
 public:
     bool dbm_w8 = false;
     bool dbm_block_dps = false;
