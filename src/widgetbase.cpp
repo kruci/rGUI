@@ -439,7 +439,7 @@ namespace rGUI //Widget
 
     void Widget::wd_Print_Frame()
     {
-        al_draw_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness/2+1,
+        al_draw_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness/2,
                                   wd_theme.added_thickness/2 + wd_theme.thickness/2,
                                   wd_width + wd_theme.added_thickness/2 -  wd_theme.thickness/2,
                                   wd_height + wd_theme.added_thickness/2-  wd_theme.thickness/2,
@@ -466,11 +466,12 @@ namespace rGUI //Widget
 
     void Widget::wd_Print_AddedThickness()
     {
-        al_draw_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness/2+1,
+        //al_draw_rounded_rectangle(1,0,wd_width+ wd_theme.added_thickness/2+1, wd_height + wd_theme.added_thickness/2,0,0,al_map_rgb(0,0,255),1);
+            al_draw_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness/2,
                                   wd_theme.added_thickness/2 + wd_theme.thickness/2,
                                   wd_width + wd_theme.added_thickness/2 -  wd_theme.thickness/2,
-                                  wd_height + wd_theme.added_thickness/2-  wd_theme.thickness/2-1,
-                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness + wd_theme.added_thickness);
+                                  wd_height + wd_theme.added_thickness/2-  wd_theme.thickness/2,
+                                wd_theme.roundx, wd_theme.roundy,wd_theme.c_outline, wd_theme.thickness + wd_theme.added_thickness);
     }
 
     void Widget::Update_theme(Theme *thm)
@@ -513,6 +514,8 @@ namespace rGUI //Widget
     void Widget::Print()
     {
         wd_PrintBegin();
+        wd_Print_Background();
+        wd_Print_Frame();
         /*al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
                                 wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
         al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,

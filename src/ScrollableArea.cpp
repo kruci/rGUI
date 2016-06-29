@@ -11,11 +11,11 @@ namespace rGUI //ScrollableArea
         scb_vertical = new   ScrollBar(wd_theme.added_thickness/2 + wd_width - scb_thickness,
                                        wd_theme.added_thickness/2 -1,
                                        scb_thickness-1,
-                                       wd_theme.added_thickness/2 + wd_height- scb_thickness +2, real_height, thm, bf_VERTICAL);
+                                       wd_theme.added_thickness/2 + wd_height- scb_thickness +1, real_height, thm, bf_VERTICAL);
 
         scb_horizontal = new ScrollBar(wd_theme.added_thickness/2-1,
                                        wd_theme.added_thickness/2 + wd_height - scb_thickness,
-                                       wd_theme.added_thickness/2 + wd_width - scb_thickness +2,
+                                       wd_theme.added_thickness/2 + wd_width - scb_thickness +1,
                                        scb_thickness-1,real_width, thm, bf_HORIZONTAL);
 
         scb_vertical->wd_md->Change_coords(wd_x2 - scb_thickness, wd_y1, scb_thickness,
@@ -38,11 +38,11 @@ namespace rGUI //ScrollableArea
         scb_vertical = new   ScrollBar(wd_theme.added_thickness/2 + wd_width - scb_thickness,
                                        wd_theme.added_thickness/2 -1,
                                        scb_thickness-1,
-                                       wd_theme.added_thickness/2 + wd_height- scb_thickness +2, real_height, thm, bf_VERTICAL);
+                                       wd_theme.added_thickness/2 + wd_height- scb_thickness +1, real_height, thm, bf_VERTICAL);
 
         scb_horizontal = new ScrollBar(wd_theme.added_thickness/2-1,
                                        wd_theme.added_thickness/2 + wd_height - scb_thickness,
-                                       wd_theme.added_thickness/2 + wd_width - scb_thickness +2,
+                                       wd_theme.added_thickness/2 + wd_width - scb_thickness +1,
                                        scb_thickness-1,real_width, thm, bf_HORIZONTAL);
 
         scb_vertical->wd_md->Change_coords(wd_x2 - scb_thickness, wd_y1, scb_thickness,

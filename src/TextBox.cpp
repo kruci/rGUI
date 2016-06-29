@@ -44,11 +44,12 @@ namespace rGUI //TextBox
         if(wd_bf & bf_HAS_FRAME)
         {
             wd_Print_Background();
-            al_draw_rounded_rectangle(wd_theme.added_thickness/2+ wd_theme.thickness/2+1,
+            wd_Print_Frame();
+            /*al_draw_rounded_rectangle(wd_theme.added_thickness/2+ wd_theme.thickness/2+1,
                                   wd_theme.added_thickness/2+ wd_theme.thickness/2,
                                   wd_width + wd_theme.added_thickness/2 - wd_theme.thickness/2,
                                   wd_height + wd_theme.added_thickness/2 - wd_theme.thickness/2-1,
-                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);*/
         }
 
         if(!(wd_bf & bf_RESIZE_CONTENT))
@@ -73,7 +74,7 @@ namespace rGUI //TextBox
 
         if(!(wd_bf & bf_RESIZE_CONTENT))
         {
-            al_set_clipping_rectangle(0, 0, wd_width + wd_theme.added_thickness/2, wd_height+ wd_theme.added_thickness/2);
+            al_set_clipping_rectangle(0, 0, wd_width + wd_theme.added_thickness, wd_height+ wd_theme.added_thickness);
         }
 
 
@@ -81,20 +82,22 @@ namespace rGUI //TextBox
         {
             if(wd_md->md_mouse_on_it == true && (wd_bf & bf_HAS_FRAME))
             {
-                 al_draw_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness/2+1,
+                wd_Print_AddedThickness();
+                 /*al_draw_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness/2+1,
                                   wd_theme.added_thickness/2 + wd_theme.thickness/2,
                                   wd_width + wd_theme.added_thickness/2 -  wd_theme.thickness/2,
                                   wd_height + wd_theme.added_thickness/2-  wd_theme.thickness/2-1,
-                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness + wd_theme.added_thickness);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness + wd_theme.added_thickness);*/
             }
 
             if(wd_md->md_clicking == true)
             {
-                al_draw_filled_rounded_rectangle(wd_theme.added_thickness/2+1,
+                wd_Print_ClickingShadow();
+                /*al_draw_filled_rounded_rectangle(wd_theme.added_thickness/2+1,
                                           wd_theme.added_thickness/2,
                                           wd_width + wd_theme.added_thickness/2,
                                           wd_height + wd_theme.added_thickness/2-1,
-                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_clicking);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_clicking);*/
             }
         }
 

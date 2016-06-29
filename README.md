@@ -1,7 +1,8 @@
 # GUI library for Allegro 5
 
 ###### TO DO (for v1.0):
-  - [ ] Add drag and drop widget	
+  - [ ] Test stability
+  - [x] ~~Add drag and drop widget~~ *done*	
   - [x] ~~Fix ScrollBar and SlideBar input when in zoomed ScrollableArea~~ *done, maybe some corrections for SlideBar*
   - [x] ~~Fix that too small thickness cause frames not to be print correctly~~ *done (for scale >= 1)*
   - [x] ~~replace booleans in label(~~TextBox~~) with bitflags~~ *done*

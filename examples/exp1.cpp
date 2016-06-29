@@ -224,11 +224,9 @@ int main(int argc, char **argv)
     dpi.print_y = 10;
     dpi.print_w = 30;
     dpi.print_h = 30;
-
     int poz_dbm = widgets.size();
     widgets.push_back(new rGUI::DropBoxManager());
     widgets.push_back(new rGUI::DropBox(600,400,50,50,&tmh, (rGUI::DropBoxManager*)widgets[poz_dbm],&dpi));
-
     for(int a = 0;a < 5;a++)
     {
         for(int b = 0;b < 5;b++)
@@ -376,6 +374,8 @@ int main(int argc, char **argv)
     al_destroy_timer(timer);
     al_destroy_display(display);
     al_destroy_event_queue(event_queue);
+    al_destroy_font(fnt);
+    al_destroy_font(font);
 
     return 0;
 }
