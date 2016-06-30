@@ -4,7 +4,7 @@
 	<Project>
 		<Option title="rGUI" />
 		<Option pch_mode="2" />
-		<Option default_target="Release" />
+		<Option default_target="Exp1" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
@@ -13,8 +13,8 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
-				<Option host_application="example1.1" />
-				<Option run_host_application_in_terminal="0" />
+				<Option host_application="bin/examples/exp1" />
+				<Option run_host_application_in_terminal="1" />
 				<Option createDefFile="1" />
 				<Compiler>
 					<Add option="-Wall" />
@@ -34,12 +34,11 @@
 				<Option object_output="obj/Release/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
-				<Option host_application="examples/exp1.cpp" />
+				<Option host_application="bin/examples/exp1" />
 				<Option run_host_application_in_terminal="1" />
 				<Option createDefFile="1" />
 				<Compiler>
 					<Add option="-O3" />
-					<Add option="-Wall" />
 					<Add option="-std=c++14" />
 					<Add directory="../rGUI" />
 					<Add directory="src" />

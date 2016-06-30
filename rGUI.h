@@ -55,7 +55,7 @@ namespace rGUI
         bf_LEFT = 0x010, bf_RIGHT = 0x020, bf_HORIZONTAL_CENTER = 0x040,
         bf_RESIZE_WIDGET_H = 0x080, bf_RESIZE_WIDGET_W = 0x100, bf_RESIZE_WIDGET = 0x200,
         bf_RESIZE_CONTENT = 0x400,bf_MULTILINE = 0x800, bf_CUSTOM_TEXT_DRAW = 0x1000,
-        bf_AS_BUTTON = 0x2000, bf_HAS_FRAME = 0x4000
+        bf_AS_BUTTON = 0x2000, bf_HAS_FRAME = 0x4000, bf_DISABLE_CLICKING_SHADOW = 0x8000
     };
     enum BitFlags_ScrollableArea{
         bf_VERTICAL_SCROLL = 0x001, bf_HORIZONTAL_SCROLL = 0x002, bf_ZOOMABLE = 0x004
@@ -298,8 +298,8 @@ public:
 
 class BitmapButton : public Widget{
 private:
-    float pw, ph;
 public:
+    float bb_pw = 0, bb_ph = 0;
     float bb_orig_width, bb_orig_height;
 
     ALLEGRO_BITMAP *bmp = nullptr;
@@ -554,6 +554,7 @@ class DropBox : public Widget
 {
 public:
     bool db_dragging = false;
+    bool changed = false;
     int id = 0;
 
     DropBox_Item *db_item = nullptr;

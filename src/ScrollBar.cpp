@@ -224,7 +224,7 @@ namespace rGUI //ScrollBar
         al_draw_rounded_rectangle(sroller_x1+1, sroller_y1, sroller_x2, sroller_y2-1,
                                 wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, 1);
 
-        if(wd_md->md_clicking == true || wd_md->md_clicked == true)
+        if( (wd_md->md_clicking == true || wd_md->md_clicked == true) && !(wd_bf & bf_DISABLE_CLICKING_SHADOW))
         {
             al_draw_filled_rounded_rectangle(sroller_x1+1, sroller_y1, sroller_x2, sroller_y2-1,
                                 wd_theme.roundx, wd_theme.roundy, wd_theme.c_clicking);

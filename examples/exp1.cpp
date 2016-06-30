@@ -156,6 +156,7 @@ int main(int argc, char **argv)
     widgets[scbapoz]->widgets.push_back(new rGUI::TextBox(2000,1200,300,120, "Big box", "Calibri.ttf", 200,&tmh,
                                                           (rGUI::bf_HAS_FRAME | rGUI::bf_RESIZE_CONTENT)));
     widgets[scbapoz]->widgets.push_back(new rGUI::SlideBar(1000,100,200,40,0,20,&tmh, (rGUI::bf_HORIZONTAL | rGUI::bf_HAS_FRAME) ));
+    widgets[scbapoz]->widgets.push_back(new rGUI::BitmapButton(300,300,0,0, "image.jpg",&tmh, (rGUI::bf_RESIZE_WIDGET | rGUI::bf_DISABLE_CLICKING_SHADOW)));
     ((rGUI::ScrollableArea*)widgets[scbapoz])->I_added_new_widgets();
 
     //roundXY
@@ -216,7 +217,11 @@ int main(int argc, char **argv)
 
     ((rGUI::ScrollableArea*)widgets[poz_colscba])->I_added_new_widgets();
 
+
+
     //Drag&drop
+    int poz_dbm = widgets.size();
+    widgets.push_back(new rGUI::DropBoxManager());
     rGUI::DropBox_Item dpi;
     dpi.load_bmp_fom_file = true;
     dpi.bmp_str = "button.png";
@@ -224,15 +229,12 @@ int main(int argc, char **argv)
     dpi.print_y = 10;
     dpi.print_w = 30;
     dpi.print_h = 30;
-    int poz_dbm = widgets.size();
-    widgets.push_back(new rGUI::DropBoxManager());
     widgets.push_back(new rGUI::DropBox(600,400,50,50,&tmh, (rGUI::DropBoxManager*)widgets[poz_dbm],&dpi));
     dpi.load_bmp_fom_file = false;
     dpi.bmp = al_load_bitmap("button.png");
 
     al_set_target_bitmap(dpi.bmp);
     al_draw_tinted_bitmap(dpi.bmp, al_map_rgba(255,0,0,100),0,0,0);
-    al_set_target_backbuffer(display);
 
     widgets[scbapoz]->widgets.push_back(new rGUI::DropBox(600,400,50,50,&tmh, (rGUI::DropBoxManager*)widgets[poz_dbm],&dpi));
     for(int a = 0;a < 5;a++)
@@ -243,10 +245,12 @@ int main(int argc, char **argv)
             {
                 continue;
             }
-            widgets.push_back(new rGUI::DropBox(600 + a*55,400 + b*55,50,50,&tmh, (rGUI::DropBoxManager*)widgets[poz_dbm], nullptr/*&blankdpi*/));
-            widgets[scbapoz]->widgets.push_back(new rGUI::DropBox(600 + a*55,400 + b*55,50,50,&tmh, (rGUI::DropBoxManager*)widgets[poz_dbm], nullptr/*&blankdpi*/));
+            al_clear_to_color(al_map_rgba(rand()%256,rand()%256,rand()%256,255));
+            widgets.push_back(new rGUI::DropBox(600 + a*55,400 + b*55,50,50,&tmh, (rGUI::DropBoxManager*)widgets[poz_dbm], nullptr));
+            widgets[scbapoz]->widgets.push_back(new rGUI::DropBox(600 + a*55,400 + b*55,50,50,&tmh, (rGUI::DropBoxManager*)widgets[poz_dbm], &dpi));
         }
     }
+    al_set_target_backbuffer(display);
     ((rGUI::ScrollableArea*)widgets[scbapoz])->I_added_new_widgets();
 
     ALLEGRO_TRANSFORM trans;
@@ -372,6 +376,7 @@ int main(int argc, char **argv)
             al_flip_display();
         }
     }
+
 
     for(int a = 0;a < (int)widgets.size();a++)
     {

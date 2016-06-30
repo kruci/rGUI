@@ -14,7 +14,8 @@ namespace rGUI //BitmpaButton
         }
         bb_orig_width  = al_get_bitmap_width(bmp);
         bb_orig_height = al_get_bitmap_height(bmp);
-
+        bb_pw = width;
+        bb_ph = height;
         Set_flags(bitflags);
     }
 
@@ -24,6 +25,8 @@ namespace rGUI //BitmpaButton
         wd_type = wt_BITMAPBUTTON;
         bb_orig_width  = al_get_bitmap_width(bmp);
         bb_orig_height = al_get_bitmap_height(bmp);
+        bb_pw = width;
+        bb_ph = height;
         Set_flags(bitflags);
     }
 
@@ -39,23 +42,40 @@ namespace rGUI //BitmpaButton
     {
         wd_bf = flags;
 
-        if(wd_bf & bf_RESIZE_WIDGET)
+        if((wd_bf & bf_RESIZE_WIDGET) || ( (wd_bf & bf_RESIZE_WIDGET_H) && (wd_bf & bf_RESIZE_WIDGET_W)))
         {
-            wd_CreateBitmap(bb_orig_width, bb_orig_height);
+            bb_pw = bb_orig_width;
+            bb_ph = bb_orig_height;
         }
+        else if(wd_bf & bf_RESIZE_WIDGET_H)
+        {
+            bb_pw = wd_width;
+            bb_ph = bb_orig_height;
+        }
+        else if(wd_bf & bf_RESIZE_WIDGET_W)
+        {
+            bb_pw = bb_orig_width;
+            bb_ph = wd_width;
+        }
+        else
+        {
+            bb_pw = wd_width;
+            bb_ph = wd_height;
+        }
+        Change_coords(wd_x1,wd_y1, bb_pw, bb_ph);
+        orig_x2 = orig_x1 +bb_pw;
+        orig_y2 = orig_y1 +bb_ph;
     }
 
     void BitmapButton::Print()
     {
         wd_PrintBegin();
+
         al_draw_scaled_bitmap(bmp, 0, 0, bb_orig_width, bb_orig_height,
-                              wd_theme.added_thickness/2+1, wd_theme.added_thickness/2, wd_width-1, wd_height, 0);
+                              wd_theme.added_thickness/2+1, wd_theme.added_thickness/2, bb_pw-1, bb_ph, 0);
 
         if(wd_bf & bf_HAS_FRAME)
         {
-            /*al_draw_rounded_rectangle(wd_theme.added_thickness/2, wd_theme.added_thickness/2,
-                                wd_width+wd_theme.added_thickness/2, wd_height+wd_theme.added_thickness/2,
-                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);*/
             wd_Print_Frame();
         }
 
@@ -64,19 +84,13 @@ namespace rGUI //BitmpaButton
             if(wd_bf & bf_HAS_FRAME)
             {
                 wd_Print_AddedThickness();
-                /*al_draw_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness/2,
-                                  wd_theme.added_thickness/2 + wd_theme.thickness/2,
-                                  wd_width + wd_theme.added_thickness/2 -  wd_theme.thickness/2,
-                                  wd_height + wd_theme.added_thickness/2-  wd_theme.thickness/2,
-                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness + wd_theme.added_thickness);*/
             }
-            if(wd_md->md_clicking == true)
+            if(wd_md->md_clicking == true && !(wd_bf & bf_DISABLE_CLICKING_SHADOW))
             {
                 al_draw_tinted_scaled_bitmap(bmp, wd_theme.c_clicking, 0, 0, bb_orig_width, bb_orig_height,
-                              wd_theme.added_thickness/2 +1, wd_theme.added_thickness/2, wd_width-1, wd_height-1, 0);
+                              wd_theme.added_thickness/2 +1, wd_theme.added_thickness/2, bb_pw-1, bb_ph, 0);
             }
         }
-
         wd_PrintEnd();
      }
 

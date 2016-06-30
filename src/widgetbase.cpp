@@ -351,7 +351,7 @@ namespace rGUI //Widget
 
     void Widget::wd_CreateBitmap(float w,float h)
     {
-        if(wd_bmp == nullptr)
+        if(wd_bmp != nullptr)
             al_destroy_bitmap(wd_bmp);
 
         wd_bmp = al_create_bitmap(w + wd_theme.added_thickness, h + wd_theme.added_thickness);

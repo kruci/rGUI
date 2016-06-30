@@ -46,6 +46,7 @@ namespace rGUI //DropBoxManager
 
                     (*dbm_it)->Set_new_DrobBoxItem(dbm_dragging_DB->db_item);
                     dbm_dragging_DB->Set_new_DrobBoxItem(temp_dpi);
+                    (*dbm_it)->changed = true;
                 }
             }
             dbm_dragging_DB->db_dragging = false;

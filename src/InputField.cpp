@@ -81,6 +81,8 @@ namespace rGUI //InputField
             al_ustr_free(al_selected);
         if(if_help_ustr != nullptr)
             al_ustr_free(if_help_ustr);
+        if(if_help_ustr2 != nullptr)
+            al_ustr_free(if_help_ustr2);
     }
 
     int InputField::Input()

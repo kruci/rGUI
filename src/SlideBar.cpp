@@ -214,7 +214,7 @@ namespace rGUI //SlideBars
                                 wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness + wd_theme.added_thickness);
         }
 
-        if(wd_md->md_clicking == true || wd_md->md_clicked == true)
+        if((wd_md->md_clicking == true || wd_md->md_clicked == true) && !(wd_bf & bf_DISABLE_CLICKING_SHADOW))
         {
             al_draw_filled_rounded_rectangle(slide_x1+1, slide_y1, slide_x2, slide_y2-1,
                                 wd_theme.roundx, wd_theme.roundy, wd_theme.c_clicking);
