@@ -236,6 +236,8 @@ int main(int argc, char **argv)
     al_set_target_bitmap(dpi.bmp);
     al_draw_tinted_bitmap(dpi.bmp, al_map_rgba(255,0,0,100),0,0,0);
 
+    std::vector<ALLEGRO_COLOR*> colvect;
+
     widgets[scbapoz]->widgets.push_back(new rGUI::DropBox(600,400,50,50,&tmh, (rGUI::DropBoxManager*)widgets[poz_dbm],&dpi));
     for(int a = 0;a < 5;a++)
     {
@@ -245,12 +247,23 @@ int main(int argc, char **argv)
             {
                 continue;
             }
-            al_clear_to_color(al_map_rgba(rand()%256,rand()%256,rand()%256,255));
+            ALLEGRO_COLOR tmpc = al_map_rgba(rand()%256,rand()%256,rand()%256,255);
+            colvect.push_back(new ALLEGRO_COLOR);
+            colvect[colvect.size()-1]->r = tmpc.r;
+            colvect[colvect.size()-1]->g = tmpc.g;
+            colvect[colvect.size()-1]->b = tmpc.b;
+            colvect[colvect.size()-1]->a = tmpc.a;
+            al_clear_to_color(tmpc);
+            dpi.data = colvect[colvect.size()-1];
             widgets.push_back(new rGUI::DropBox(600 + a*55,400 + b*55,50,50,&tmh, (rGUI::DropBoxManager*)widgets[poz_dbm], nullptr));
             widgets[scbapoz]->widgets.push_back(new rGUI::DropBox(600 + a*55,400 + b*55,50,50,&tmh, (rGUI::DropBoxManager*)widgets[poz_dbm], &dpi));
         }
     }
     al_set_target_backbuffer(display);
+    int poz_backgroundDB = widgets.size();
+    widgets.push_back(new rGUI::DropBox(710,345,50,50,&tmh, (rGUI::DropBoxManager*)widgets[poz_dbm], nullptr));
+    int poz_scba_DP = widgets[scbapoz]->widgets.size();
+    widgets[scbapoz]->widgets.push_back(new rGUI::DropBox(710,345,50,50,&tmh, (rGUI::DropBoxManager*)widgets[poz_dbm], nullptr));
     ((rGUI::ScrollableArea*)widgets[scbapoz])->I_added_new_widgets();
 
     ALLEGRO_TRANSFORM trans;
@@ -259,6 +272,7 @@ int main(int argc, char **argv)
     al_translate_transform(&trans, _offx, _offy);
     //al_use_transform(&trans);
     int progresval = 0, progressadd = 1;
+    ALLEGRO_COLOR backgroundcollor = al_map_rgb(255,255,255);
 
     float scale = 1.0f;
     while(1)
@@ -353,11 +367,43 @@ int main(int argc, char **argv)
             widgets[poz_colscba]->widgets[poz_colsba_c_C]->wd_md->md_clicked = false;
         }
 
+
+
+        if(((rGUI::DropBox*)widgets[poz_backgroundDB])->changed)
+        {
+            if(((rGUI::DropBox*)widgets[poz_backgroundDB])->db_item != nullptr && ((rGUI::DropBox*)widgets[poz_backgroundDB])->db_item->data != nullptr)
+            {
+                ((rGUI::DropBox*)widgets[poz_backgroundDB])->changed = false;
+                rGUI::DropBox *tmpdb = ((rGUI::DropBox*)widgets[poz_backgroundDB]);
+                backgroundcollor.r = ((ALLEGRO_COLOR*)(tmpdb->db_item->data))->r;
+                backgroundcollor.g = ((ALLEGRO_COLOR*)(tmpdb->db_item->data))->g;
+                backgroundcollor.b = ((ALLEGRO_COLOR*)(tmpdb->db_item->data))->b;
+                backgroundcollor.a = ((ALLEGRO_COLOR*)(tmpdb->db_item->data))->a;
+            }
+            else
+            {
+                backgroundcollor = al_map_rgb(255,255,255);
+            }
+
+
+        }
+        if(((rGUI::DropBox*)(widgets[scbapoz]->widgets[poz_scba_DP]))->db_item != nullptr &&
+           ((rGUI::DropBox*)(widgets[scbapoz]->widgets[poz_scba_DP]))->db_item->data != nullptr &&
+           ((rGUI::DropBox*)(widgets[scbapoz]->widgets[poz_scba_DP]))->changed)
+        {
+            ((rGUI::DropBox*)(widgets[scbapoz]->widgets[poz_scba_DP]))->changed = false;
+            rGUI::DropBox *tmpdb = ((rGUI::DropBox*)(widgets[scbapoz]->widgets[poz_scba_DP]));
+            widgets[scbapoz]->wd_theme.c_background.r = ((ALLEGRO_COLOR*)(tmpdb->db_item->data))->r;
+            widgets[scbapoz]->wd_theme.c_background.g = ((ALLEGRO_COLOR*)(tmpdb->db_item->data))->g;
+            widgets[scbapoz]->wd_theme.c_background.b = ((ALLEGRO_COLOR*)(tmpdb->db_item->data))->b;
+            widgets[scbapoz]->wd_theme.c_background.a = ((ALLEGRO_COLOR*)(tmpdb->db_item->data))->a;
+        }
+
         if(redraw && al_is_event_queue_empty(event_queue))
         {
             redraw = false;
 
-            al_clear_to_color(al_map_rgb(255,255,255));
+            al_clear_to_color(backgroundcollor);
 
             al_draw_bitmap(bouncer, bouncer_x, bouncer_y, 0);
 
@@ -383,6 +429,12 @@ int main(int argc, char **argv)
         delete widgets[a];
     }
     widgets.clear();
+    for(int a = 0;a < (int)colvect.size();a++)
+    {
+        delete colvect[a];
+    }
+    colvect.clear();
+
     rGUI::End();
 
     al_destroy_bitmap(bouncer);

@@ -2,6 +2,7 @@
 
 ###### TO DO (for v1.0):
   - [ ] Test stability
+  - [ ] Add "changed" and "dragging" callbacks to DropBox
   - [x] ~~Add drag and drop widget~~ *done*	
   - [x] ~~Fix ScrollBar and SlideBar input when in zoomed ScrollableArea~~ *done, maybe some corrections for SlideBar*
   - [x] ~~Fix that too small thickness cause frames not to be print correctly~~ *done (for scale >= 1)*

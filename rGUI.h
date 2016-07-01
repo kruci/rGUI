@@ -92,6 +92,25 @@ struct Theme{
         c_background = al_map_rgb(0,0,66),
         c_text = al_map_rgb(255,255,255),
         c_clicking = al_map_rgba(0,0,0,150);
+
+    void Set_added_thickness(float val)
+    {
+        added_thickness = val;
+        if( (int)added_thickness % 2 != 0)
+        {
+            added_thickness++;
+        }
+    }
+
+    void Set_thickness(float val)
+    {
+        thickness = val;
+
+        if( (int)thickness <= 0)
+        {
+            thickness = 1;
+        }
+    }
 };
 
 struct DropBox_Item{
