@@ -23,7 +23,6 @@ namespace rGUI //InputField
         text_y = (wd_height - font_height)/2.0f;
         texty_shift = 0;
 
-        //wd_bmp = al_create_bitmap(wd_width, wd_height);
         if_help_ustr = al_ustr_new("");
     }
 
@@ -50,22 +49,11 @@ namespace rGUI //InputField
         text_y = (wd_height - font_height)/2.0f;
         texty_shift = 0;
 
-        //wd_bmp = al_create_bitmap(wd_width, wd_height);
         if_help_ustr = al_ustr_new("");
     }
 
     void InputField::recalculate_text()
     {
-        /*font_height = wd_height - 4 - wd_theme.thickness*2.0f;
-
-        font = al_load_ttf_font(font_file.c_str(), font_height, 0);
-
-        if(font == nullptr)
-        {
-            al_show_native_message_box(NULL, "Error", "Failed to load font!", font_file.c_str(),
-                                       NULL, ALLEGRO_MESSAGEBOX_ERROR);
-        }*/
-
         text_y = (wd_height - font_height)/2.0f;
         texty_shift = 0;
         text_x = wd_theme.thickness + 2 - texty_shift;
@@ -202,19 +190,11 @@ namespace rGUI //InputField
                                   wd_width + wd_theme.added_thickness, wd_height + wd_theme.added_thickness);
 
         wd_Print_Frame();
-        /*al_draw_rounded_rectangle(wd_theme.added_thickness/2+ wd_theme.thickness/2+1,
-                                  wd_theme.added_thickness/2+ wd_theme.thickness/2,
-                                  wd_width + wd_theme.added_thickness/2 - wd_theme.thickness/2,
-                                  wd_height + wd_theme.added_thickness/2 - wd_theme.thickness/2-1,
-                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);*/
+
 
         if(wd_md->md_clicked == true)
         {
-            /*al_draw_rounded_rectangle(wd_theme.added_thickness/2+ wd_theme.thickness/2+1,
-                                  wd_theme.added_thickness/2+ wd_theme.thickness/2,
-                                  wd_width + wd_theme.added_thickness/2 - wd_theme.thickness/2,
-                                  wd_height + wd_theme.added_thickness/2 - wd_theme.thickness/2-1,
-                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.added_thickness);*/
+
             wd_Print_AddedThickness();
 
             if(if_a <= if_FPS)

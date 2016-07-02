@@ -41,7 +41,6 @@ namespace rGUI //DropBoxManager
             {
                 if((*dbm_it)->wd_md->md_mouse_on_it == true && (*dbm_it) != dbm_dragging_DB)
                 {
-                    //Copy_DropBox_item((*dbm_it)->db_item, this->temp_dpi);
                     Set_new_DrobBoxItem((*dbm_it)->db_item);
 
                     (*dbm_it)->Set_new_DrobBoxItem(dbm_dragging_DB->db_item);
@@ -62,7 +61,6 @@ namespace rGUI //DropBoxManager
 
     void DropBoxManager::Set_new_DrobBoxItem(DropBox_Item *dpi)
     {
-        //dpi->Copy_this_DropBox_item(db_item);
         if(dpi == nullptr)
         {
             if(temp_dpi != nullptr)

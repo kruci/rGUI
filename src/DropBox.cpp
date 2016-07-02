@@ -6,7 +6,6 @@ namespace rGUI //DropBox
             : Widget(x,y,width, height, thm)
     {
         Set_new_DrobBoxItem(dpi);
-        //wd_extented_input = true;
         db_dbm = dpm;
 
         if(db_dbm != nullptr)
@@ -91,7 +90,6 @@ namespace rGUI //DropBox
 
     void DropBox::Set_new_DrobBoxItem(DropBox_Item *dpi)
     {
-        //dpi->Copy_this_DropBox_item(db_item);
         if(dpi == nullptr)
         {
             if(db_item != nullptr)

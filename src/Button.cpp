@@ -22,11 +22,7 @@ namespace rGUI //Button
         wd_PrintBegin();
         wd_Print_Background();
         wd_Print_Frame();
-        /*al_draw_rounded_rectangle(wd_theme.added_thickness/2+ wd_theme.thickness/2 +1,
-                                  wd_theme.added_thickness/2+ wd_theme.thickness/2,
-                                  wd_width + wd_theme.added_thickness/2 - wd_theme.thickness/2,
-                                  wd_height + wd_theme.added_thickness/2 - wd_theme.thickness/2 -1,
-                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);*/
+
         al_set_clipping_rectangle(wd_theme.added_thickness/2,wd_theme.added_thickness/2,
                                   wd_theme.added_thickness/2 + wd_width -wd_theme.thickness, wd_height + wd_theme.added_thickness/2 -wd_theme.thickness);
         al_draw_text(font,wd_theme.c_text, text_x, text_y,ALLEGRO_ALIGN_CENTRE, text.c_str());
@@ -36,19 +32,9 @@ namespace rGUI //Button
         if(wd_md->md_mouse_on_it == true)
         {
             wd_Print_AddedThickness();
-            /*al_draw_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness/2+1,
-                                  wd_theme.added_thickness/2 + wd_theme.thickness/2,
-                                  wd_width + wd_theme.added_thickness/2 -  wd_theme.thickness/2,
-                                  wd_height + wd_theme.added_thickness/2-  wd_theme.thickness/2-1,
-                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness + wd_theme.added_thickness);*/
             if(wd_md->md_clicking == true && !(wd_bf & bf_DISABLE_CLICKING_SHADOW))
             {
                 wd_Print_ClickingShadow();
-                /*al_draw_filled_rounded_rectangle(wd_theme.added_thickness/2+1,
-                                          wd_theme.added_thickness/2,
-                                          wd_width + wd_theme.added_thickness/2,
-                                          wd_height + wd_theme.added_thickness/2-1,
-                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_clicking);*/
             }
         }
         wd_PrintEnd();
@@ -69,8 +55,7 @@ namespace rGUI //Button
 
         if(fontwidth >= (wd_width - 2*wd_theme.thickness) )
         {
-            /*float f =  font_height/fontwidth;
-            font_height = f* (wd_width - 3*wd_theme.thickness)-1;*/
+
             font_height = font_height * ((wd_width-2.0f*wd_theme.thickness)/fontwidth);
             al_destroy_font(font);
             font = al_load_ttf_font(bt_font_file.c_str(),font_height,0);
@@ -82,9 +67,6 @@ namespace rGUI //Button
                                        NULL, ALLEGRO_MESSAGEBOX_ERROR);
         }
 
-        /*text_x = wd_theme.added_thickness/2 + wd_theme.thickness/2 + (wd_width - fontwidth) / 2.0f;
-        text_y = wd_theme.added_thickness/2 + wd_theme.thickness/2 + (wd_height - al_get_font_ascent(font) - al_get_font_descent(font))   / 2.0f;
-        */
         text_x = (wd_theme.added_thickness + wd_width)/2;
         text_y = (wd_theme.added_thickness + wd_height)/2 - font_height/2;
     }
@@ -95,8 +77,6 @@ namespace rGUI //Button
 
         if(fontwidth >= (wd_width - 2*wd_theme.thickness))
         {
-            /*float f =  font_height/fontwidth;
-            font_height = f* (wd_width - 3*wd_theme.thickness)-1;*/
             font_height = font_height * ((wd_width-2.0f*wd_theme.thickness)/fontwidth);
             al_destroy_font(font);
             font = al_load_ttf_font(bt_font_file.c_str(),font_height,0);
@@ -108,9 +88,6 @@ namespace rGUI //Button
                                        NULL, ALLEGRO_MESSAGEBOX_ERROR);
         }
 
-        /*text_x = wd_theme.added_thickness/2 + wd_theme.thickness/2 + (wd_width - fontwidth) / 2.0f;
-        text_y = wd_theme.added_thickness/2 + wd_theme.thickness/2 + (wd_height -al_get_font_ascent(font) - al_get_font_descent(font))   / 2.0f;
-        */
         text_x = (wd_theme.added_thickness + wd_width)/2;
         text_y = (wd_theme.added_thickness + wd_height)/2 - font_height/2;
     }

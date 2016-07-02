@@ -61,8 +61,6 @@ namespace rGUI //ScrollBar
             sroller_y2 = wd_theme.added_thickness/2 + wd_height - ceil(wd_theme.thickness/2.0f);
         }
 
-        /*md_D_wd_x = wd_md->md_width / wd_width;
-        md_D_wd_y = wd_md->md_height / wd_height;*/
     }
 
     int ScrollBar::Input()
@@ -79,10 +77,6 @@ namespace rGUI //ScrollBar
         {
             if(wd_md->md_clicked == false)
             {
-                /*if(scalex*rGUI::mouse_state->x <= wd_md->md_x1 + sroller_x2 - wd_x1
-                   && scalex*rGUI::mouse_state->x >= wd_md->md_x1 + sroller_x1 - wd_x1  &&
-                   scaley*rGUI::mouse_state->y <= wd_md->md_y2 + sroller_y2 - wd_y2
-                   && scaley*rGUI::mouse_state->y >= wd_md->md_y1 + sroller_y1 - wd_y1)*/
                 md_D_wd_x = wd_md->md_width / wd_width;
                 md_D_wd_y = wd_md->md_height / wd_height;
                 if(trans_mouse_x - wd_md->md_x1 <= sroller_x2 *md_D_wd_x
@@ -104,18 +98,10 @@ namespace rGUI //ScrollBar
 
             if((wd_bf & bf_HORIZONTAL))
             {
-                //change = (scalex*rGUI::mouse_state->x - abs(wd_md->md_x1 + sroller_x2 - sroller_x1))*rb_ratio;
-                //change = (scalex*(float)rGUI::mouse_state->x - abs(wd_md->md_x1 + sroller_x2 - sroller_x1) + cx)*rb_ratio;// + cx*rb_ratio;
-                //change = (scalex*(float)rGUI::mouse_state->x - abs(wd_md->md_x1 + sroller_x2 - sroller_x1 - cx))*rb_ratio;
-                //change = (trans_mouse_x - abs(wd_md->md_x1 + sroller_x2 - sroller_x1 - cx))*rb_ratio;
                 change = (trans_mouse_x - abs(wd_md->md_x1 + sroller_x2*md_D_wd_x - sroller_x1*md_D_wd_x - cx))*(r_size/(wd_width*md_D_wd_x));
             }
             else
             {
-                //change = (scaley*rGUI::mouse_state->y - abs(wd_md->md_y1 + sroller_y2 - sroller_y1))*rb_ratio;
-                //change = (scaley*(float)rGUI::mouse_state->y - abs(wd_md->md_y1 + sroller_y2 - sroller_y1) +cy)*rb_ratio;// + cy*rb_ratio;
-                //change = (scaley*(float)rGUI::mouse_state->y - abs(wd_md->md_y1 + sroller_y2 - sroller_y1 - cy))*rb_ratio;
-                //change = (trans_mouse_y - abs(wd_md->md_y1 + sroller_y2 - sroller_y1 - cy))*rb_ratio;
                 change = (trans_mouse_y - abs(wd_md->md_y1 + sroller_y2*md_D_wd_y - sroller_y1*md_D_wd_y - cy))*(r_size/(wd_height*md_D_wd_y));
             }
 
@@ -200,23 +186,10 @@ namespace rGUI //ScrollBar
             scb_dorecalculate_scroller_poz = false;
         }
 
-        /*al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);*/
-
-        /*al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_theme.roundx, wd_theme.roundy, al_map_rgb_f(wd_theme.c_background.r*c_background_mult,
-                                                                   wd_theme.c_background.g*c_background_mult,
-                                                                   wd_theme.c_background.b*c_background_mult ));
-        al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);*/
 
         wd_Print_Background();
         wd_Print_Frame();
-        /*al_draw_rounded_rectangle(wd_theme.added_thickness/2+ wd_theme.thickness/2+1,
-                                  wd_theme.added_thickness/2+ wd_theme.thickness/2,
-                                  wd_width + wd_theme.added_thickness/2 - wd_theme.thickness/2,
-                                  wd_height + wd_theme.added_thickness/2 - wd_theme.thickness/2-1,
-                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);*/
+
 
 
         al_draw_filled_rounded_rectangle(sroller_x1+1, sroller_y1, sroller_x2, sroller_y2-1,

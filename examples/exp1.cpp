@@ -109,11 +109,6 @@ int main(int argc, char **argv)
 
     al_start_timer(timer);
 
-    /*tmh.c_outline = al_map_rgb(255,255,255),
-    tmh.c_background = al_map_rgba(0,0,66,100),
-    tmh.c_text = al_map_rgb(255,255,255),
-    tmh.c_clicking = al_map_rgba(0,0,0,150);*/
-
     tmh.c_text = al_map_rgba(255,255,255,0);
     tmh.c_outline = al_map_rgba(0,200,0,255);
     tmh.c_background = al_map_rgba(255,0,0,255);
@@ -409,16 +404,9 @@ int main(int argc, char **argv)
 
             for(int a = 0;a < (int)widgets.size();a++)
             {
-                //TIME_B
                 widgets[a]->Print();
-                /*if(widgets[a]->wd_type == rGUI::wt_SCROLLABLEAREA)
-                    TIME_E*/
             }
             widgets[poz_dbm]->Print();
-            //al_draw_rectangle(160,40,210,90, al_map_rgb(0,0,255),0);
-            /*al_draw_rectangle(200,200,220,220, al_map_rgb(0,0,0),10);
-            al_draw_rectangle(200,200,220,220, al_map_rgb(0,255,0),0);
-            al_draw_rectangle(205,205,215,215, al_map_rgb(0,255,0),0);*/
             al_flip_display();
         }
     }

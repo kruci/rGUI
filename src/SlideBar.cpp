@@ -36,14 +36,6 @@ namespace rGUI //SlideBars
 
         sb_calculate_slide_poz();
 
-        /*if((wd_bf & bf_HORIZONTAL))
-        {
-            wd_md->Change_coords(wd_x1, wd_y1, wd_width, wd_height);
-        }
-        else
-        {
-            wd_md->Change_coords(wd_x1, wd_y1, wd_width, wd_height);
-        }*/
     }
 
     SlideBar::~SlideBar()
@@ -111,10 +103,6 @@ namespace rGUI //SlideBars
         {
             if(wd_md->md_clicked == false)
             {
-                /*if(trans_mouse_x <= wd_md->md_x1 + slide_x2 - wd_x1
-                   && trans_mouse_x >= wd_md->md_x1 + slide_x1 - wd_x1  &&
-                   trans_mouse_y <= wd_md->md_y2 + slide_y2 - wd_y2
-                   && trans_mouse_y >= wd_md->md_y1 + slide_y1 - wd_y1)*/
                 if(trans_mouse_x - wd_md->md_x1 <= slide_x2
                    && trans_mouse_x - wd_md->md_x1 >= slide_x1  &&
                    trans_mouse_y - wd_md->md_y1 <= slide_y2
@@ -192,9 +180,7 @@ namespace rGUI //SlideBars
         if(wd_bf & bf_HAS_FRAME)
         {
             wd_Print_Frame();
-            /*al_draw_rounded_rectangle(wd_theme.added_thickness/2+1, wd_theme.added_thickness/2,
-                                      wd_width+wd_theme.added_thickness/2, wd_height+wd_theme.added_thickness/2-1,
-                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);*/
+
         }
 
         //Line draw

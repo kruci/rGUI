@@ -291,17 +291,6 @@ namespace rGUI //Widget
         orig_x2 = x2;
         orig_y1 = y1;
         orig_y2 = y2;
-
-        /*wd_theme.roundx = thm->roundx;
-        wd_theme.roundy = thm->roundy;
-        wd_theme.thickness = thm->thickness;
-        wd_theme.c_outline = thm->c_outline;
-        wd_theme.c_background = thm->c_background;
-        wd_theme.c_text = thm->c_text;
-        wd_theme.c_clicking = thm->c_clicking;
-        wd_theme.added_thickness = thm->added_thickness;
-
-        wd_CreateBitmap(wd_width,wd_height);*/
         wd_Update_theme(thm);
 
         wd_md = new MouseDetector(x1,y1, wd_width, wd_height);
@@ -317,17 +306,6 @@ namespace rGUI //Widget
         orig_x2 = wd_x2;
         orig_y1 = wd_y1;
         orig_y2 = wd_y2;
-
-        /*wd_theme.roundx = thm->roundx;
-        wd_theme.roundy = thm->roundy;
-        wd_theme.thickness = thm->thickness;
-        wd_theme.c_outline = thm->c_outline;
-        wd_theme.c_background = thm->c_background;
-        wd_theme.c_text = thm->c_text;
-        wd_theme.c_clicking = thm->c_clicking;
-        wd_theme.added_thickness = thm->added_thickness;
-
-        wd_CreateBitmap(wd_width,wd_height);*/
         wd_Update_theme(thm);
 
         wd_md = new MouseDetector(x,y, wd_width, wd_height);
@@ -481,7 +459,6 @@ namespace rGUI //Widget
 
     void Widget::wd_Print_AddedThickness()
     {
-        //al_draw_rounded_rectangle(1,0,wd_width+ wd_theme.added_thickness/2+1, wd_height + wd_theme.added_thickness/2,0,0,al_map_rgb(0,0,255),1);
             al_draw_rounded_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness/2,
                                   wd_theme.added_thickness/2 + wd_theme.thickness/2,
                                   wd_width + wd_theme.added_thickness/2 -  wd_theme.thickness/2,
@@ -531,10 +508,6 @@ namespace rGUI //Widget
         wd_PrintBegin();
         wd_Print_Background();
         wd_Print_Frame();
-        /*al_draw_filled_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
-        al_draw_rounded_rectangle(wd_x1, wd_y1, wd_x2, wd_y2,
-                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, wd_theme.thickness);*/
         wd_PrintEnd();
     }
 
@@ -556,7 +529,6 @@ namespace rGUI //Widget
         wd_theme.c_background = thm->c_background;
         wd_theme.c_text = thm->c_text;
         wd_theme.c_clicking = thm->c_clicking;
-        //wd_theme.thickness = round(thm->thickness);
         wd_theme.thickness = thm->thickness;
         wd_theme.added_thickness = round(thm->added_thickness);
 
