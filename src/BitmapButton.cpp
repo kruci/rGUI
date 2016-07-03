@@ -72,7 +72,7 @@ namespace rGUI //BitmpaButton
         wd_PrintBegin();
 
         al_draw_scaled_bitmap(bmp, 0, 0, bb_orig_width, bb_orig_height,
-                              wd_theme.added_thickness/2+1, wd_theme.added_thickness/2, bb_pw-1, bb_ph, 0);
+                              wd_theme.added_thickness/2, wd_theme.added_thickness/2, bb_pw, bb_ph, 0);
 
         if(wd_bf & bf_HAS_FRAME)
         {
@@ -88,7 +88,7 @@ namespace rGUI //BitmpaButton
             if(wd_md->md_clicking == true && !(wd_bf & bf_DISABLE_CLICKING_SHADOW))
             {
                 al_draw_tinted_scaled_bitmap(bmp, wd_theme.c_clicking, 0, 0, bb_orig_width, bb_orig_height,
-                              wd_theme.added_thickness/2 +1, wd_theme.added_thickness/2, bb_pw-1, bb_ph, 0);
+                              wd_theme.added_thickness/2, wd_theme.added_thickness/2, bb_pw, bb_ph, 0);
             }
         }
         wd_PrintEnd();

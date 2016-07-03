@@ -1,6 +1,15 @@
 #include "../rGUI.h"
 #include <ctime>
 
+#include <stdio.h>  /* defines FILENAME_MAX */
+#ifdef WINDOWS
+    #include <direct.h>
+    #define GetCurrentDir _getcwd
+#else
+    #include <unistd.h>
+    #define GetCurrentDir getcwd
+ #endif
+
 #define TIME_B clock_t cccccc = clock();
 #define TIME_E std::cout << (clock() - cccccc) << std::endl;
 
@@ -35,6 +44,17 @@ void thmreset()
 
 int main(int argc, char **argv)
 {
+    char cCurrentPath[FILENAME_MAX];
+
+    if (!GetCurrentDir(cCurrentPath, sizeof(cCurrentPath)))
+    {
+        return errno;
+    }
+
+    cCurrentPath[sizeof(cCurrentPath) - 1] = '\0'; /* not really required */
+
+    std::cout << cCurrentPath << std::endl;
+
     int newsw = 771 , newsh = 600;
     float _sx = (float)newsw / (float)SCREEN_W, _sy = (float)newsh / (float)SCREEN_H;
     float _offx = (SCREEN_W - newsw)/2, _offy = (SCREEN_H - newsh)/2;
@@ -127,7 +147,7 @@ int main(int argc, char **argv)
     widgets.push_back(new rGUI::CheckBox(160, 40, 50,50,&tmh, false));
     widgets.push_back(new rGUI::SlideBar(10,100,100,30,0,1,&tmh, (rGUI::bf_HORIZONTAL | rGUI::bf_HAS_FRAME) ));
     widgets.push_back(new rGUI::SlideBar(115,40,30,50,0,5, &tmh, (rGUI::bf_VERTICAL | rGUI::bf_HAS_FRAME) ));
-    widgets.push_back(new rGUI::BitmapButton(10,140,100,45, "button.png",&tmh, (rGUI::bf_HAS_FRAME)));
+    widgets.push_back(new rGUI::BitmapButton(10,140,100,45, "button.png",&tmh, 0));
     widgets.push_back(new rGUI::ScrollBar(220, 5, 30, 185, 800, &tmh, (rGUI::bf_VERTICAL)));
     widgets.push_back(new rGUI::ScrollBar(10, 195, 240, 30, 800, &tmh, (rGUI::bf_HORIZONTAL)));
     widgets.push_back(new rGUI::InputField(115,100,95,40, "Calibri.ttf",&tmh, FPS));
@@ -143,7 +163,7 @@ int main(int argc, char **argv)
     widgets.push_back(new rGUI::ScrollableArea(10,240,440,440,2000,2000,&tmh,20, (rGUI::bf_VERTICAL | rGUI::bf_HORIZONTAL | rGUI::bf_ZOOMABLE)));
     int scbapoz = widgets.size()-1;
     widgets[scbapoz]->widgets.push_back(new rGUI::Button(10,10,100,30, "Text", "Calibri.ttf", &tmh));
-    widgets[scbapoz]->widgets.push_back(new rGUI::BitmapButton(10,50,100,45, "button.png",&tmh, (rGUI::bf_HAS_FRAME)));
+    widgets[scbapoz]->widgets.push_back(new rGUI::BitmapButton(10,50,100,45, "button.png",&tmh, 0));
     widgets[scbapoz]->widgets.push_back(new rGUI::CheckBox(120, 30, 50,50,&tmh, false));
     widgets[scbapoz]->widgets.push_back(new rGUI::SlideBar(10,100,120,30,0,300,&tmh, (rGUI::bf_HORIZONTAL | rGUI::bf_HAS_FRAME) ));
     widgets[scbapoz]->widgets.push_back(new rGUI::ScrollBar(10, 160, 120, 30, 800, &tmh, (rGUI::bf_HORIZONTAL)));
