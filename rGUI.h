@@ -80,6 +80,7 @@ namespace rGUI
     class TextBox;
     class DropBoxManager;
     class DropBox;
+    class Group;
 
 struct Theme{
     float roundx = 0;
@@ -163,6 +164,7 @@ public:
     bool md_just_clicked = false;
     bool md_mouse_on_it = false;
     bool md_active = true;
+    bool group_ovveridable = true;
 
     int md_mouse_button = 1;
 
@@ -588,6 +590,37 @@ public:
 
     void Set_new_DrobBoxItem(DropBox_Item *dpi);
 };
+
+
+class Group : public Widget
+{
+private:
+    bool g_print = true;
+    bool g_input = true;
+    bool g_AIoimiiGa = false;
+public:
+    std::list<Widget*> g_widgets;
+
+    Group();
+    Group(float x, float y, float width, float height);
+    ~Group();
+
+    void Print();
+    int Specific_Input(ALLEGRO_EVENT& ev);
+    int Input();
+
+    void Set_all_Printing(bool TorF);
+    void Set_all_Inputing(bool TorF);
+    void Set_all_Clicked(bool TorF);
+    void Set_all_Clicking(bool TorF);
+    void Accept_Input_only_if_mouse_is_in_Group_area(bool TorF);
+
+    void Add_Widget(Widget *wd);
+    void Add_Widgets(std::vector<Widget*> &vec, int spoz, int epoz);
+    void Add_Widgets(std::list<Widget*> &vec, std::list<Widget*>::iterator sit, std::list<Widget*>::iterator eit);
+    bool Remove_Widget(Widget *wd);
+};
+
 
 }
 #endif // _RGUI_H__

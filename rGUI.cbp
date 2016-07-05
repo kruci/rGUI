@@ -117,6 +117,10 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="src/Group.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/InputField.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />

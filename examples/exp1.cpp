@@ -281,6 +281,27 @@ int main(int argc, char **argv)
     widgets[scbapoz]->widgets.push_back(new rGUI::DropBox(710,345,50,50,&tmh, (rGUI::DropBoxManager*)widgets[poz_dbm], nullptr));
     ((rGUI::ScrollableArea*)widgets[scbapoz])->I_added_new_widgets();
 
+    //Group
+    int poz_ext = widgets.size();
+    widgets.push_back(new rGUI::Button(SCREEN_W - 50, SCREEN_H - 17,40,12,"Exit", "Calibri.ttf", &tmh));
+    int poz_group = widgets.size();
+    widgets.push_back(new rGUI::Group());
+    ((rGUI::Group*)widgets[poz_group])->Add_Widgets(widgets, 0, widgets.size()-1);
+
+    int poz_ext_scba = widgets.size();
+    widgets.push_back(new rGUI::ScrollableArea( (SCREEN_W/2)-200, (SCREEN_H/2)-100, 400, 200,400,200,&tmh,14, 0));
+    widgets[poz_ext_scba]->widgets.push_back(new rGUI::Button(10,150,100,45,"Yes", "Calibri.ttf", &tmh));
+    widgets[poz_ext_scba]->widgets.push_back(new rGUI::Button(290,150,100,45,"No", "Calibri.ttf", &tmh));
+    widgets[poz_ext_scba]->widgets.push_back(new rGUI::TextBox(0,0,400,120, "Do you rly wanna go ?", "Calibri.ttf",100, &tmh,
+        (rGUI::bf_HORIZONTAL_CENTER | rGUI::bf_VERTICAL_CENTER | rGUI::bf_RESIZE_CONTENT) ));
+    ((rGUI::ScrollableArea*)widgets[poz_ext_scba])->I_added_new_widgets();
+
+    int poz_ext_group = widgets.size();
+    widgets.push_back(new rGUI::Group());
+    ((rGUI::Group*)widgets[poz_ext_group])->Add_Widgets(widgets, poz_ext_scba, widgets.size()-1);
+    ((rGUI::Group*)widgets[poz_ext_group])->Set_all_Inputing(false);
+    ((rGUI::Group*)widgets[poz_ext_group])->Set_all_Printing(false);
+
     ALLEGRO_TRANSFORM trans;
     al_identity_transform(&trans);
     al_scale_transform(&trans, _sx, _sy);
@@ -325,6 +346,30 @@ int main(int argc, char **argv)
         for(int a = 0;a < (int)widgets.size();a++)
         {
             widgets[a]->Input();
+        }
+
+        if(widgets[poz_ext]->wd_md->md_clicked == true)
+        {
+            widgets[poz_ext]->wd_md->md_clicked = false;
+            ((rGUI::Group*)widgets[poz_group])->Set_all_Inputing(false);
+            ((rGUI::Group*)widgets[poz_group])->Set_all_Printing(false);
+
+            ((rGUI::Group*)widgets[poz_ext_group])->Set_all_Inputing(true);
+            ((rGUI::Group*)widgets[poz_ext_group])->Set_all_Printing(true);
+        }
+
+        if(widgets[poz_ext_scba]->widgets[0]->wd_md->md_clicked == true)
+        {
+            break;
+        }
+        else if(widgets[poz_ext_scba]->widgets[1]->wd_md->md_clicked == true)
+        {
+            widgets[poz_ext_scba]->widgets[1]->wd_md->md_clicked = false;
+            ((rGUI::Group*)widgets[poz_group])->Set_all_Inputing(true);
+            ((rGUI::Group*)widgets[poz_group])->Set_all_Printing(true);
+
+            ((rGUI::Group*)widgets[poz_ext_group])->Set_all_Inputing(false);
+            ((rGUI::Group*)widgets[poz_ext_group])->Set_all_Printing(false);
         }
 
         if(widgets[poz_updatebutton]->wd_md->md_clicked == true || widgets[poz_rb]->wd_md->md_clicked == true)
@@ -427,6 +472,7 @@ int main(int argc, char **argv)
                 widgets[a]->Print();
             }
             widgets[poz_dbm]->Print();
+
             al_flip_display();
         }
     }
