@@ -315,10 +315,18 @@ namespace rGUI //Widget
 
     Widget::~Widget()
     {
+        #ifdef DEST_PRINT
+        std::cout << "  WidgetBase dtor called from widget type " << wd_type << std::endl;
+        #endif // DEST_PRINT
+
         if(wd_bmp == nullptr)
             al_destroy_bitmap(wd_bmp);
 
-        for(int a = 0;a < (int)widgets.size();a++)
+        /*for(int a = 0;a < (int)widgets.size();a++)
+        {
+            delete widgets[a];
+        }*/
+        for(int a = (int)widgets.size()-1;a >= 0 ;--a)
         {
             delete widgets[a];
         }

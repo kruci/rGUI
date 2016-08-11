@@ -21,6 +21,8 @@
 #include <allegro5/allegro_physfs.h>
 #include <allegro5/allegro_video.h>
 
+//#define DEST_PRINT //will print info aobut destruction
+
 namespace rGUI
 {
     extern ALLEGRO_MOUSE_STATE *mouse_state;
@@ -47,7 +49,8 @@ namespace rGUI
     enum WidgetsTypes//wt
     {
         wt_BUTTON, wt_CHECKBOX, wt_BITMAPBUTTON, wt_CLICKABLETEXT, wt_INPUTFIELD, wt_SCROLLABLEAREA,
-        wt_SCROLLBAR, wt_SLIDEBAR, wt_WIDGET, wt_SINGLEKEYINPUTFIELD, wt_LABEL, wt_TEXTBOX
+        wt_SCROLLBAR, wt_SLIDEBAR, wt_WIDGET, wt_SINGLEKEYINPUTFIELD, wt_LABEL, wt_TEXTBOX, wt_GROUP,
+        wt_DROPBOXMANAGER, wt_DROPBOX, wt_PROGRESSBAR
     };
 
     enum BitFlags_TextBox{//bf
@@ -170,7 +173,7 @@ public:
 
     MouseDetector(float x1, float y1, float x2, float y2, float);
     MouseDetector(float x, float y, float width, float height);
-    ~MouseDetector();
+    virtual ~MouseDetector();
 
     int Specific_Input(ALLEGRO_EVENT &ev);
     int Input();
@@ -228,7 +231,7 @@ public:
 
     Widget(float x1, float y1, float x2, float y2, float, Theme *thm);
     Widget(float x, float y, float width, float height, Theme *thm);
-    ~Widget();
+    virtual ~Widget();
 
     virtual void Update_theme(Theme *thm);
 
@@ -260,7 +263,7 @@ public:
     std::string text;
 
     Button(float x, float y, float width, float height, std::string texts, std::string fontfile, Theme *thm);
-    ~Button();
+    virtual ~Button();
 
     void Print();
     void Change_coords(float x1, float y1, float width, float height);
@@ -275,7 +278,7 @@ public:
     bool selected = false;
 
     CheckBox(float x, float y, float width, float height, Theme *thm, bool is_selected);
-    ~CheckBox();
+    virtual ~CheckBox();
 
     int Specific_Input(ALLEGRO_EVENT &ev);
     int Input();
@@ -301,7 +304,7 @@ public:
 
     SlideBar(float x, float y, float width, float height, int minval, int maxval,
              Theme *thm, int bitflags);
-    ~SlideBar();
+    virtual ~SlideBar();
 
     int Specific_Input(ALLEGRO_EVENT &ev);
     int Input();
@@ -328,7 +331,7 @@ public:
 
     BitmapButton(float x, float y, float width, float height, std::string image, Theme *thm, int bitflags);
     BitmapButton(float x, float y, float width, float height, ALLEGRO_BITMAP *image, Theme *thm, int bitflags);
-    ~BitmapButton();
+    virtual ~BitmapButton();
 
     void Print();
     void Set_flags(int flags);
@@ -382,7 +385,7 @@ public:
     float scroll_step = 30;
 
     ScrollBar(float x, float y, float width, float height, float real_size, Theme *thm, int bitflags);
-    ~ScrollBar();
+    virtual ~ScrollBar();
 
     int Specific_Input(ALLEGRO_EVENT& ev);
     int Input();
@@ -424,7 +427,7 @@ public:
                    Theme *thm, float scrollbars_thickness, int bitflags);
     ScrollableArea(float x1, float y1, float x2, float y2, float real_width, float real_height,
                    Theme *thm, float scrollbars_thickness, int bitflags, float whatever);
-    ~ScrollableArea();
+    virtual ~ScrollableArea();
 
     int Specific_Input(ALLEGRO_EVENT& ev);
     int Input();
@@ -467,7 +470,7 @@ public:
     InputField(float x, float y, float width, float height, std::string font_file, Theme *thm, float FPS);
     InputField(float x, float y, float width, float height, std::string init_text,
                std::string font_file, Theme *thm, float FPS);
-    ~InputField();
+    virtual ~InputField();
 
     virtual int Input();
     virtual int Specific_Input(ALLEGRO_EVENT& ev);
@@ -488,7 +491,7 @@ public:
     SingleKeyInputField(float x, float y, float width, float height, std::string font_file, Theme *thm);
     SingleKeyInputField(float x, float y, float width, float height, int init_key, std::string font_file,
                         Theme *thm);
-    ~SingleKeyInputField();
+    virtual ~SingleKeyInputField();
 
     int Specific_Input(ALLEGRO_EVENT& ev);
     int Input();
@@ -502,7 +505,7 @@ public:
     int value = 0;
 
     ProgressBar(float x, float y, float width, float height, int initial_val_from_0_to_100, Theme *thm);
-    ~ProgressBar();
+    virtual ~ProgressBar();
 
     void Print();
 
@@ -534,7 +537,7 @@ public:
     TextBox(float x, float y, float width, float height, std::string texts,
           ALLEGRO_FONT *font, Theme *thm, int bitflags);
 
-    ~TextBox();
+    virtual ~TextBox();
 
     void Print();
 
@@ -563,7 +566,7 @@ public:
 
 
     DropBoxManager();
-    ~DropBoxManager();
+    virtual ~DropBoxManager();
 
     void Print();
     int Specific_Input(ALLEGRO_EVENT& ev);
@@ -582,7 +585,7 @@ public:
     DropBoxManager *db_dbm = nullptr;
 
     DropBox(float x, float y, float width, float height, Theme *thm, DropBoxManager *dpm, DropBox_Item *dpi);
-    ~DropBox();
+    virtual ~DropBox();
 
     void Print();
     int Specific_Input(ALLEGRO_EVENT& ev);
@@ -603,7 +606,7 @@ public:
 
     Group();
     Group(float x, float y, float width, float height);
-    ~Group();
+    virtual ~Group();
 
     void Print();
     int Specific_Input(ALLEGRO_EVENT& ev);

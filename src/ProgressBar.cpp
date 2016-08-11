@@ -5,12 +5,14 @@ namespace rGUI //ProgressBar
     ProgressBar::ProgressBar(float x, float y, float width, float height, int initial_val_from_0_to_100, Theme *thm)
         :Widget(x,y,width, height, thm), value(initial_val_from_0_to_100)
     {
-
+        wd_type = wt_PROGRESSBAR;
     }
 
     ProgressBar::~ProgressBar()
     {
-
+        #ifdef DEST_PRINT
+        std::cout << "ProgressBar dtor"<<std::endl;
+        #endif // DEST_PRINT
     }
 
     void ProgressBar::Print()

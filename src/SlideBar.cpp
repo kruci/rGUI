@@ -40,7 +40,9 @@ namespace rGUI //SlideBars
 
     SlideBar::~SlideBar()
     {
-
+        #ifdef DEST_PRINT
+        std::cout << "SlideBar dtor"<<std::endl;
+        #endif // DEST_PRINT
     }
 
     void SlideBar::sb_calculate_slide_poz()

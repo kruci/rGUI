@@ -32,6 +32,10 @@ namespace rGUI //BitmpaButton
 
     BitmapButton::~BitmapButton()
     {
+        #ifdef DEST_PRINT
+        std::cout << "BitmapButton dtor"<<std::endl;
+        #endif // DEST_PRINT
+
         if(delete_bitmap == true && bmp != nullptr)
         {
             al_destroy_bitmap(bmp);

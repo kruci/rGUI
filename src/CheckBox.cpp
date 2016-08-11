@@ -10,7 +10,9 @@ namespace rGUI //CheckBox
 
     CheckBox::~CheckBox()
     {
-
+        #ifdef DEST_PRINT
+        std::cout << "CheckBox dtor"<<std::endl;
+        #endif // DEST_PRINT
     }
 
     int CheckBox::Specific_Input(ALLEGRO_EVENT &ev)

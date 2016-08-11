@@ -6,16 +6,20 @@ namespace rGUI //Group
 
     Group::Group() : Widget(0,0,0,0, &___thm__)
     {
-
+        wd_type = wt_GROUP;
     }
 
     Group::Group(float x, float y, float width, float height) : Widget(x,y,width,height, &___thm__)
     {
-
+        wd_type = wt_GROUP;
     }
 
     Group::~Group()
     {
+        #ifdef DEST_PRINT
+        std::cout << "Group dtor"<<std::endl;
+        #endif // DEST_PRINT
+
         g_widgets.clear();
     }
 

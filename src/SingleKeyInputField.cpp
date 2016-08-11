@@ -6,6 +6,7 @@ namespace rGUI //SingleKeyInputField
                                              std::string font_file, Theme *thm)
     : InputField(x,y,width, height, font_file,thm,1)
     {
+        wd_type = wt_SINGLEKEYINPUTFIELD;
         text = "";
         al_key = 999;
     }
@@ -14,12 +15,15 @@ namespace rGUI //SingleKeyInputField
                         Theme *thm)
     : InputField(x,y,width, height, font_file,thm,1), al_key(init_key)
     {
+        wd_type = wt_SINGLEKEYINPUTFIELD;
         text = al_keycode_to_name(init_key);
     }
 
     SingleKeyInputField::~SingleKeyInputField()
     {
-
+        #ifdef DEST_PRINT
+        std::cout << "SingleInputField dtor"<<std::endl;
+        #endif // DEST_PRINT
     }
 
     int SingleKeyInputField::Input()

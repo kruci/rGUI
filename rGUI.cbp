@@ -43,9 +43,6 @@
 					<Add directory="../rGUI" />
 					<Add directory="src" />
 				</Compiler>
-				<Linker>
-					<Add option="-s" />
-				</Linker>
 			</Target>
 			<Target title="Exp1">
 				<Option output="bin/examples/exp1" prefix_auto="1" extension_auto="1" />
@@ -60,6 +57,9 @@
 					<Add directory="../rGUI" />
 					<Add directory="src" />
 				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
 			</Target>
 			<Target title="Exp2">
 				<Option output="bin/examples/exp2" prefix_auto="1" extension_auto="1" />

@@ -32,6 +32,10 @@ namespace rGUI //TextBox
 
     TextBox::~TextBox()
     {
+        #ifdef DEST_PRINT
+        std::cout << "TextBox dtor"<<std::endl;
+        #endif // DEST_PRINT
+
         if(delete_font == true && font != nullptr)
             al_destroy_font(font);
         if(mld != nullptr)

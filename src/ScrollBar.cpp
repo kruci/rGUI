@@ -13,7 +13,9 @@ namespace rGUI //ScrollBar
 
     ScrollBar::~ScrollBar()
     {
-
+        #ifdef DEST_PRINT
+        std::cout << "ScrollBar dtor"<<std::endl;
+        #endif // DEST_PRINT
     }
 
     void ScrollBar::scb_recalculate_rb_ratio()

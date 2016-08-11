@@ -5,6 +5,7 @@ namespace rGUI //DropBox
     DropBox::DropBox(float x, float y, float width, float height, Theme *thm, DropBoxManager *dpm, DropBox_Item *dpi)
             : Widget(x,y,width, height, thm)
     {
+        wd_type = wt_DROPBOX;
         Set_new_DrobBoxItem(dpi);
         db_dbm = dpm;
 
@@ -16,6 +17,10 @@ namespace rGUI //DropBox
 
     DropBox::~DropBox()
     {
+        #ifdef DEST_PRINT
+        std::cout << "DropBox dtor"<<std::endl;
+        #endif // DEST_PRINT
+
         if(db_item != nullptr)
         {
             delete db_item;
@@ -28,6 +33,7 @@ namespace rGUI //DropBox
                 if((*dbm_it) == this)
                 {
                     db_dbm->dbm_dropboxes.erase(dbm_it);
+                    --dbm_it;
                 }
             }
         }

@@ -61,6 +61,10 @@ namespace rGUI //InputField
 
     InputField::~InputField()
     {
+        #ifdef DEST_PRINT
+        std::cout << "InputField dtor"<<std::endl;
+        #endif // DEST_PRINT
+
         if(font != nullptr)
             al_destroy_font(font);
         if(al_text != nullptr)

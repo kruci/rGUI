@@ -12,6 +12,10 @@ namespace rGUI //Button
 
     Button::~Button()
     {
+        #ifdef DEST_PRINT
+        std::cout << "Button dtor"<<std::endl;
+        #endif // DEST_PRINT
+
         if(wd_bmp != nullptr)
             al_destroy_bitmap(wd_bmp);
 

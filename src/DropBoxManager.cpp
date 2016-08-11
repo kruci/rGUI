@@ -5,11 +5,15 @@ namespace rGUI //DropBoxManager
     Theme __thm__;
     DropBoxManager::DropBoxManager() : Widget(0,0,0,0, &__thm__)
     {
-
+        wd_type = wt_DROPBOXMANAGER;
     }
 
     DropBoxManager::~DropBoxManager()
     {
+        #ifdef DEST_PRINT
+        std::cout << "DropBoxManager dtor"<<std::endl;
+        #endif // DEST_PRINT
+
         dbm_dropboxes.clear();
 
         if(temp_dpi != nullptr)

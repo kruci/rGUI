@@ -55,6 +55,9 @@ namespace rGUI //ScrollableArea
 
     ScrollableArea::~ScrollableArea()
     {
+        #ifdef DEST_PRINT
+        std::cout << "ScrollableArea dtor"<<std::endl;
+        #endif // DEST_PRINT
         if(scb_horizontal != nullptr)
             delete scb_horizontal;
         if(scb_vertical != nullptr)
