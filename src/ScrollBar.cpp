@@ -195,7 +195,7 @@ namespace rGUI //ScrollBar
 
 
         al_draw_filled_rounded_rectangle(sroller_x1+1, sroller_y1, sroller_x2, sroller_y2-1,
-                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_background);
+                                wd_theme.roundx, wd_theme.roundy, wd_theme.c_movablepart);
         al_draw_rounded_rectangle(sroller_x1+1, sroller_y1, sroller_x2, sroller_y2-1,
                                 wd_theme.roundx, wd_theme.roundy, wd_theme.c_outline, 1);
 

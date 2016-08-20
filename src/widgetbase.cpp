@@ -537,6 +537,7 @@ namespace rGUI //Widget
         wd_theme.c_background = thm->c_background;
         wd_theme.c_text = thm->c_text;
         wd_theme.c_clicking = thm->c_clicking;
+        wd_theme.c_movablepart = thm->c_movablepart;
         wd_theme.thickness = thm->thickness;
         wd_theme.added_thickness = round(thm->added_thickness);
 

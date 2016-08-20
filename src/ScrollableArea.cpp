@@ -7,6 +7,9 @@ namespace rGUI //ScrollableArea
     : Widget(x,y, float(width+scrollbars_thickness), float(height+scrollbars_thickness), thm),
     r_size_w(real_width), r_size_h(real_height), scb_thickness(scrollbars_thickness)
     {
+        if(scb_thickness == 0)
+            scb_thickness = 0.0000001;
+
         wd_type = wt_SCROLLABLEAREA;
         scb_vertical = new   ScrollBar(wd_theme.added_thickness/2 + wd_width - scb_thickness,
                                        wd_theme.added_thickness/2 -1,
@@ -18,6 +21,13 @@ namespace rGUI //ScrollableArea
                                        wd_theme.added_thickness/2 + wd_width - scb_thickness +1,
                                        scb_thickness-1,real_width, thm, bf_HORIZONTAL);
 
+        /*float __S = scb_thickness;
+        scb_thickness = 1;*/
+        zoomresetb = new Widget(wd_width - (scb_thickness/4)*3,
+                                wd_height - (scb_thickness/4)*3,
+                                scb_thickness/2, scb_thickness/2, thm);
+        zoomresetb->wd_md->Change_coords(wd_x2 - (scb_thickness/4)*3, wd_y2 - (scb_thickness/4)*3, scb_thickness/2, scb_thickness/2);
+        //scb_thickness = __S;
         scb_vertical->wd_md->Change_coords(wd_x2 - scb_thickness, wd_y1, scb_thickness,
                                        wd_height- scb_thickness);
         scb_horizontal->wd_md->Change_coords(wd_x1, wd_y2 - scb_thickness, wd_width - scb_thickness,
@@ -33,6 +43,9 @@ namespace rGUI //ScrollableArea
     : Widget(x1,y1,x2+scrollbars_thickness, y2+scrollbars_thickness,0, thm),
     r_size_w(real_width), r_size_h(real_height), scb_thickness(scrollbars_thickness)
     {
+        if(scb_thickness == 0)
+            scb_thickness = 0.0000001;
+
         wd_type = wt_SCROLLABLEAREA;
         scb_vertical = new   ScrollBar(wd_theme.added_thickness/2 + wd_width - scb_thickness,
                                        wd_theme.added_thickness/2 -1,
@@ -48,6 +61,13 @@ namespace rGUI //ScrollableArea
                                        wd_height- scb_thickness);
         scb_horizontal->wd_md->Change_coords(wd_x1, wd_y2 - scb_thickness, wd_width - scb_thickness,
                                        scb_thickness);
+        /*float __S = scb_thickness;
+        scb_thickness = 1;*/
+        zoomresetb = new Widget(wd_width - (scb_thickness/4)*3,
+                                wd_height - (scb_thickness/4)*3,
+                                scb_thickness/2, scb_thickness/2, thm);
+        zoomresetb->wd_md->Change_coords(wd_x2 - (scb_thickness/4)*3, wd_y2 - (scb_thickness/4)*3, scb_thickness/2, scb_thickness/2);
+        //scb_thickness = __S;
 
         wd_md->Change_coords(wd_x1, wd_y1, wd_width - scb_thickness, wd_height - scb_thickness);
         Set_flags(bitflags);
@@ -62,7 +82,8 @@ namespace rGUI //ScrollableArea
             delete scb_horizontal;
         if(scb_vertical != nullptr)
             delete scb_vertical;
-
+        if(zoomresetb != nullptr)
+            delete zoomresetb;
     }
 
     void ScrollableArea::sca_recalculate_sc_bars()
@@ -81,6 +102,20 @@ namespace rGUI //ScrollableArea
         if(wd_md->md_active == false)
             return 9;
         wd_md->Specific_Input(ev);
+
+        zoomresetb->Specific_Input(ev);
+        if(zoomresetb->wd_md->md_just_clicked == true)
+        {
+            float prevzoom = zoom;
+            zoom = 1.0f;
+            sca_mouse_z = mouse_state->z;
+            scb_vertical->Change_real_size(r_size_h * zoom);
+            scb_vertical->Set_change( (scb_vertical->change/prevzoom) * zoom);
+            scb_horizontal->Change_real_size(r_size_w * zoom);
+            scb_horizontal->Set_change((scb_horizontal->change/prevzoom) * zoom);
+            scb_vertical->changed = true;
+            scb_horizontal->changed = true;
+        }
 
         if(wd_md->md_mouse_on_it == true)
         {
@@ -172,8 +207,8 @@ namespace rGUI //ScrollableArea
         al_use_transform(&rest);
         al_set_clipping_rectangle(wd_theme.added_thickness/2 + wd_theme.thickness,
                                   wd_theme.added_thickness/2 + wd_theme.thickness,
-                                  wd_theme.added_thickness/2 + wd_width - (scb_horizontal_active == true ? scb_thickness:0),
-                                  wd_theme.added_thickness/2 + wd_height - (scb_vertical_active == true ? scb_thickness:0) );
+                                  /*wd_theme.added_thickness/2 + */wd_width - (scb_vertical_active == true ? scb_thickness:0) /*- wd_theme.thickness*/,
+                                  /*wd_theme.added_thickness/2 + */wd_height - (scb_horizontal_active == true ? scb_thickness:0) /*- wd_theme.thickness*/);
 
         for(int a = 0; a < (int)widgets.size();a++)
         {
@@ -209,6 +244,7 @@ namespace rGUI //ScrollableArea
 
         al_set_clipping_rectangle(0,0,
                                   wd_width + wd_theme.added_thickness, wd_height + wd_theme.added_thickness);
+        zoomresetb->Print();
         scb_horizontal->Print();
         scb_vertical->Print();
 
@@ -273,9 +309,9 @@ namespace rGUI //ScrollableArea
             scb_vertical->change = 0;
             scb_vertical->wd_print_active = true;
             scb_vertical->wd_md->md_active = true;
-            wd_height = wd_height + scb_thickness;
+            //wd_height = wd_height + scb_thickness;
 
-            wd_CreateBitmap(wd_width, wd_height);
+            //wd_CreateBitmap(wd_width, wd_height);
         }
         else if(enabled == false && scb_vertical_active == true)
         {
@@ -283,9 +319,9 @@ namespace rGUI //ScrollableArea
             scb_vertical->change = 0;
             scb_vertical->wd_print_active = false;
             scb_vertical->wd_md->md_active = false;
-            wd_height = wd_height - scb_thickness;
+            //wd_height = wd_height - scb_thickness;
 
-            wd_CreateBitmap(wd_width, wd_height);
+            //wd_CreateBitmap(wd_width, wd_height);
         }
     }
 
@@ -297,9 +333,9 @@ namespace rGUI //ScrollableArea
             scb_horizontal->change = 0;
             scb_horizontal->wd_print_active = true;
             scb_horizontal->wd_md->md_active = true;
-            wd_width = wd_width + scb_thickness;
+            //wd_width = wd_width + scb_thickness;
 
-            wd_CreateBitmap(wd_width, wd_height);
+            //wd_CreateBitmap(wd_width, wd_height);
         }
         else if(enabled == false && scb_horizontal_active == true)
         {
@@ -307,9 +343,9 @@ namespace rGUI //ScrollableArea
             scb_horizontal->change = 0;
             scb_horizontal->wd_print_active = false;
             scb_horizontal->wd_md->md_active = false;
-            wd_width = wd_width - scb_thickness;
+            //wd_width = wd_width - scb_thickness;
 
-            wd_CreateBitmap(wd_width, wd_height);
+            //wd_CreateBitmap(wd_width, wd_height);
         }
     }
 
@@ -332,6 +368,12 @@ namespace rGUI //ScrollableArea
                                        wd_height- scb_thickness);
         scb_horizontal->wd_md->Change_coords(wd_x1, wd_y2 - scb_thickness, wd_width - scb_thickness,
                                        scb_thickness);
+
+        /*float __S = scb_thickness;
+        scb_thickness = 1;*/
+        zoomresetb->wd_md->Change_coords(wd_x2 - (scb_thickness/4)*3, wd_y2 - (scb_thickness/4)*3, scb_thickness/2, scb_thickness/2);
+        //scb_thickness = __S;
+
         wd_md->Change_coords(wd_x1, wd_y1, wd_width - scb_thickness, wd_height - scb_thickness);
 
         I_added_new_widgets();
@@ -339,9 +381,11 @@ namespace rGUI //ScrollableArea
     void ScrollableArea::Set_flags(int flags)
     {
         wd_bf = flags;
+        bool b1 = false, b2 = false;
         if((wd_bf & bf_HORIZONTAL_SCROLL) || (wd_bf & bf_HORIZONTAL))
         {
             Set_horizontal_sba_status(true);
+            b1 = true;
         }
         else
         {
@@ -351,10 +395,22 @@ namespace rGUI //ScrollableArea
         if((wd_bf & bf_VERTICAL_SCROLL) || (wd_bf & bf_VERTICAL))
         {
             Set_vertical_sba_status(true);
+            b2 = true;
         }
         else
         {
             Set_vertical_sba_status(false);
+        }
+
+        if( (b1 == true || b2 == true) && !(wd_bf & bf_DISABLE_ZR_BUTTON))
+        {
+            zoomresetb->wd_print_active = true;
+            zoomresetb->wd_md->md_active = true;
+        }
+        else
+        {
+            zoomresetb->wd_print_active = false;
+            zoomresetb->wd_md->md_active = false;
         }
     }
 
@@ -368,6 +424,7 @@ namespace rGUI //ScrollableArea
         }
         scb_horizontal->Update_theme(thm);
         scb_vertical->Update_theme(thm);
+        zoomresetb->Update_theme(thm);
     }
 
 }

@@ -61,7 +61,7 @@ namespace rGUI
         bf_AS_BUTTON = 0x2000, bf_HAS_FRAME = 0x4000, bf_DISABLE_CLICKING_SHADOW = 0x8000
     };
     enum BitFlags_ScrollableArea{
-        bf_VERTICAL_SCROLL = 0x001, bf_HORIZONTAL_SCROLL = 0x002, bf_ZOOMABLE = 0x004
+        bf_VERTICAL_SCROLL = 0x001, bf_HORIZONTAL_SCROLL = 0x002, bf_ZOOMABLE = 0x004, bf_DISABLE_ZR_BUTTON = 0x008
     };
     enum BitFlags_SlideBar_ScrollBar{
         bf_VERTICAL = 0x001, bf_HORIZONTAL = 0x002
@@ -95,7 +95,8 @@ struct Theme{
         c_outline = al_map_rgb(255,255,255),
         c_background = al_map_rgb(0,0,66),
         c_text = al_map_rgb(255,255,255),
-        c_clicking = al_map_rgba(0,0,0,150);
+        c_clicking = al_map_rgba(0,0,0,150),
+        c_movablepart = al_map_rgb(0,0,80);
 
     void Set_added_thickness(float val)
     {
@@ -422,6 +423,7 @@ public:
 
 
     ScrollBar *scb_vertical = nullptr, *scb_horizontal = nullptr;
+    Widget *zoomresetb = nullptr;
 
     ScrollableArea(float x, float y, float width, float height, float real_width, float real_height,
                    Theme *thm, float scrollbars_thickness, int bitflags);

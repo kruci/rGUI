@@ -132,6 +132,7 @@ int main(int argc, char **argv)
     tmh.c_text = al_map_rgba(255,255,255,0);
     tmh.c_outline = al_map_rgba(0,200,0,255);
     tmh.c_background = al_map_rgba(255,0,0,255);
+    tmh.c_movablepart = al_map_rgb(200,0,0);
     tmh.c_clicking = al_map_rgba(0,0,0,125);
     tmh.thickness = 2;
     tmh.added_thickness = 2;
@@ -200,7 +201,7 @@ int main(int argc, char **argv)
 
     //Color selector
     int poz_colscba = widgets.size();
-    widgets.push_back(new rGUI::ScrollableArea(400,5,275,180,2000,2000,&tmh,20,0));
+    widgets.push_back(new rGUI::ScrollableArea(400,5,275,180,2000,2000,&tmh,0,0));
         //red
         int poz_colsba_R =  widgets[poz_colscba]->widgets.size();
         widgets[poz_colscba]->widgets.push_back(new rGUI::SlideBar(5,5,30,140,0,255,&tmh, rGUI::bf_VERTICAL));
