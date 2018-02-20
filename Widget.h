@@ -4,14 +4,28 @@
 #include <allegro5/allegro.h>
 #include <list>
 #include <string>
+#include <functional>
 
 namespace rGUI
 {
 
 struct Theme{
+/*------Background bitmap------*/
     /**this bitmap is your responsibility*/
     ALLEGRO_BITMAP* background_image = nullptr;
+    /**if background_image == nullptr, those have no effect*/
+    double background_image_align_x = 0.5;
+    double background_image_align_y = 0.5;
+    /**parts that are sticking outside of border rectangle will not be drawn (cornes sticking our of round border)*/
+    enum BCK_IMG_MODS{
+        NORMAL,             //will draw background_image acoording to background_image_align
+        REPEAT,             //will draw background_image from [0,0] to fill whole widget bitmap (minus outwards thickness)
+        FIT_STRECH,         //will strech background_image's width and height to fill whole widget bitmap (minus outwards thickness)
+        FIT_MAX_DIMESION    //will uniformly scale background_image , so (at leas) one dimention is as big as possible for widget bitmap
+        };
+    BCK_IMG_MODS background_image_midifiers = NORMAL;
     
+/*------different colors------*/
     ALLEGRO_COLOR background_color = al_map_rgb(255,255,255);
     ALLEGRO_COLOR border_color = al_map_rgb(255,0,0);
     ALLEGRO_COLOR text_color = al_map_rgb(255,0,255);
@@ -20,41 +34,49 @@ struct Theme{
     ALLEGRO_COLOR element2_color = al_map_rgb(255,255,255);
     ALLEGRO_COLOR element3_color = al_map_rgb(255,255,255);
     
+/*------border thickness------*/
     double border_thickness = 1;
     double on_click_border_addthickness_outwards = 1;
     double on_click_border_addthickness_inwards = 1;
     
+/*------border roundness------*/
     double corner_round_x = 0;
     double corner_round_y = 0;
     
+/*------text align------*/
     /**where should be middle of the text for each axis, in % /100 */
     double text_align_x = 0.5;
     double text_align_y = 0.5;
     
+/*------scrolling------*/
     /**pixels per scroll*/
     double scroll_speed = 10;
     
+/*------cursor------*/
     /**cursor blinks per second*/
     double cursor_bps = 0.75;
     
+/*------font and text size------*/
     /**if fontfile path is passed to widget and text_size_override == true, it wil create text of this 
      * size. "-" ensures that font will have max height of 10
     */
     signed int text_size = -20;
     bool text_size_override = false;
-    
     int font_flags = 0;
     std::string font_file = "";
-    
     /**if true, it will load and use this (font_file) font no matter what */
     bool font_file_override = false;
     
+/*------widget bitmap flags------*/
     int bitmap_flags = ALLEGRO_VIDEO_BITMAP | ALLEGRO_CONVERT_BITMAP | ALLEGRO_MIN_LINEAR |
                        ALLEGRO_MAG_LINEAR;
                        
     Theme operator=(const Theme& t)
     {
         background_image = t.background_image;
+        background_image_align_x = t.background_image_align_x;
+        background_image_align_y = t.background_image_align_y;
+        background_image_midifiers = t.background_image_midifiers;
         background_color = t.background_color;
         border_color = t.border_color;
         text_color = t.text_color;
@@ -79,7 +101,7 @@ struct Theme{
     }
 };
 
-    
+class WidgetVisitor;    
 class Scene;    
 
 /**
@@ -94,7 +116,7 @@ class Widget
 public:
     virtual ~Widget();
     
-    /*------rendering------*/
+/*------rendering------*/
     
     /**
      * @brief true - will draw, false -will not draw
@@ -118,7 +140,7 @@ public:
      */
     virtual const ALLEGRO_BITMAP* getWidgetBitmap() const;
     
-    /*------event detection------*/
+/*------event detection------*/
     
     /**
      * @brief true - all detectors will detect, false - all detectors will not detect
@@ -143,7 +165,7 @@ public:
      */
     virtual void Detect(ALLEGRO_EVENT * _e);
     
-    /*------rendering and event detection combined------*/
+/*------rendering and event detection combined------*/
     
     /**
      * @brief 
@@ -175,21 +197,63 @@ public:
      */
     virtual void setPosition(double _x, double _y, double _w, double _h);
     
+/*------Theme------*/
+    
     /**
      * @brief Will set theme and, if needed resize bitmap (outward border...)
      * @param _t
      */
     virtual void setTheme(Theme& _t);
-    virtual Theme getTheme();
     
+    /**
+     * @brief You can edit current theme by edditing return Theme of this function
+     * @return 
+     */
+    virtual Theme* getTheme();
+    
+/*------Widget------*/
+    virtual void addWidget(Widget *_w);
+    virtual void removeWidget(Widget *_w);
+    virtual std::list<Widget *> getChildrens();
+    
+    /**
+     * @brief Will mowe this Widget to last position in Scene->childrens list
+     */
+    virtual void setLast();
+    
+    /**
+     * @brief Was clicked
+     * @return 
+     */
+    virtual bool isFocused() const;
+    /**
+     * @brief when was lastly clicked
+     * @return 
+     */
+    virtual const double getFocusTimeStamp() const;
+    
+/*------Visitor------*/
+    virtual void accept(WidgetVisitor *v);
+
+/*------Clicking------*/
+    /**reference to function that will be called when md->just_clicked == true*/
+    std::function<void(Widget*)> onClick;
+    /**reference to function that will be called when md->just_released == true*/
+    std::function<void(Widget*)> onRelease;
+    /**reference to function that will be called when md->clicking == true*/
+    std::function<void(Widget*)> onClicking;
+    /**reference to function that will be called when md->mouse_on_it == true*/
+    std::function<void(Widget*)> onMouseOnIt;
 protected:
     class MouseDetector{
     private:
+        /**becouse 1 Widget can have more MouseDetector*/
         double md_x1, md_y1, md_x2, md_y2;
     public:
         MouseDetector(double _x1, double _y1, double _x2, double _y2);
         void Detect(double mouse_x, double mouse_y, ALLEGRO_EVENT *e);
         void Detect();
+        void changePosition(double _x1, double _y1, double _x2, double _y2);
         bool mouse_on_it = false;
         bool just_clicked = false;
         bool just_released = false;
@@ -210,6 +274,10 @@ protected:
     virtual void DrawClickingFading();
     
     bool recreateBMP = false;
+    bool redrawBMP = true;
+    
+    bool focus = false;
+    double focus_time_stamp = 0;
 };
 
 }

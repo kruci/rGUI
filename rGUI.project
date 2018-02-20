@@ -98,5 +98,6 @@
   <VirtualDirectory Name="include">
     <File Name="Widget.h"/>
     <File Name="Scene.h"/>
+    <File Name="WidgetVisitor.h"/>
   </VirtualDirectory>
 </CodeLite_Project>

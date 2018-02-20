@@ -6,9 +6,9 @@
 
 namespace rGUI
 {
-    
-class Widget;
 
+class Widget;    
+    
 /**
  * @class Scene
  * @author 
@@ -18,6 +18,7 @@ class Widget;
  */
 class Scene
 {
+friend class Widget;
 public:
     std::list<Widget*> widgets;
     
@@ -48,11 +49,20 @@ public:
      */
     virtual void Render();
     
+    
     const double getTransMouseX();
-    const double getTransMouseY(); 
+    const double getTransMouseY();
+    const ALLEGRO_EVENT* getCurrentEvent();
     
 protected:
     double trans_mouse_x, trans_mouse_y;
+    ALLEGRO_EVENT* current_event();
+    
+    /**
+     * @brief so only one widget per scene is focused
+     */
+    virtual void focusRecalc();
+    bool recal_focus = false;
 };
 
 }
