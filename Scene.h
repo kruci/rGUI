@@ -7,7 +7,8 @@
 namespace rGUI
 {
 
-class Widget;    
+class Widget;
+class WidgetVisitor;    
     
 /**
  * @class Scene
@@ -23,6 +24,10 @@ public:
     std::list<Widget*> widgets;
     
     Scene();
+    /**
+     * @brief Will destroy widgets from widgets list
+     * @param _w
+     */
     virtual ~Scene();
     
     /**
@@ -45,7 +50,7 @@ public:
     virtual void Detect(ALLEGRO_EVENT * _e);
     
     /**
-     * @brief Call Render() for all Widgets in widgets list
+     * @brief Call Render() for all Widgets in widgets list (draws to current bitmap)
      */
     virtual void Render();
     
@@ -54,15 +59,34 @@ public:
     const double getTransMouseY();
     const ALLEGRO_EVENT* getCurrentEvent();
     
+    /**
+     * @brief If events have display source, scene will run Detect() only for events with source display _d
+     * @param _d
+     */
+    virtual void hookSceneToDispaly(ALLEGRO_DISPLAY *_d);
+    
+    /**
+     * @brief 
+     */
+    virtual void hookSceneToDispaly();
+    
+    /**
+     * @brief Will call accept(_v) for all childrens
+     * @param _v
+     */
+    virtual void accept(WidgetVisitor* _v);
+    
 protected:
-    double trans_mouse_x, trans_mouse_y;
-    ALLEGRO_EVENT* current_event();
     
     /**
      * @brief so only one widget per scene is focused
      */
     virtual void focusRecalc();
+
+    double trans_mouse_x, trans_mouse_y;
+    ALLEGRO_EVENT* current_event();
     bool recal_focus = false;
+    ALLEGRO_DISPLAY *display = nullptr;
 };
 
 }

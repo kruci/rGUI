@@ -58,13 +58,13 @@ struct Theme{
     
 /*------font and text size------*/
     /**if fontfile path is passed to widget and text_size_override == true, it wil create text of this 
-     * size. "-" ensures that font will have max height of 10
+     * size. "-20" ensures that font will have max height of 20pixels
     */
     signed int text_size = -20;
     bool text_size_override = false;
     int font_flags = 0;
     std::string font_file = "";
-    /**if true, it will load and use this (font_file) font no matter what */
+    /**if true, it will load and use this (font_file) font no matter what(text_size_override)*/
     bool font_file_override = false;
     
 /*------widget bitmap flags------*/
@@ -99,7 +99,7 @@ struct Theme{
         bitmap_flags = t.bitmap_flags;
         return *this;
     }
-};
+}DefaultTheme;
 
 class WidgetVisitor;    
 class Scene;    
@@ -190,12 +190,19 @@ public:
     /**
      * @brief will change position and size(scale for childrens) for this widget and all his childrens,
      *MouseDetector's coord are changed according to current transform
-     * @param _x
-     * @param _y
-     * @param _w
-     * @param _h
+     * @param _x left top x
+     * @param _y left top y
+     * @param _w width
+     * @param _h height
      */
     virtual void setPosition(double _x, double _y, double _w, double _h);
+    
+    const double getX() const;
+    const double getY() const;
+    const double getX2() const;
+    const double getY2() const;
+    const double getWidth() const;
+    const double getHeight() const;
     
 /*------Theme------*/
     
@@ -203,7 +210,7 @@ public:
      * @brief Will set theme and, if needed resize bitmap (outward border...)
      * @param _t
      */
-    virtual void setTheme(Theme& _t);
+    virtual void setTheme(Theme* _t);
     
     /**
      * @brief You can edit current theme by edditing return Theme of this function
@@ -233,7 +240,7 @@ public:
     virtual const double getFocusTimeStamp() const;
     
 /*------Visitor------*/
-    virtual void accept(WidgetVisitor *v);
+    virtual void accept(WidgetVisitor *_v);
 
 /*------Clicking------*/
     /**reference to function that will be called when md->just_clicked == true*/
@@ -247,7 +254,7 @@ public:
 protected:
     class MouseDetector{
     private:
-        /**becouse 1 Widget can have more MouseDetector*/
+        /**becouse 1 Widget can have more MouseDetectors*/
         double md_x1, md_y1, md_x2, md_y2;
     public:
         MouseDetector(double _x1, double _y1, double _x2, double _y2);
@@ -260,6 +267,12 @@ protected:
         bool clicking = false;
     };
     
+    virtual void createBitmap();
+    virtual void DrawBackGround();
+    virtual void DrawBorder();
+    virtual void DrawClickingBorder();
+    virtual void DrawClickingFading();
+    
     double x, y, w, h, x2, y2;
     ALLEGRO_BITMAP* bmp;
     Scene* scene;
@@ -267,17 +280,11 @@ protected:
     MouseDetector *md;
     Theme *theme;
     
-    virtual void createBitmap();
-    virtual void DrawBackGround();
-    virtual void DrawBorder();
-    virtual void DrawClickingBorder();
-    virtual void DrawClickingFading();
-    
     bool recreateBMP = false;
     bool redrawBMP = true;
     
     bool focus = false;
-    double focus_time_stamp = 0;
+    double focus_time_stamp = -1; // = clock() onClick;
 };
 
 }
