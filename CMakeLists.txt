@@ -38,7 +38,12 @@ include_directories(
 
 
 # Compiler options
+add_definitions(-pg)
 add_definitions(-g)
+add_definitions(-O0)
+add_definitions(-W)
+add_definitions(-std=c++14)
+add_definitions(-Wall)
 
 # Linker options
 
@@ -58,7 +63,7 @@ set ( CXX_SRCS
 
 set_source_files_properties(
     ${CXX_SRCS} PROPERTIES COMPILE_FLAGS 
-    " -g")
+    " -pg -g -O0 -W -std=c++14 -Wall")
 
 if(WIN32)
     enable_language(RC)
@@ -74,6 +79,33 @@ endif(WIN32)
 
 add_library(rGUI SHARED ${RC_SRCS} ${CXX_SRCS} ${C_SRCS})
 target_link_libraries(rGUI ${LINK_OPTIONS})
+
+
+# Adding POST_BUILD commands
+add_custom_command(
+    TARGET rGUI
+    POST_BUILD
+    COMMAND )
+add_custom_command(
+    TARGET rGUI
+    POST_BUILD
+    COMMAND rm ${WORKSPACE_PATH}bin/Debug/ || true)
+add_custom_command(
+    TARGET rGUI
+    POST_BUILD
+    COMMAND mkdir ${WORKSPACE_PATH}bin/ || true)
+add_custom_command(
+    TARGET rGUI
+    POST_BUILD
+    COMMAND mkdir ${WORKSPACE_PATH}bin/Debug/ || true)
+add_custom_command(
+    TARGET rGUI
+    POST_BUILD
+    COMMAND cp ${WORKSPACE_PATH}/*.h ${WORKSPACE_PATH}bin/Debug/ || true)
+add_custom_command(
+    TARGET rGUI
+    POST_BUILD
+    COMMAND cp ${WORKSPACE_PATH}cmake-build-Debug/output/*.so ${WORKSPACE_PATH}bin/Debug/ || true)
 
 
 

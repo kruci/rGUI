@@ -55,9 +55,9 @@ public:
     virtual void Render();
     
     
-    const double getTransMouseX();
-    const double getTransMouseY();
-    const ALLEGRO_EVENT* getCurrentEvent();
+    double getTransMouseX() const;
+    double getTransMouseY() const;
+    const ALLEGRO_EVENT* getCurrentEvent() const;
     
     /**
      * @brief If events have display source, scene will run Detect() only for events with source display _d

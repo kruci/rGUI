@@ -197,12 +197,12 @@ public:
      */
     virtual void setPosition(double _x, double _y, double _w, double _h);
     
-    const double getX() const;
-    const double getY() const;
-    const double getX2() const;
-    const double getY2() const;
-    const double getWidth() const;
-    const double getHeight() const;
+    double getX() const;
+    double getY() const;
+    double getX2() const;
+    double getY2() const;
+    double getWidth() const;
+    double getHeight() const;
     
 /*------Theme------*/
     
@@ -237,7 +237,7 @@ public:
      * @brief when was lastly clicked
      * @return 
      */
-    virtual const double getFocusTimeStamp() const;
+    virtual double getFocusTimeStamp() const;
     
 /*------Visitor------*/
     virtual void accept(WidgetVisitor *_v);
