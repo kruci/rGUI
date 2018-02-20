@@ -3,10 +3,83 @@
 
 #include <allegro5/allegro.h>
 #include <list>
+#include <string>
 
 namespace rGUI
 {
 
+struct Theme{
+    /**this bitmap is your responsibility*/
+    ALLEGRO_BITMAP* background_image = nullptr;
+    
+    ALLEGRO_COLOR background_color = al_map_rgb(255,255,255);
+    ALLEGRO_COLOR border_color = al_map_rgb(255,0,0);
+    ALLEGRO_COLOR text_color = al_map_rgb(255,0,255);
+    ALLEGRO_COLOR on_click_fade_color = al_map_rgba(255,255,255,100);
+    ALLEGRO_COLOR element1_color = al_map_rgb(255,255,255);
+    ALLEGRO_COLOR element2_color = al_map_rgb(255,255,255);
+    ALLEGRO_COLOR element3_color = al_map_rgb(255,255,255);
+    
+    double border_thickness = 1;
+    double on_click_border_addthickness_outwards = 1;
+    double on_click_border_addthickness_inwards = 1;
+    
+    double corner_round_x = 0;
+    double corner_round_y = 0;
+    
+    /**where should be middle of the text for each axis, in % /100 */
+    double text_align_x = 0.5;
+    double text_align_y = 0.5;
+    
+    /**pixels per scroll*/
+    double scroll_speed = 10;
+    
+    /**cursor blinks per second*/
+    double cursor_bps = 0.75;
+    
+    /**if fontfile path is passed to widget and text_size_override == true, it wil create text of this 
+     * size. "-" ensures that font will have max height of 10
+    */
+    signed int text_size = -20;
+    bool text_size_override = false;
+    
+    int font_flags = 0;
+    std::string font_file = "";
+    
+    /**if true, it will load and use this (font_file) font no matter what */
+    bool font_file_override = false;
+    
+    int bitmap_flags = ALLEGRO_VIDEO_BITMAP | ALLEGRO_CONVERT_BITMAP | ALLEGRO_MIN_LINEAR |
+                       ALLEGRO_MAG_LINEAR;
+                       
+    Theme operator=(const Theme& t)
+    {
+        background_image = t.background_image;
+        background_color = t.background_color;
+        border_color = t.border_color;
+        text_color = t.text_color;
+        on_click_fade_color = t.on_click_fade_color;
+        element1_color = t.element1_color;
+        element2_color = t.element2_color;
+        element3_color = t.element3_color;
+        border_thickness = t.border_thickness;
+        on_click_border_addthickness_outwards = t.on_click_border_addthickness_outwards;
+        on_click_border_addthickness_inwards = t.on_click_border_addthickness_inwards;
+        corner_round_x = t.corner_round_x;
+        corner_round_y = t.corner_round_y;
+        scroll_speed = t.scroll_speed;
+        cursor_bps = t.cursor_bps;
+        text_size = t.text_size;
+        text_size_override = t.text_size_override;
+        font_flags = t.font_flags;
+        font_file = t.font_file;
+        font_file_override = t.font_file_override;
+        bitmap_flags = t.bitmap_flags;
+        return *this;
+    }
+};
+
+    
 class Scene;    
 
 /**
@@ -102,6 +175,13 @@ public:
      */
     virtual void setPosition(double _x, double _y, double _w, double _h);
     
+    /**
+     * @brief Will set theme and, if needed resize bitmap (outward border...)
+     * @param _t
+     */
+    virtual void setTheme(Theme& _t);
+    virtual Theme getTheme();
+    
 protected:
     class MouseDetector{
     private:
@@ -110,10 +190,10 @@ protected:
         MouseDetector(double _x1, double _y1, double _x2, double _y2);
         void Detect(double mouse_x, double mouse_y, ALLEGRO_EVENT *e);
         void Detect();
-        bool mouse_on_it;
-        bool just_clicked;
-        bool just_uncliked;
-        bool clicking;
+        bool mouse_on_it = false;
+        bool just_clicked = false;
+        bool just_released = false;
+        bool clicking = false;
     };
     
     double x, y, w, h, x2, y2;
@@ -121,6 +201,15 @@ protected:
     Scene* scene;
     std::list<Widget *> childrens;
     MouseDetector *md;
+    Theme *theme;
+    
+    virtual void createBitmap();
+    virtual void DrawBackGround();
+    virtual void DrawBorder();
+    virtual void DrawClickingBorder();
+    virtual void DrawClickingFading();
+    
+    bool recreateBMP = false;
 };
 
 }

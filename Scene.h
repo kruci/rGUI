@@ -37,7 +37,8 @@ public:
     virtual void removeWidget(Widget* _w);
     
     /**
-     * @brief Call Detect() for all Widgets in widgets list, will transform stored mouse coords
+     * @brief Call Detect() for all Widgets in widgets list, will transform stored mouse coords, should be called
+     * when on backbuffer(if tihs scene is first in chain), so al_transform_coordinates(...) works correctly
      * @param _e
      */
     virtual void Detect(ALLEGRO_EVENT * _e);
@@ -47,7 +48,10 @@ public:
      */
     virtual void Render();
     
-private:
+    const double getTransMouseX();
+    const double getTransMouseY(); 
+    
+protected:
     double trans_mouse_x, trans_mouse_y;
 };
 
